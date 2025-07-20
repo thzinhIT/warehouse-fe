@@ -1,0 +1,20 @@
+{
+  "auth": {
+    "login": "Login",
+    "logout": "Logout",
+    "register": "Register",
+    "forgotPassword": "Forgot Password?",
+    "resetPassword": "Reset Password",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "rememberMe": "Remember Me",
+    "submit": "Submit",
+    "cancel": "Cancel"
+  },
+
+  "login": {
+    "welcomeBack": "Chào mừng trở lại",
+    "login_warehouse_system": "Đăng nhập vào hệ thống quản lý kho hàng"
+  }
+}

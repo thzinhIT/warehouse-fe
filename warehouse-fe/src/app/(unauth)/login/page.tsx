@@ -16,17 +16,34 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useTranslations } from "next-intl";
+const dataDescription = [
+  {
+    title: "10K+",
+    description: "Sản phẩm",
+  },
+  {
+    title: "50+",
+    description: "Kho hàng",
+  },
+  {
+    title: "24/7",
+    description: "Hoạt động",
+  },
+  {
+    title: "99.9%",
+    description: "Chính xác",
+  },
+];
 
 export default function WarehouseLoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const tAuth = useTranslations();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-
-    // Console log data attachment
-    console.log("🏭 Đăng nhập hệ thống kho hàng");
 
     // Lấy dữ liệu form
     const formData = new FormData(e.target as HTMLFormElement);
@@ -35,10 +52,6 @@ export default function WarehouseLoginPage() {
       password: formData.get("password"),
       remember: formData.get("remember"),
     };
-
-    console.log("📝 Login Data:", loginData);
-
-    // Simulate login process
     await new Promise((resolve) => setTimeout(resolve, 2000));
     setIsLoading(false);
   };
@@ -67,7 +80,7 @@ export default function WarehouseLoginPage() {
               </motion.div>
               <div className="text-center space-y-2">
                 <CardTitle className="text-2xl font-bold text-gray-900">
-                  Chào mừng trở lại
+                  {tAuth("login.welcomeBack")}
                 </CardTitle>
                 <CardDescription className="text-gray-600">
                   Đăng nhập vào hệ thống quản lý kho hàng
@@ -151,7 +164,7 @@ export default function WarehouseLoginPage() {
                     </Label>
                   </div>
                   <a
-                    href="#"
+                    href="/forgot-password"
                     className="text-sm text-blue-600 hover:text-blue-700 font-medium"
                   >
                     Quên mật khẩu?
@@ -258,22 +271,17 @@ export default function WarehouseLoginPage() {
                   transition={{ delay: 1 }}
                   className="grid grid-cols-2 gap-4 text-center"
                 >
-                  <div className="bg-white/10 rounded-xl p-4">
-                    <div className="text-2xl font-bold">10K+</div>
-                    <div className="text-blue-100 text-sm">Sản phẩm</div>
-                  </div>
-                  <div className="bg-white/10 rounded-xl p-4">
-                    <div className="text-2xl font-bold">50+</div>
-                    <div className="text-blue-100 text-sm">Kho hàng</div>
-                  </div>
-                  <div className="bg-white/10 rounded-xl p-4">
-                    <div className="text-2xl font-bold">24/7</div>
-                    <div className="text-blue-100 text-sm">Hoạt động</div>
-                  </div>
-                  <div className="bg-white/10 rounded-xl p-4">
-                    <div className="text-2xl font-bold">99.9%</div>
-                    <div className="text-blue-100 text-sm">Chính xác</div>
-                  </div>
+                  {dataDescription.map((item, index) => (
+                    <div
+                      key={`item-${index}`}
+                      className="bg-white/10 rounded-xl p-4 transition-transform transform hover:scale-105"
+                    >
+                      <div className="text-2xl font-bold">{item.title}</div>
+                      <div className="text-blue-100 text-sm">
+                        {item.description}
+                      </div>
+                    </div>
+                  ))}
                 </motion.div>
               </div>
             </div>
