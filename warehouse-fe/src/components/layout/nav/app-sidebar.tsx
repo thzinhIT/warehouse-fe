@@ -8,11 +8,22 @@ import {
   Command,
   Frame,
   GalleryVerticalEnd,
+  icons,
   Map,
   PieChart,
   Settings2,
   SquareTerminal,
 } from "lucide-react";
+import {
+  MdArchive,
+  MdCalendarToday,
+  MdShoppingCart,
+  MdWarning,
+  MdTrendingUp,
+  MdSettings,
+  MdStorage,
+  MdDescription,
+} from "react-icons/md";
 
 import { NavMain } from "@/components/layout/nav/nav-main";
 import { NavProjects } from "@/components/layout/nav/nav-projects";
@@ -25,6 +36,12 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import Dashboard from "@/app/(auth)/(dashboard)/page";
+import { Icons } from "@/components/common/icons";
+import { RiLuggageCartFill } from "react-icons/ri";
+import { RxDownload, RxUpload } from "react-icons/rx";
+import { GrHistory } from "react-icons/gr";
+import { LiaOpencart } from "react-icons/lia";
 
 // This is sample data.
 const data = {
@@ -50,89 +67,175 @@ const data = {
       plan: "Free",
     },
   ],
+  // navMain: [
+  //   {
+  //     title: "Playground",
+  //     url: "#",
+  //     icon: SquareTerminal,
+  //     isActive: true,
+  //     items: [
+  //       {
+  //         title: "History",
+  //         url: "#",
+  //       },
+  //       {
+  //         title: "Starred",
+  //         url: "#",
+  //       },
+  //       {
+  //         title: "Settings",
+  //         url: "#",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     title: "Models",
+  //     url: "#",
+  //     icon: Bot,
+  //     items: [
+  //       {
+  //         title: "Genesis",
+  //         url: "#",
+  //       },
+  //       {
+  //         title: "Explorer",
+  //         url: "#",
+  //       },
+  //       {
+  //         title: "Quantum",
+  //         url: "#",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     title: "Documentation",
+  //     url: "#",
+  //     icon: BookOpen,
+  //     items: [
+  //       {
+  //         title: "Introduction",
+  //         url: "#",
+  //       },
+  //       {
+  //         title: "Get Started",
+  //         url: "#",
+  //       },
+  //       {
+  //         title: "Tutorials",
+  //         url: "#",
+  //       },
+  //       {
+  //         title: "Changelog",
+  //         url: "#",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     title: "Settings",
+  //     url: "#",
+  //     icon: Settings2,
+  //     items: [
+  //       {
+  //         title: "General",
+  //         url: "#",
+  //       },
+  //       {
+  //         title: "Team",
+  //         url: "#",
+  //       },
+  //       {
+  //         title: "Billing",
+  //         url: "#",
+  //       },
+  //       {
+  //         title: "Limits",
+  //         url: "#",
+  //       },
+  //     ],
+  //   },
+  // ],
   navMain: [
     {
-      title: "Playground",
-      url: "#",
-      icon: SquareTerminal,
+      title: "Dashboard",
+      url: "/#",
+      icon: <Icons.Dashboard />,
       isActive: true,
+    },
+    {
+      title: "Quản lý kho hàng",
+      url: "/#",
+      icon: <RiLuggageCartFill />,
       items: [
         {
-          title: "History",
-          url: "#",
+          title: "Nhập kho",
+          url: "/#",
+          icon: <RxDownload />,
         },
         {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
+          title: "Lịch sử nhập kho",
+          url: "/#",
+          icon: <GrHistory />,
         },
       ],
     },
     {
-      title: "Models",
+      title: "Quản lý xuất kho",
       url: "#",
-      icon: Bot,
+      icon: <LiaOpencart />,
       items: [
         {
-          title: "Genesis",
+          title: "Xuất kho",
           url: "#",
+          icon: <RxUpload />,
         },
         {
-          title: "Explorer",
+          title: "Lịch sử xuất kho",
           url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
+          icon: <GrHistory />,
         },
       ],
     },
     {
-      title: "Documentation",
+      title: "Quản lý lưu trữ",
       url: "#",
-      icon: BookOpen,
+      icon: <MdArchive />,
       items: [
         {
-          title: "Introduction",
+          title: "Quản lý kế hoạch",
           url: "#",
+          icon: <MdCalendarToday />,
         },
         {
-          title: "Get Started",
+          title: "Quản lý sản phẩm",
           url: "#",
+          icon: <MdShoppingCart />,
         },
         {
-          title: "Tutorials",
+          title: "Quản lý sản phẩm lỗi",
           url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
+          icon: <MdWarning />,
         },
       ],
     },
     {
-      title: "Settings",
+      title: "Quản lý lao động",
       url: "#",
-      icon: Settings2,
+      icon: <MdTrendingUp />,
+    },
+    {
+      title: "Cài đặt hệ thống",
+      url: "#",
+      icon: <MdSettings />,
       items: [
         {
-          title: "General",
+          title: "Cấu hình lưu trữ",
           url: "#",
+          icon: <MdStorage />,
         },
         {
-          title: "Team",
+          title: "Nhật ký hệ thống",
           url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
+          icon: <MdDescription />,
         },
       ],
     },
@@ -162,7 +265,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className="scrollbar overflow-auto">
         <NavMain items={data.navMain} />
         <NavProjects projects={data.projects} />
       </SidebarContent>

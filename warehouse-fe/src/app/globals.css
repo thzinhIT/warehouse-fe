@@ -120,3 +120,19 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .scrollbar {
+    &::-webkit-scrollbar-track {
+      @apply rounded bg-slate-100 dark:bg-zinc-500/[0.16];
+    }
+
+    &::-webkit-scrollbar-thumb {
+      @apply rounded bg-slate-300 dark:bg-zinc-600/80;
+    }
+
+    &::-webkit-scrollbar {
+      @apply size-1.5 bg-transparent;
+    }
+  }
+}
