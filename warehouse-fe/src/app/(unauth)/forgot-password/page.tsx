@@ -22,6 +22,20 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import RightPanel from "../components/right-panel";
+
+const mockStats = [
+  { number: "256-bit", label: "Mã hóa SSL" },
+  { number: "2FA", label: "Xác thực 2 lớp" },
+  { number: "24/7", label: "Giám sát" },
+  { number: "99.9%", label: "Uptime" },
+];
+
+const promotion = {
+  title: "🔐 Bảo mật tuyệt đối",
+  description:
+    "Mọi thông tin được mã hóa và bảo vệ theo tiêu chuẩn quốc tế ISO 27001",
+};
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -159,7 +173,7 @@ export default function ForgotPassword() {
                       type="button"
                       variant="outline"
                       className="w-full h-12 border-gray-200 hover:bg-gray-50 bg-transparent"
-                      onClick={() => (window.location.href = "/")}
+                      onClick={() => (window.location.href = "/login")}
                     >
                       <div className="flex items-center space-x-2">
                         <ArrowLeft className="h-4 w-4" />
@@ -249,94 +263,12 @@ export default function ForgotPassword() {
         </motion.div>
 
         {/* Right side - Illustration với animation floating */}
-        <motion.div
-          initial={{ opacity: 0, x: 50 }}
-          animate={{
-            opacity: 1,
-            x: 0,
-            y: [0, -10, 0], // Animation lên xuống
-          }}
-          transition={{
-            opacity: { duration: 0.6, ease: "easeOut", delay: 0.2 },
-            x: { duration: 0.6, ease: "easeOut", delay: 0.2 },
-            y: {
-              duration: 3,
-              repeat: Number.POSITIVE_INFINITY,
-              ease: "easeInOut",
-              delay: 1,
-            },
-          }}
-          className="hidden lg:block"
-        >
-          <div className="relative">
-            {/* Background decoration */}
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-blue-700/20 rounded-3xl transform rotate-3" />
-
-            {/* Main illustration container */}
-            <div className="relative bg-gradient-to-br from-blue-600 to-blue-800 rounded-3xl p-12 text-white overflow-hidden">
-              {/* Decorative elements */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16" />
-              <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full translate-y-12 -translate-x-12" />
-
-              <div className="relative z-10 space-y-8">
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 0.8, type: "spring", stiffness: 100 }}
-                  className="text-center"
-                >
-                  <div className="inline-flex items-center justify-center w-20 h-20 bg-white/20 rounded-full mb-6">
-                    <Package className="h-10 w-10 text-white" />
-                  </div>
-                  <h2 className="text-3xl font-bold mb-4">
-                    Bảo mật là ưu tiên hàng đầu
-                  </h2>
-                  <p className="text-blue-100 text-lg leading-relaxed">
-                    Hệ thống bảo mật nhiều lớp đảm bảo thông tin tài khoản và dữ
-                    liệu kho hàng của bạn luôn được bảo vệ tối đa.
-                  </p>
-                </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1 }}
-                  className="grid grid-cols-2 gap-4 text-center"
-                >
-                  <div className="bg-white/10 rounded-xl p-4">
-                    <div className="text-2xl font-bold">256-bit</div>
-                    <div className="text-blue-100 text-sm">Mã hóa SSL</div>
-                  </div>
-                  <div className="bg-white/10 rounded-xl p-4">
-                    <div className="text-2xl font-bold">2FA</div>
-                    <div className="text-blue-100 text-sm">Xác thực 2 lớp</div>
-                  </div>
-                  <div className="bg-white/10 rounded-xl p-4">
-                    <div className="text-2xl font-bold">24/7</div>
-                    <div className="text-blue-100 text-sm">Giám sát</div>
-                  </div>
-                  <div className="bg-white/10 rounded-xl p-4">
-                    <div className="text-2xl font-bold">99.9%</div>
-                    <div className="text-blue-100 text-sm">Uptime</div>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.2 }}
-                  className="bg-white/10 rounded-xl p-6 text-center"
-                >
-                  <h3 className="font-semibold mb-2">🔐 Bảo mật tuyệt đối</h3>
-                  <p className="text-blue-100 text-sm">
-                    Mọi thông tin được mã hóa và bảo vệ theo tiêu chuẩn quốc tế
-                    ISO 27001
-                  </p>
-                </motion.div>
-              </div>
-            </div>
-          </div>
-        </motion.div>
+        <RightPanel
+          title="Bảo mật là ưu tiên hàng đầu"
+          description="Hệ thống bảo mật nhiều lớp đảm bảo thông tin tài khoản và dữ liệu kho hàng của bạn luôn được bảo vệ tối đa."
+          stats={mockStats}
+          promotion={promotion}
+        />
       </div>
     </div>
   );

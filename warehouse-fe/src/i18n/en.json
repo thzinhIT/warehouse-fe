@@ -1,1 +1,8 @@
-{}
+{
+  "common": {
+    "table": {
+      "table-empty-message": "The table is currently empty. Data will appear here when new information is available."
+    },
+    "empty-data": "Empty data"
+  }
+}

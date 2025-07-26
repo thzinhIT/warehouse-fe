@@ -24,20 +24,22 @@ export default async function AuthLayout({
     (await cookies()).set("preferredLanguage", lang);
   };
   return (
-    <main className={"h-screen w-full flex-1"}>
-      <Select onValueChange={handleChangeLanguage} defaultValue={locale}>
-        <SelectTrigger className="max-w-80">
-          <SelectValue placeholder={"select-language"} />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectItem value="vi">việt</SelectItem>
-            <SelectItem value="en">anh</SelectItem>
-          </SelectGroup>
-        </SelectContent>
-      </Select>
-
-      {children}
+    <main className={"w-full flex flex-col overflow-y-auto"}>
+      {/* <div>
+        {" "}
+        <Select onValueChange={handleChangeLanguage} defaultValue={locale}>
+          <SelectTrigger className="max-w-80">
+            <SelectValue placeholder={"select-language"} />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem value="vi">việt</SelectItem>
+              <SelectItem value="en">anh</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </div> */}
+      <div className="flex-1">{children}</div>
     </main>
   );
 }

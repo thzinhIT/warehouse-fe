@@ -1,1 +1,8 @@
-{}
+{
+  "common": {
+    "table": {
+      "table-empty-message": "Bảng hiện tại đang trống. Dữ liệu sẽ xuất hiện ở đây khi có thông tin mới."
+    },
+    "empty-data": "Không có dữ liệu"
+  }
+}
