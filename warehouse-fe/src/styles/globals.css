@@ -83,6 +83,8 @@
   --sidebar-accent-foreground: oklch(0.2 0.015 270);
   --sidebar-border: oklch(0.93 0.005 250);
   --sidebar-ring: oklch(0.75 0.01 250);
+
+  /* tháng */
 }
 
 .dark {
