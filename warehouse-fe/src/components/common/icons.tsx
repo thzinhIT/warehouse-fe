@@ -7,7 +7,7 @@ export interface IconsProps extends IconBaseProps {
 }
 
 export const Icons = {
-  Dashboard: ({ width = 24, height = 24, ...rest }: IconsProps) => (
+  Dashboard: ({ width = 18, height = 18, ...rest }: IconsProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"

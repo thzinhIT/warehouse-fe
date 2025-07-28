@@ -157,18 +157,18 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "/#",
+      url: "/",
       icon: <Icons.Dashboard />,
       isActive: true,
     },
     {
       title: "Quản lý kho hàng",
-      url: "/#",
+      url: "/abc",
       icon: <RiLuggageCartFill />,
       items: [
         {
           title: "Nhập kho",
-          url: "/#",
+          url: "/stock-in",
           icon: <RxDownload />,
         },
         {

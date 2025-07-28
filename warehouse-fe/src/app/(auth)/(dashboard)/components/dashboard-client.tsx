@@ -3,7 +3,7 @@ import ChartPieInteractive from "./chart-pie-interactive";
 
 const DashboardClient = () => {
   return (
-    <div className="overflow-hidden h-full">
+    <div className="overflow-hidden h-full p-4">
       <div className="grid grid-cols-12 gap-3 ">
         <div className="col-span-4">
           <ChartPieInteractive
