@@ -1,6 +1,7 @@
 "use client";
 
 import { ChevronRight, type LucideIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import {
   Collapsible,
@@ -33,6 +34,8 @@ export function NavMain({
     }[];
   }[];
 }) {
+  const t = useTranslations("navigation");
+
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Platform</SidebarGroupLabel>
@@ -46,9 +49,12 @@ export function NavMain({
           >
             <SidebarMenuItem>
               <CollapsibleTrigger asChild>
-                <SidebarMenuButton tooltip={item.title} className="pr-0">
+                <SidebarMenuButton
+                  tooltip={t(item.title as string)}
+                  className="pr-0"
+                >
                   {item.icon && item.icon}
-                  <span>{item.title}</span>
+                  <span>{t(item.title as string)}</span>
                   {item?.items && item.items.length > 0 && (
                     <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                   )}
@@ -64,7 +70,7 @@ export function NavMain({
                           <div>
                             <span>{subItem?.icon && subItem.icon}</span>
                             <a href={subItem.url}>
-                              <span>{subItem.title}</span>
+                              <span>{t(subItem.title as string)}</span>
                             </a>
                           </div>
                         </SidebarMenuSubButton>

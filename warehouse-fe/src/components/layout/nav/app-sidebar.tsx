@@ -67,173 +67,86 @@ const data = {
       plan: "Free",
     },
   ],
-  // navMain: [
-  //   {
-  //     title: "Playground",
-  //     url: "#",
-  //     icon: SquareTerminal,
-  //     isActive: true,
-  //     items: [
-  //       {
-  //         title: "History",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Starred",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Settings",
-  //         url: "#",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     title: "Models",
-  //     url: "#",
-  //     icon: Bot,
-  //     items: [
-  //       {
-  //         title: "Genesis",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Explorer",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Quantum",
-  //         url: "#",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     title: "Documentation",
-  //     url: "#",
-  //     icon: BookOpen,
-  //     items: [
-  //       {
-  //         title: "Introduction",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Get Started",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Tutorials",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Changelog",
-  //         url: "#",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     title: "Settings",
-  //     url: "#",
-  //     icon: Settings2,
-  //     items: [
-  //       {
-  //         title: "General",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Team",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Billing",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Limits",
-  //         url: "#",
-  //       },
-  //     ],
-  //   },
-  // ],
   navMain: [
     {
-      title: "Dashboard",
+      title: "dashboard",
       url: "/#",
       icon: <Icons.Dashboard />,
       isActive: true,
     },
     {
-      title: "Quản lý kho hàng",
+      title: "warehouseManagement",
       url: "/#",
       icon: <RiLuggageCartFill />,
       items: [
         {
-          title: "Nhập kho",
+          title: "inbound",
           url: "/#",
           icon: <RxDownload />,
         },
         {
-          title: "Lịch sử nhập kho",
+          title: "inboundHistory",
           url: "/#",
           icon: <GrHistory />,
         },
       ],
     },
     {
-      title: "Quản lý xuất kho",
+      title: "outboundManagement",
       url: "#",
       icon: <LiaOpencart />,
       items: [
         {
-          title: "Xuất kho",
+          title: "outbound",
           url: "#",
           icon: <RxUpload />,
         },
         {
-          title: "Lịch sử xuất kho",
+          title: "outboundHistory",
           url: "#",
           icon: <GrHistory />,
         },
       ],
     },
     {
-      title: "Quản lý lưu trữ",
+      title: "storageManagement",
       url: "#",
       icon: <MdArchive />,
       items: [
         {
-          title: "Quản lý kế hoạch",
+          title: "planManagement",
           url: "#",
           icon: <MdCalendarToday />,
         },
         {
-          title: "Quản lý sản phẩm",
+          title: "productManagement",
           url: "#",
           icon: <MdShoppingCart />,
         },
         {
-          title: "Quản lý sản phẩm lỗi",
+          title: "defectiveProductManagement",
           url: "#",
           icon: <MdWarning />,
         },
       ],
     },
     {
-      title: "Quản lý lao động",
+      title: "laborManagement",
       url: "#",
       icon: <MdTrendingUp />,
     },
     {
-      title: "Cài đặt hệ thống",
+      title: "systemSettings",
       url: "#",
       icon: <MdSettings />,
       items: [
         {
-          title: "Cấu hình lưu trữ",
+          title: "storageConfiguration",
           url: "#",
           icon: <MdStorage />,
         },
         {
-          title: "Nhật ký hệ thống",
+          title: "systemLog",
           url: "#",
           icon: <MdDescription />,
         },
@@ -242,17 +155,17 @@ const data = {
   ],
   projects: [
     {
-      name: "Design Engineering",
+      name: "designEngineering",
       url: "#",
       icon: Frame,
     },
     {
-      name: "Sales & Marketing",
+      name: "salesMarketing",
       url: "#",
       icon: PieChart,
     },
     {
-      name: "Travel",
+      name: "travel",
       url: "#",
       icon: Map,
     },

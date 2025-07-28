@@ -1,6 +1,19 @@
 {
+  "auth": {
+    "login": "Login",
+    "logout": "Logout",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "forgotPassword": "Forgot Password?",
+    "rememberMe": "Remember me",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "welcome": "Welcome",
+    "welcomeBack": "Welcome back"
+  },
   "login": {
-    "welcomeBack": "Welcome back",
     "login_warehouse_system": "Đăng nhập vào hệ thống quản lý kho hàng"
   }
 }

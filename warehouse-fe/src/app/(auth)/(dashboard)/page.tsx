@@ -1,4 +1,3 @@
-import { DataTable } from "@/components/common/table/data-table";
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -10,20 +9,21 @@ import {
 import ChartPieInteractive from "./components/chart-pie-interactive";
 import WeatherWidget from "@/components/widgets/weather-widget";
 import SidebarHeader from "@/components/layout/nav/sidebar-header";
-import DashboardClient from "./components/dashboard-client";
+import { useTranslations } from "next-intl";
 
 const Dashboard = () => {
+  const t = useTranslations("dashboard");
+
   return (
     <div className="overflow-hidden h-full">
+      {/* Pass the translation key, not the translated text */}
       <SidebarHeader title="dashboard" />
 
       <div className="space-y-6 p-6">
         {/* Header */}
         <div>
-          <h1 className="text-3xl font-bold">Dashboard</h1>
-          <p className="text-muted-foreground">
-            Tổng quan hệ thống quản lý kho hàng
-          </p>
+          <h1 className="text-3xl font-bold">{t("title")}</h1>
+          <p className="text-muted-foreground">{t("subtitle")}</p>
         </div>
 
         {/* Stats Cards */}
@@ -31,14 +31,14 @@ const Dashboard = () => {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
-                Tổng sản phẩm
+                {t("totalProducts")}
               </CardTitle>
               <MdInventory className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">2,847</div>
               <p className="text-xs text-muted-foreground">
-                +12% so với tháng trước
+                +12% {t("comparedToLastMonth")}
               </p>
             </CardContent>
           </Card>
@@ -46,14 +46,14 @@ const Dashboard = () => {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
-                Nhập kho hôm nay
+                {t("todayInbound")}
               </CardTitle>
               <MdTrendingUp className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">156</div>
               <p className="text-xs text-muted-foreground">
-                +8% so với hôm qua
+                +8% {t("comparedToYesterday")}
               </p>
             </CardContent>
           </Card>
@@ -61,14 +61,14 @@ const Dashboard = () => {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
-                Xuất kho hôm nay
+                {t("todayOutbound")}
               </CardTitle>
               <MdAssignment className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">89</div>
               <p className="text-xs text-muted-foreground">
-                -5% so với hôm qua
+                -5% {t("comparedToYesterday")}
               </p>
             </CardContent>
           </Card>
@@ -76,13 +76,15 @@ const Dashboard = () => {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
-                Sản phẩm lỗi
+                {t("defectiveProducts")}
               </CardTitle>
               <MdWarning className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">23</div>
-              <p className="text-xs text-muted-foreground">+2 so với hôm qua</p>
+              <p className="text-xs text-muted-foreground">
+                +2 {t("comparedToYesterday")}
+              </p>
             </CardContent>
           </Card>
         </div>
@@ -97,11 +99,11 @@ const Dashboard = () => {
           </div>
           <Card>
             <CardHeader>
-              <CardTitle>Hoạt động gần đây</CardTitle>
+              <CardTitle>{t("recentActivity")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-center py-8 text-muted-foreground">
-                Dữ liệu hoạt động sẽ hiển thị ở đây
+                {t("noActivityData")}
               </div>
             </CardContent>
           </Card>

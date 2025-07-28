@@ -1,20 +1,16 @@
 {
   "auth": {
-    "login": "Login",
-    "logout": "Logout",
-    "register": "Register",
-    "forgotPassword": "Forgot Password?",
-    "resetPassword": "Reset Password",
+    "login": "Đăng nhập",
+    "logout": "Đăng xuất",
+    "register": "Đăng ký",
     "email": "Email",
-    "password": "Password",
-    "confirmPassword": "Confirm Password",
-    "rememberMe": "Remember Me",
-    "submit": "Submit",
-    "cancel": "Cancel"
-  },
-
-  "login": {
-    "welcomeBack": "Chào mừng trở lại",
-    "login_warehouse_system": "Đăng nhập vào hệ thống quản lý kho hàng"
+    "password": "Mật khẩu",
+    "confirmPassword": "Xác nhận mật khẩu",
+    "forgotPassword": "Quên mật khẩu?",
+    "rememberMe": "Ghi nhớ đăng nhập",
+    "signIn": "Đăng nhập",
+    "signUp": "Đăng ký",
+    "welcome": "Chào mừng",
+    "welcomeBack": "Chào mừng trở lại"
   }
 }

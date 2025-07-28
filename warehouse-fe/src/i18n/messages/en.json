@@ -1,0 +1,62 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "retry": "Retry",
+    "refresh": "Refresh"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "warehouseManagement": "Warehouse Management",
+    "outboundManagement": "Outbound Management",
+    "storageManagement": "Storage Management",
+    "laborManagement": "Labor Management",
+    "systemSettings": "System Settings",
+    "inbound": "Inbound",
+    "inboundHistory": "Inbound History",
+    "outbound": "Outbound",
+    "outboundHistory": "Outbound History",
+    "planManagement": "Plan Management",
+    "productManagement": "Product Management",
+    "defectiveProductManagement": "Defective Product Management",
+    "storageConfiguration": "Storage Configuration",
+    "systemLog": "System Log",
+    "projects": "Projects",
+    "designEngineering": "Design Engineering",
+    "salesMarketing": "Sales & Marketing",
+    "travel": "Travel",
+    "more": "More"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Warehouse Management System Overview",
+    "totalProducts": "Total Products",
+    "todayInbound": "Today's Inbound",
+    "todayOutbound": "Today's Outbound",
+    "defectiveProducts": "Defective Products",
+    "recentActivity": "Recent Activity",
+    "noActivityData": "Activity data will be displayed here",
+    "comparedToLastMonth": "compared to last month",
+    "comparedToYesterday": "compared to yesterday"
+  },
+  "weather": {
+    "title": "Today's Weather",
+    "humidity": "Humidity",
+    "pressure": "Pressure",
+    "windSpeed": "Wind Speed",
+    "visibility": "Visibility",
+    "airQuality": "Air Quality",
+    "uvIndex": "UV Index",
+    "lastUpdated": "Updated",
+    "errorLoading": "Unable to load weather data",
+    "noData": "No weather data available",
+    "retry": "Retry",
+    "qualities": {
+      "good": "Good",
+      "fair": "Fair",
+      "moderate": "Moderate",
+      "poor": "Poor",
+      "veryPoor": "Very Poor"
+    }
+  }
+}

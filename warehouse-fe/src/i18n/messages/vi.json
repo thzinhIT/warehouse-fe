@@ -1,0 +1,62 @@
+{
+  "common": {
+    "loading": "Đang tải...",
+    "error": "Lỗi",
+    "retry": "Thử lại",
+    "refresh": "Làm mới"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "warehouseManagement": "Quản lý kho hàng",
+    "outboundManagement": "Quản lý xuất kho",
+    "storageManagement": "Quản lý lưu trữ",
+    "laborManagement": "Quản lý lao động",
+    "systemSettings": "Cài đặt hệ thống",
+    "inbound": "Nhập kho",
+    "inboundHistory": "Lịch sử nhập kho",
+    "outbound": "Xuất kho",
+    "outboundHistory": "Lịch sử xuất kho",
+    "planManagement": "Quản lý kế hoạch",
+    "productManagement": "Quản lý sản phẩm",
+    "defectiveProductManagement": "Quản lý sản phẩm lỗi",
+    "storageConfiguration": "Cấu hình lưu trữ",
+    "systemLog": "Nhật ký hệ thống",
+    "projects": "Projects",
+    "designEngineering": "Design Engineering",
+    "salesMarketing": "Sales & Marketing",
+    "travel": "Travel",
+    "more": "More"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Tổng quan hệ thống quản lý kho hàng",
+    "totalProducts": "Tổng sản phẩm",
+    "todayInbound": "Nhập kho hôm nay",
+    "todayOutbound": "Xuất kho hôm nay",
+    "defectiveProducts": "Sản phẩm lỗi",
+    "recentActivity": "Hoạt động gần đây",
+    "noActivityData": "Dữ liệu hoạt động sẽ hiển thị ở đây",
+    "comparedToLastMonth": "so với tháng trước",
+    "comparedToYesterday": "so với hôm qua"
+  },
+  "weather": {
+    "title": "Thời tiết hôm nay",
+    "humidity": "Độ ẩm",
+    "pressure": "Áp suất",
+    "windSpeed": "Tốc độ gió",
+    "visibility": "Tầm nhìn",
+    "airQuality": "Chất lượng không khí",
+    "uvIndex": "Chỉ số UV",
+    "lastUpdated": "Cập nhật",
+    "errorLoading": "Không thể tải dữ liệu thời tiết",
+    "noData": "Không có dữ liệu thời tiết",
+    "retry": "Thử lại",
+    "qualities": {
+      "good": "Tốt",
+      "fair": "Khá tốt",
+      "moderate": "Trung bình",
+      "poor": "Kém",
+      "veryPoor": "Rất kém"
+    }
+  }
+}

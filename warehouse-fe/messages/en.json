@@ -1,0 +1,61 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "retry": "Retry",
+    "refresh": "Refresh",
+    "search": "Search",
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "add": "Add",
+    "close": "Close"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "inventory": "Inventory",
+    "orders": "Orders",
+    "reports": "Reports",
+    "settings": "Settings"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Warehouse Management System Overview",
+    "totalProducts": "Total Products",
+    "todayInbound": "Today's Inbound",
+    "todayOutbound": "Today's Outbound",
+    "defectiveProducts": "Defective Products",
+    "recentActivity": "Recent Activity",
+    "noActivityData": "Activity data will be displayed here",
+    "comparedToLastMonth": "compared to last month",
+    "comparedToYesterday": "compared to yesterday"
+  },
+  "weather": {
+    "title": "Today's Weather",
+    "humidity": "Humidity",
+    "pressure": "Pressure",
+    "windSpeed": "Wind Speed",
+    "visibility": "Visibility",
+    "airQuality": "Air Quality",
+    "uvIndex": "UV Index",
+    "lastUpdated": "Updated",
+    "errorLoading": "Unable to load weather data",
+    "noData": "No weather data available",
+    "qualities": {
+      "good": "Good",
+      "fair": "Fair",
+      "moderate": "Moderate",
+      "poor": "Poor",
+      "veryPoor": "Very Poor"
+    }
+  },
+  "chart": {
+    "inventoryDistribution": "Inventory Distribution",
+    "electronics": "Electronics",
+    "clothing": "Clothing",
+    "furniture": "Furniture",
+    "books": "Books",
+    "others": "Others"
+  }
+}

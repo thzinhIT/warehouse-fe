@@ -1,19 +1,41 @@
-import { SidebarTrigger } from "@/components/ui/sidebar";
-import { Separator } from "@radix-ui/react-separator";
+"use client";
 
-const SidebarHeader = ({ title }: { title?: string }) => {
+import { useTranslations } from "next-intl";
+
+interface SidebarHeaderProps {
+  title: string;
+}
+
+export default function SidebarHeader({ title }: SidebarHeaderProps) {
+  const t = useTranslations("navigation");
+
+  // Map the title to the correct translation key
+  const getTitleKey = (title: string) => {
+    // Handle both original keys and lowercase versions
+    const titleMap: { [key: string]: string } = {
+      dashboard: "dashboard",
+      "trang chủ": "dashboard",
+      inventory: "inventory",
+      "kho hàng": "inventory",
+      orders: "orders",
+      "đơn hàng": "orders",
+      reports: "reports",
+      "báo cáo": "reports",
+      settings: "settings",
+      "cài đặt": "settings",
+    };
+
+    return titleMap[title] || "dashboard"; // default to dashboard
+  };
+
+  const titleKey = getTitleKey(title);
+  const translatedTitle = t(titleKey);
+
   return (
-    <header className="flex border-b bg-background  h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
-      <div className="flex items-center gap-2 px-4">
-        <SidebarTrigger className="-ml-1" />
-        <Separator
-          orientation="vertical"
-          className="mr-2 h-4 w-[1px] bg-accent"
-        />
-        {title && <p> {title}</p>}
-      </div>
-    </header>
+    <div className="border-b border-sidebar-border p-4">
+      <h2 className="text-lg font-semibold capitalize text-sidebar-foreground">
+        {translatedTitle}
+      </h2>
+    </div>
   );
-};
-
-export default SidebarHeader;
+}

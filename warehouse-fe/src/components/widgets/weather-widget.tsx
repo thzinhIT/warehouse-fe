@@ -3,6 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useWeather } from "@/hooks/useWeather";
+import { useTranslations } from "next-intl";
 import {
   WiDaySunny,
   WiCloudy,
@@ -51,24 +52,58 @@ const getWeatherIcon = (condition: string, iconCode?: string) => {
 };
 
 const getAirQualityColor = (quality: string) => {
-  switch (quality?.toLowerCase()) {
-    case "tốt":
-      return "bg-green-500 text-white";
-    case "khá tốt":
-      return "bg-green-400 text-white";
-    case "trung bình":
-      return "bg-yellow-500 text-white";
-    case "kém":
-      return "bg-orange-500 text-white";
-    case "rất kém":
-      return "bg-red-500 text-white";
-    default:
-      return "bg-gray-500 text-white";
+  const qualityLower = quality?.toLowerCase();
+
+  if (qualityLower?.includes("good") || qualityLower?.includes("tốt")) {
+    return "bg-green-500 text-white";
+  } else if (qualityLower?.includes("fair") || qualityLower?.includes("khá")) {
+    return "bg-green-400 text-white";
+  } else if (
+    qualityLower?.includes("moderate") ||
+    qualityLower?.includes("trung bình")
+  ) {
+    return "bg-yellow-500 text-white";
+  } else if (qualityLower?.includes("poor") || qualityLower?.includes("kém")) {
+    return "bg-orange-500 text-white";
+  } else if (
+    qualityLower?.includes("very poor") ||
+    qualityLower?.includes("rất kém")
+  ) {
+    return "bg-red-500 text-white";
   }
+  return "bg-gray-500 text-white";
+};
+
+// Function to map air quality values to translation keys
+const getAirQualityTranslationKey = (quality: string) => {
+  const qualityLower = quality?.toLowerCase();
+
+  if (qualityLower?.includes("good") || qualityLower?.includes("tốt")) {
+    return "good";
+  } else if (qualityLower?.includes("fair") || qualityLower?.includes("khá")) {
+    return "fair";
+  } else if (
+    qualityLower?.includes("moderate") ||
+    qualityLower?.includes("trung bình")
+  ) {
+    return "moderate";
+  } else if (
+    qualityLower?.includes("poor") &&
+    !qualityLower?.includes("very")
+  ) {
+    return "poor";
+  } else if (
+    qualityLower?.includes("very poor") ||
+    qualityLower?.includes("rất kém")
+  ) {
+    return "veryPoor";
+  }
+  return null; // Return null if no match found
 };
 
 export default function WeatherWidget() {
   const { data, isLoading, error, refetch } = useWeather("Ho Chi Minh City,VN");
+  const t = useTranslations("weather");
 
   if (error) {
     return (
@@ -77,7 +112,7 @@ export default function WeatherWidget() {
           <CardTitle className="flex items-center justify-between">
             <span className="flex items-center gap-2">
               <MdError className="w-5 h-5 text-red-500" />
-              Thời tiết hôm nay
+              {t("title")}
             </span>
             <Button variant="ghost" size="sm" onClick={refetch}>
               <MdRefresh className="w-4 h-4" />
@@ -87,9 +122,9 @@ export default function WeatherWidget() {
         <CardContent>
           <div className="text-center py-8">
             <MdError className="w-12 h-12 text-red-500 mx-auto mb-2" />
-            <p className="text-red-600 mb-2">{error}</p>
+            <p className="text-red-600 mb-2">{t("errorLoading")}</p>
             <Button variant="outline" onClick={refetch} className="mt-2">
-              Thử lại
+              {t("retry")}
             </Button>
           </div>
         </CardContent>
@@ -103,7 +138,7 @@ export default function WeatherWidget() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <WiDaySunny className="w-5 h-5" />
-            Thời tiết hôm nay
+            {t("title")}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -131,11 +166,11 @@ export default function WeatherWidget() {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Thời tiết hôm nay</CardTitle>
+          <CardTitle>{t("title")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="text-center py-8 text-muted-foreground">
-            Không có dữ liệu thời tiết
+            {t("noData")}
           </div>
         </CardContent>
       </Card>
@@ -148,7 +183,7 @@ export default function WeatherWidget() {
         <CardTitle className="flex items-center justify-between">
           <span className="flex items-center gap-2">
             <WiDaySunny className="w-5 h-5" />
-            Thời tiết hôm nay
+            {t("title")}
           </span>
           <Button variant="ghost" size="sm" onClick={refetch}>
             <MdRefresh className="w-4 h-4" />
@@ -163,9 +198,7 @@ export default function WeatherWidget() {
           <div className="flex items-center gap-4">
             {getWeatherIcon(data.condition, data.icon)}
             <div>
-              <div className="text-3xl font-bold">
-                {data.temperature}°C
-              </div>
+              <div className="text-3xl font-bold">{data.temperature}°C</div>
               <div className="text-sm text-muted-foreground capitalize">
                 {data.condition}
               </div>
@@ -181,7 +214,7 @@ export default function WeatherWidget() {
           <div className="flex items-center gap-2">
             <WiHumidity className="w-5 h-5 text-blue-500" />
             <div>
-              <div className="text-sm font-medium">Độ ẩm</div>
+              <div className="text-sm font-medium">{t("humidity")}</div>
               <div className="text-sm text-muted-foreground">
                 {data.humidity}%
               </div>
@@ -191,7 +224,7 @@ export default function WeatherWidget() {
           <div className="flex items-center gap-2">
             <WiBarometer className="w-5 h-5 text-gray-500" />
             <div>
-              <div className="text-sm font-medium">Áp suất</div>
+              <div className="text-sm font-medium">{t("pressure")}</div>
               <div className="text-sm text-muted-foreground">
                 {data.pressure} hPa
               </div>
@@ -201,7 +234,7 @@ export default function WeatherWidget() {
           <div className="flex items-center gap-2">
             <WiStrongWind className="w-5 h-5 text-green-500" />
             <div>
-              <div className="text-sm font-medium">Gió</div>
+              <div className="text-sm font-medium">{t("windSpeed")}</div>
               <div className="text-sm text-muted-foreground">
                 {data.windSpeed} km/h
               </div>
@@ -211,7 +244,7 @@ export default function WeatherWidget() {
           <div className="flex items-center gap-2">
             <MdVisibility className="w-5 h-5 text-purple-500" />
             <div>
-              <div className="text-sm font-medium">Tầm nhìn</div>
+              <div className="text-sm font-medium">{t("visibility")}</div>
               <div className="text-sm text-muted-foreground">
                 {data.visibility} km
               </div>
@@ -228,7 +261,7 @@ export default function WeatherWidget() {
               <div className="flex items-center justify-between">
                 <h4 className="font-medium flex items-center gap-2">
                   <MdAir className="w-4 h-4" />
-                  Chất lượng không khí
+                  {t("airQuality")}
                 </h4>
                 {data.airQuality && (
                   <span
@@ -236,7 +269,14 @@ export default function WeatherWidget() {
                       data.airQuality
                     )}`}
                   >
-                    {data.airQuality}
+                    {(() => {
+                      const translationKey = getAirQualityTranslationKey(
+                        data.airQuality
+                      );
+                      return translationKey
+                        ? t(`qualities.${translationKey}`)
+                        : data.airQuality;
+                    })()}
                   </span>
                 )}
               </div>
@@ -267,7 +307,7 @@ export default function WeatherWidget() {
                 <div className="flex items-center gap-2">
                   <TbUvIndex className="w-4 h-4 text-orange-500" />
                   <div className="flex-1">
-                    <div className="text-sm font-medium">Chỉ số UV</div>
+                    <div className="text-sm font-medium">{t("uvIndex")}</div>
                     <div className="text-sm text-muted-foreground">
                       {data.uvIndex}
                     </div>
@@ -280,7 +320,7 @@ export default function WeatherWidget() {
 
         {/* Last Updated */}
         <div className="text-xs text-gray-500 text-center pt-2 border-t border-gray-200">
-          Cập nhật: {data.lastUpdated}
+          {t("lastUpdated")}: {data.lastUpdated}
         </div>
       </CardContent>
     </Card>
