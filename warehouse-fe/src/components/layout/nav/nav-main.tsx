@@ -46,9 +46,6 @@ export function NavMain({
           const isActive =
             pathname?.endsWith(item?.url) ||
             (pathname?.startsWith(item?.url) && item?.url !== "/");
-          console.log("isActive", isActive);
-          console.log("pathname", pathname);
-          console.log("item?.url", item?.url);
           return (
             <Collapsible
               key={item.title}
@@ -61,7 +58,7 @@ export function NavMain({
                   <button
                     className={cn(
                       " w-full p-1 pl-2 hover:bg-secondary flex items-center gap-2 text-sm rounded-md font-semibold",
-                      isActive && "bg-muted text-primary  "
+                      isActive && "bg-muted "
                     )}
                     onClick={() => {
                       if (!item?.items) {
@@ -71,7 +68,11 @@ export function NavMain({
                   >
                     {item.icon && item.icon}
 
-                    <span>{item.title}</span>
+                    <span
+                      className={cn("", isActive && "bg-muted text-primary  ")}
+                    >
+                      {item.title}
+                    </span>
                     {item?.items && item.items.length > 0 && (
                       <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                     )}
@@ -79,21 +80,38 @@ export function NavMain({
                 </CollapsibleTrigger>
 
                 {item?.items && item.items.length > 0 && (
-                  <CollapsibleContent>
-                    <SidebarMenuSub className="mx-0 space-y-2">
-                      {item.items?.map((subItem) => (
-                        <SidebarMenuSubItem key={subItem.title}>
-                          <SidebarMenuSubButton asChild className="">
-                            <div>
-                              {" "}
-                              <span>{subItem?.icon && subItem.icon}</span>
-                              <a href={subItem.url} className="w-full">
-                                <span>{subItem.title}</span>
-                              </a>
-                            </div>
-                          </SidebarMenuSubButton>
-                        </SidebarMenuSubItem>
-                      ))}
+                  <CollapsibleContent className="">
+                    <SidebarMenuSub className="mx-0 space-y-2 mt-2">
+                      {item.items?.map((subItem) => {
+                        const isActive =
+                          pathname?.endsWith(subItem?.url) ||
+                          (pathname?.startsWith(subItem?.url) &&
+                            subItem?.url !== "/");
+                        return (
+                          <SidebarMenuSubItem key={subItem.title}>
+                            <SidebarMenuSubButton asChild className="">
+                              <div
+                                className={cn(
+                                  "w-full hover:bg-secondary ",
+                                  isActive && "bg-muted "
+                                )}
+                              >
+                                <span>{subItem?.icon && subItem.icon}</span>
+                                <a href={subItem.url} className="w-full  ">
+                                  <span
+                                    className={cn(
+                                      "",
+                                      isActive && "bg-muted text-primary  "
+                                    )}
+                                  >
+                                    {subItem.title}
+                                  </span>
+                                </a>
+                              </div>
+                            </SidebarMenuSubButton>
+                          </SidebarMenuSubItem>
+                        );
+                      })}
                     </SidebarMenuSub>
                   </CollapsibleContent>
                 )}

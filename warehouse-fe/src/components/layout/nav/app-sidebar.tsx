@@ -163,12 +163,12 @@ const data = {
     },
     {
       title: "Quản lý kho hàng",
-      url: "/abc",
+      url: "/manage-warehouse",
       icon: <RiLuggageCartFill />,
       items: [
         {
           title: "Nhập kho",
-          url: "/stock-in",
+          url: "/manage-warehouse/stock-in",
           icon: <RxDownload />,
         },
         {
