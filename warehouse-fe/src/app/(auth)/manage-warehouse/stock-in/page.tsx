@@ -1,3 +1,4 @@
+import Loading from "@/components/common/loading";
 import { DataTable } from "@/components/common/table/data-table";
 import TableToolbar from "@/components/common/table/toolbar-table";
 
