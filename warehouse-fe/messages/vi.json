@@ -1,27 +1,40 @@
 {
   "common": {
+    "table": {
+      "table-empty-message": "Bảng hiện tại đang trống. Dữ liệu sẽ xuất hiện ở đây khi có thông tin mới."
+    },
+    "empty-data": "Dữ liệu trống",
     "loading": "Đang tải...",
     "error": "Lỗi",
     "retry": "Thử lại",
-    "refresh": "Làm mới",
-    "search": "Tìm kiếm",
-    "save": "Lưu",
-    "cancel": "Hủy",
-    "edit": "Sửa",
-    "delete": "Xóa",
-    "add": "Thêm",
-    "close": "Đóng"
+    "refresh": "Làm mới"
   },
   "navigation": {
-    "dashboard": "Trang chủ",
-    "inventory": "Kho hàng",
-    "orders": "Đơn hàng",
-    "reports": "Báo cáo",
-    "settings": "Cài đặt"
+    "dashboard": "Dashboard",
+    "warehouseManagement": "Quản lý kho hàng",
+    "outboundManagement": "Quản lý xuất kho",
+    "storageManagement": "Quản lý lưu trữ",
+    "laborManagement": "Quản lý lao động",
+    "systemSettings": "Cài đặt hệ thống",
+    "inbound": "Nhập kho",
+    "inboundHistory": "Lịch sử nhập kho",
+    "outbound": "Xuất kho",
+    "outboundHistory": "Lịch sử xuất kho",
+    "planManagement": "Quản lý kế hoạch",
+    "productManagement": "Quản lý sản phẩm",
+    "defectiveProductManagement": "Quản lý sản phẩm lỗi",
+    "storageConfiguration": "Cấu hình lưu trữ",
+    "systemLog": "Nhật ký hệ thống",
+    "projects": "Dự án",
+    "designEngineering": "Thiết kế kỹ thuật",
+    "salesMarketing": "Bán hàng & Marketing",
+    "travel": "Du lịch",
+    "more": "Thêm"
   },
   "dashboard": {
-    "title": "Trang chủ",
+    "title": "Dashboard",
     "subtitle": "Tổng quan hệ thống quản lý kho hàng",
+    "dashboard": "Bảng điều khiển",
     "totalProducts": "Tổng sản phẩm",
     "todayInbound": "Nhập kho hôm nay",
     "todayOutbound": "Xuất kho hôm nay",
@@ -42,6 +55,7 @@
     "lastUpdated": "Cập nhật",
     "errorLoading": "Không thể tải dữ liệu thời tiết",
     "noData": "Không có dữ liệu thời tiết",
+    "retry": "Thử lại",
     "qualities": {
       "good": "Tốt",
       "fair": "Khá tốt",
@@ -50,12 +64,36 @@
       "veryPoor": "Rất kém"
     }
   },
-  "chart": {
+  "warehouse": {
+    "categories": "Danh mục sản phẩm",
+    "monthlyTrends": "Xu hướng theo tháng",
+    "utilization": "Tỷ lệ sử dụng kho",
+    "inbound": "Nhập kho",
+    "outbound": "Xuất kho",
+    "refresh": "Làm mới",
+    "export": "Xuất dữ liệu"
+  },
+  "charts": {
+    "monthlyWarehouseActivity": "Hoạt động kho hàng hàng tháng",
+    "monthlyWarehouseActivityDesc": "Di chuyển sản phẩm theo tháng",
     "inventoryDistribution": "Phân bổ hàng tồn kho",
-    "electronics": "Điện tử",
-    "clothing": "Quần áo",
-    "furniture": "Nội thất",
-    "books": "Sách",
-    "others": "Khác"
+    "inventoryDistributionDesc": "Mức tồn kho theo danh mục",
+    "orderProcessing": "Xử lý đơn hàng",
+    "orderProcessingDesc": "Đơn hàng được xử lý hàng tháng",
+    "selectMonth": "Chọn tháng",
+    "months": {
+      "january": "Tháng 1",
+      "february": "Tháng 2",
+      "march": "Tháng 3",
+      "april": "Tháng 4",
+      "may": "Tháng 5",
+      "june": "Tháng 6",
+      "july": "Tháng 7",
+      "august": "Tháng 8",
+      "september": "Tháng 9",
+      "october": "Tháng 10",
+      "november": "Tháng 11",
+      "december": "Tháng 12"
+    }
   }
 }

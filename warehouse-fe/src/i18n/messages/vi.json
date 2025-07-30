@@ -30,6 +30,7 @@
   "dashboard": {
     "title": "Dashboard",
     "subtitle": "Tổng quan hệ thống quản lý kho hàng",
+    "dashboard": "Bảng điều khiển",
     "totalProducts": "Tổng sản phẩm",
     "todayInbound": "Nhập kho hôm nay",
     "todayOutbound": "Xuất kho hôm nay",
@@ -57,6 +58,29 @@
       "moderate": "Trung bình",
       "poor": "Kém",
       "veryPoor": "Rất kém"
+    }
+  },
+  "charts": {
+    "monthlyWarehouseActivity": "Hoạt động kho hàng hàng tháng",
+    "monthlyWarehouseActivityDesc": "Di chuyển sản phẩm theo tháng",
+    "inventoryDistribution": "Phân bổ hàng tồn kho",
+    "inventoryDistributionDesc": "Mức tồn kho theo danh mục",
+    "orderProcessing": "Xử lý đơn hàng",
+    "orderProcessingDesc": "Đơn hàng được xử lý hàng tháng",
+    "selectMonth": "Chọn tháng",
+    "months": {
+      "january": "Tháng 1",
+      "february": "Tháng 2",
+      "march": "Tháng 3",
+      "april": "Tháng 4",
+      "may": "Tháng 5",
+      "june": "Tháng 6",
+      "july": "Tháng 7",
+      "august": "Tháng 8",
+      "september": "Tháng 9",
+      "october": "Tháng 10",
+      "november": "Tháng 11",
+      "december": "Tháng 12"
     }
   }
 }

@@ -30,6 +30,7 @@
   "dashboard": {
     "title": "Dashboard",
     "subtitle": "Warehouse Management System Overview",
+    "dashboard": "Dashboard",
     "totalProducts": "Total Products",
     "todayInbound": "Today's Inbound",
     "todayOutbound": "Today's Outbound",
@@ -57,6 +58,29 @@
       "moderate": "Moderate",
       "poor": "Poor",
       "veryPoor": "Very Poor"
+    }
+  },
+  "charts": {
+    "monthlyWarehouseActivity": "Monthly Warehouse Activity",
+    "monthlyWarehouseActivityDesc": "Product movements by month",
+    "inventoryDistribution": "Inventory Distribution",
+    "inventoryDistributionDesc": "Stock levels across categories",
+    "orderProcessing": "Order Processing",
+    "orderProcessingDesc": "Orders processed monthly",
+    "selectMonth": "Select month",
+    "months": {
+      "january": "January",
+      "february": "February",
+      "march": "March",
+      "april": "April",
+      "may": "May",
+      "june": "June",
+      "july": "July",
+      "august": "August",
+      "september": "September",
+      "october": "October",
+      "november": "November",
+      "december": "December"
     }
   }
 }
