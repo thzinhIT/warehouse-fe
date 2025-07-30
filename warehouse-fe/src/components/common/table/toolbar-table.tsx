@@ -3,6 +3,7 @@
 import * as React from "react";
 import { CalendarIcon, Filter, Search, Settings2 } from "lucide-react";
 import { format, parse, isValid } from "date-fns";
+import { GrSearchAdvanced } from "react-icons/gr";
 
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -68,7 +69,7 @@ export default function TableToolbar() {
           setStartDate(parsedDate);
         }
       } catch (error) {
-        // Ignore parsing errors
+        console.log(error);
       }
     }
   };
@@ -78,7 +79,6 @@ export default function TableToolbar() {
     const formatted = formatDateInput(value);
     setEndDateInput(formatted);
 
-    // Nếu đủ 10 ký tự thì parse thành Date
     if (formatted.length === 10) {
       try {
         const parsedDate = parse(formatted, "dd/MM/yyyy", new Date());
@@ -86,7 +86,7 @@ export default function TableToolbar() {
           setEndDate(parsedDate);
         }
       } catch (error) {
-        // Ignore parsing errors
+        console.log(error);
       }
     }
   };
@@ -131,36 +131,31 @@ export default function TableToolbar() {
   };
 
   return (
-    <div className="w-full p-4 bg-background border rounded-lg shadow-sm">
-      <div className="flex flex-col gap-4">
-        {/* Hàng đầu tiên */}
-        <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-end">
-          {/* Tìm kiếm mã */}
-          <div className="relative min-w-0 flex-1 lg:max-w-xs">
+    <React.Fragment>
+      <div className="flex gap-2 items-center mt-5 px-2">
+        <div className="grid grid-cols-12 gap-2  ">
+          <div className="relative min-w-0 col-span-3 lg:max-w-xs">
             <Input
               id="search-code"
               placeholder="Nhập mã cần tìm..."
               value={searchCode}
               onChange={(e) => setSearchCode(e.target.value)}
-              className="w-full pt-6"
+              className="w-full pt-3 "
             />
             <label
               htmlFor="search-code"
-              className="absolute left-3 -top-2 bg-background px-2 text-xs font-medium text-muted-foreground"
+              className="absolute left-3 -top-2 bg-background px-2 text-xs font-medium text-muted-foreground "
             >
               Mã tìm kiếm
             </label>
           </div>
-
-          {/* Ngày bắt đầu */}
-          <div className="relative min-w-0 flex-1 lg:max-w-xs">
+          <div className="relative min-w-0 col-span-2 lg:max-w-xs">
             <div className="relative">
               <Input
                 placeholder="dd/mm/yyyy"
                 value={startDateInput}
                 onChange={handleStartDateInputChange}
                 onKeyDown={(e) => {
-                  // Chỉ cho phép số, dấu /, backspace, delete, arrow keys
                   if (
                     !/[\d/]/.test(e.key) &&
                     ![
@@ -174,7 +169,7 @@ export default function TableToolbar() {
                     e.preventDefault();
                   }
                 }}
-                className="pr-10 pt-6"
+                className="pr-10 pt-3"
               />
               <Popover>
                 <PopoverTrigger asChild>
@@ -200,16 +195,13 @@ export default function TableToolbar() {
               Ngày bắt đầu
             </label>
           </div>
-
-          {/* Ngày kết thúc */}
-          <div className="relative min-w-0 flex-1 lg:max-w-xs">
+          <div className="relative min-w-0 col-span-2 lg:max-w-xs">
             <div className="relative">
               <Input
                 placeholder="dd/mm/yyyy"
                 value={endDateInput}
                 onChange={handleEndDateInputChange}
                 onKeyDown={(e) => {
-                  // Chỉ cho phép số, dấu /, backspace, delete, arrow keys
                   if (
                     !/[\d/]/.test(e.key) &&
                     ![
@@ -223,7 +215,7 @@ export default function TableToolbar() {
                     e.preventDefault();
                   }
                 }}
-                className="pr-10 pt-6"
+                className="pr-10 pt-3"
               />
               <Popover>
                 <PopoverTrigger asChild>
@@ -249,14 +241,9 @@ export default function TableToolbar() {
               Ngày kết thúc
             </label>
           </div>
-        </div>
-
-        {/* Hàng thứ hai */}
-        <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-end">
-          {/* Bộ lọc 1 */}
-          <div className="relative min-w-0 flex-1 lg:max-w-xs">
+          <div className="relative min-w-0 col-span-2 lg:max-w-xs">
             <Select value={filter1} onValueChange={setFilter1}>
-              <SelectTrigger className="pt-6">
+              <SelectTrigger className="pt-3 w-full">
                 <SelectValue placeholder="Chọn trạng thái" />
               </SelectTrigger>
               <SelectContent>
@@ -272,9 +259,9 @@ export default function TableToolbar() {
           </div>
 
           {/* Bộ lọc 2 */}
-          <div className="relative min-w-0 flex-1 lg:max-w-xs">
+          <div className="relative min-w-0 col-span-2 lg:max-w-xs">
             <Select value={filter2} onValueChange={setFilter2}>
-              <SelectTrigger className="pt-6">
+              <SelectTrigger className="pt-3 w-full">
                 <SelectValue placeholder="Chọn loại" />
               </SelectTrigger>
               <SelectContent>
@@ -288,32 +275,21 @@ export default function TableToolbar() {
               Loại
             </label>
           </div>
-
-          {/* Các nút hành động */}
-          <div className="flex gap-2 flex-wrap lg:ml-auto">
-            <Button onClick={handleSearch} className="flex items-center gap-2">
-              <Search className="h-4 w-4" />
-              Tìm kiếm
-            </Button>
-            <Button
-              variant="outline"
-              onClick={handleAdvancedFilter}
-              className="flex items-center gap-2 bg-transparent"
-            >
-              <Settings2 className="h-4 w-4" />
-              Lọc nâng cao
-            </Button>
-            <Button
-              variant="ghost"
-              onClick={handleReset}
-              className="flex items-center gap-2"
-            >
-              <Filter className="h-4 w-4" />
-              Đặt lại
-            </Button>
-          </div>
+          <Button
+            onClick={handleSearch}
+            className="flex items-center gap-1 col-span-1 px-4 cursor-pointer"
+          >
+            <Search className="h-4 w-4" />
+            <span className="text-sm"> Tìm</span>
+          </Button>
+        </div>
+        <div>
+          <Button className="bg-background hover:bg-gray-100 border border-gray-300 flex items-center cursor-pointer">
+            <GrSearchAdvanced className="text-gray-800" />
+            <span className="text-gray-600">Nâng cao</span>
+          </Button>
         </div>
       </div>
-    </div>
+    </React.Fragment>
   );
 }
