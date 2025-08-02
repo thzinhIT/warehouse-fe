@@ -1,0 +1,16 @@
+{
+  "node": {
+    "40a7b20ab7d687ddc306f136cbb7111c7060173cdc": {
+      "workers": {
+        "app/(unauth)/login/page": {
+          "moduleId": "[project]/.next-internal/server/app/(unauth)/login/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/(unauth)/layout.tsx [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/(unauth)/login/page": "rsc"
+      }
+    }
+  },
+  "edge": {}
+}
