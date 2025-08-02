@@ -1,6 +1,0 @@
-{
-  "/(auth)/(dashboard)/page": "app/(auth)/(dashboard)/page.js",
-  "/(auth)/manage-warehouse/stock-in/page": "app/(auth)/manage-warehouse/stock-in/page.js",
-  "/_not-found/page": "app/_not-found/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js"
-}
