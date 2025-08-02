@@ -40,7 +40,7 @@ const promotion = {
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [step, setStep] = useState("email"); // email, sent, success
+  const [step, setStep] = useState("email");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,7 +50,6 @@ export default function ForgotPassword() {
 
     setStep("sent");
     setIsLoading(false);
-    console.log("📧 Email reset đã được gửi!");
   };
 
   const handleResendEmail = async () => {

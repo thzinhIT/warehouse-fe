@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  Table,
-  useReactTable,
-} from "@tanstack/react-table";
+import { ColumnDef, flexRender, Table } from "@tanstack/react-table";
 
 import {
   Table as UiTable,

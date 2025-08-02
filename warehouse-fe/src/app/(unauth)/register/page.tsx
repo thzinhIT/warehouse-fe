@@ -45,10 +45,6 @@ export default function WarehouseRegister() {
     e.preventDefault();
     setIsLoading(true);
 
-    // Console log khi đăng ký
-    console.log("🏭 Đăng ký tài khoản kho hàng được submit!");
-
-    // Lấy dữ liệu form
     const formData = new FormData(e.target as HTMLFormElement);
     const registerData = {
       username: formData.get("username"),
@@ -59,12 +55,8 @@ export default function WarehouseRegister() {
       terms: formData.get("terms"),
     };
 
-    console.log("📝 Warehouse Register Data:", registerData);
-
-    // Simulate register process
     await new Promise((resolve) => setTimeout(resolve, 2000));
     setIsLoading(false);
-    console.log("✅ Đăng ký tài khoản kho hàng thành công!");
   };
 
   return (

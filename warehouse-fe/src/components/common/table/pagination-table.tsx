@@ -43,9 +43,6 @@ export function DataTablePagination<TData>({
     }
   }, [pageIndex, pageCount, table, pageSize]);
 
-  console.log("pageIndex", pageIndex);
-  console.log("pageCount", pageCount);
-
   return (
     <div className="relative flex h-auto w-full flex-wrap items-center justify-end px-2 pb-2">
       <div className="flex flex-wrap items-center space-x-6 lg:space-x-8">
@@ -89,7 +86,6 @@ export function DataTablePagination<TData>({
             variant="outline"
             className="size-8 p-0"
             onClick={() => {
-              console.log("aaa");
               table.nextPage();
             }}
             disabled={!table.getCanNextPage()}

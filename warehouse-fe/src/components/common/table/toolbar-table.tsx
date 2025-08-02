@@ -132,7 +132,7 @@ export default function TableToolbar() {
 
   return (
     <React.Fragment>
-      <div className="flex gap-2 items-center mt-5 px-2">
+      <div className="flex gap-2 items-center mt-5 ">
         <div className="grid grid-cols-12 gap-2  ">
           <div className="relative min-w-0 col-span-3 lg:max-w-xs">
             <Input
