@@ -1,8 +1,29 @@
 {
   "common": {
     "table": {
-      "table-empty-message": "Bảng hiện tại đang trống. Dữ liệu sẽ xuất hiện ở đây khi có thông tin mới."
+      "table-empty-message": "Bảng hiện đang trống. Dữ liệu sẽ xuất hiện ở đây khi có thông tin mới."
     },
     "empty-data": "Không có dữ liệu"
+  },
+  "weather": {
+    "title": "Thời Tiết",
+    "errorLoading": "Lỗi tải dữ liệu thời tiết",
+    "humidity": "Độ Ẩm",
+    "windSpeed": "Gió",
+    "conditions": {
+      "sunny": "Nắng",
+      "cloudy": "Nhiều Mây",
+      "rainy": "Mưa", 
+      "stormy": "Bão",
+      "clear": "Quang Đãng"
+    }
+  },
+  "charts": {
+    "monthlyWarehouseActivity": "Hoạt Động Kho Hàng Hàng Tháng",
+    "monthlyWarehouseActivityDesc": "Theo dõi hoạt động kho hàng và luồng hàng tồn kho hàng tháng",
+    "inventoryDistribution": "Phân Phối Hàng Tồn Kho",
+    "inventoryDistributionDesc": "Mức tồn kho hiện tại theo các danh mục khác nhau", 
+    "orderProcessing": "Xử Lý Đơn Hàng",
+    "orderProcessingDesc": "Trạng thái thực hiện và xử lý đơn hàng"
   }
 }

@@ -4,5 +4,26 @@
       "table-empty-message": "The table is currently empty. Data will appear here when new information is available."
     },
     "empty-data": "Empty data"
+  },
+  "weather": {
+    "title": "Weather",
+    "errorLoading": "Error loading weather data",
+    "humidity": "Humidity",
+    "windSpeed": "Wind",
+    "conditions": {
+      "sunny": "Sunny",
+      "cloudy": "Cloudy", 
+      "rainy": "Rainy",
+      "stormy": "Stormy",
+      "clear": "Clear"
+    }
+  },
+  "charts": {
+    "monthlyWarehouseActivity": "Monthly Warehouse Activity",
+    "monthlyWarehouseActivityDesc": "Track monthly warehouse operations and inventory flow",
+    "inventoryDistribution": "Inventory Distribution", 
+    "inventoryDistributionDesc": "Current stock levels across different categories",
+    "orderProcessing": "Order Processing",
+    "orderProcessingDesc": "Order fulfillment and processing status"
   }
 }
