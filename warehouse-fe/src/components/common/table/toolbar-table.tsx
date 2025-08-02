@@ -61,7 +61,6 @@ export default function TableToolbar() {
     const formatted = formatDateInput(value);
     setStartDateInput(formatted);
 
-    // Nếu đủ 10 ký tự thì parse thành Date
     if (formatted.length === 10) {
       try {
         const parsedDate = parse(formatted, "dd/MM/yyyy", new Date());
