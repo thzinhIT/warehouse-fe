@@ -1,6 +1,7 @@
 "use client";
 
 import { ChevronRight, type LucideIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import {
   Collapsible,
@@ -37,10 +38,12 @@ export function NavMain({
 }) {
   const router = useRouter();
   const pathname = usePathname();
+  const t = useTranslations("navigation");
+  const tDashboard = useTranslations("dashboard.sidebar");
 
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
+      <SidebarGroupLabel>{tDashboard("platform")}</SidebarGroupLabel>
       <SidebarMenu className="space-y-2">
         {items.map((item) => {
           const isActive =
@@ -71,7 +74,7 @@ export function NavMain({
                     <span
                       className={cn("", isActive && "bg-muted text-primary  ")}
                     >
-                      {item.title}
+                      {t(item.title)}
                     </span>
                     {item?.items && item.items.length > 0 && (
                       <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
@@ -104,7 +107,7 @@ export function NavMain({
                                       isActive && "bg-muted text-primary  "
                                     )}
                                   >
-                                    {subItem.title}
+                                    {t(subItem.title)}
                                   </span>
                                 </a>
                               </div>

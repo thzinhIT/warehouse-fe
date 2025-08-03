@@ -1,6 +1,9 @@
 import { BarChart3 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 const EmptyDataChart = () => {
+  const t = useTranslations("dashboard.charts");
+
   return (
     <div className="flex flex-1 items-center justify-center p-8">
       <div className="flex flex-col items-center gap-6 text-center max-w-sm">
@@ -19,11 +22,10 @@ const EmptyDataChart = () => {
         <div className="space-y-3">
           <div className="space-y-1">
             <h3 className="text-lg font-semibold text-foreground">
-              No Data Available
+              {t("no-data-available")}
             </h3>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              We could not find any visitor data for the selected time period.
-              Try adjusting your date range or check back later.
+              {t("no-data-message")}
             </p>
           </div>
         </div>

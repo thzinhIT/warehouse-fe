@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Label, Pie, PieChart, Sector } from "recharts";
 import { PieSectorDataItem } from "recharts/types/polar/Pie";
+import { useTranslations } from "next-intl";
 
 import {
   Card,
@@ -81,6 +82,7 @@ export default function ChartPieInteractive({
   title,
   description,
 }: TChartPieProps) {
+  const t = useTranslations("dashboard.charts");
   const id = "pie-interactive";
   const [activeMonth, setActiveMonth] = React.useState(data?.[0]?.month);
 
@@ -88,7 +90,39 @@ export default function ChartPieInteractive({
     () => data?.findIndex((item) => item.month === activeMonth),
     [activeMonth, data]
   );
-  const months = React.useMemo(() => data?.map((item) => item.month), []);
+  const months = React.useMemo(() => data?.map((item) => item.month), [data]);
+
+  // Function to get translated label for any data point
+  const getTranslatedLabel = (key: string) => {
+    // Determine chart type based on the data content
+    const chartType = data?.some((item) =>
+      ["electronics", "clothing", "furniture", "books", "toys"].includes(
+        item.month || ""
+      )
+    )
+      ? "inventory-category"
+      : data?.some((item) =>
+          ["completed", "pending", "shipped", "returned", "cancelled"].includes(
+            item.month || ""
+          )
+        )
+      ? "order-status"
+      : "warehouse-storage";
+
+    try {
+      const translation = t(`${chartType}.${key}`);
+      // Check if translation exists (doesn't return the key itself)
+      if (translation && translation !== `${chartType}.${key}`) {
+        return translation;
+      }
+    } catch (error) {
+      // Translation not found, continue to fallback
+    }
+
+    // Fallback to chartConfig or capitalize the key
+    const config = chartConfig[key as keyof typeof chartConfig];
+    return config?.label || key.charAt(0).toUpperCase() + key.slice(1);
+  };
 
   return (
     <Card data-chart={id} className="flex flex-col">
@@ -101,8 +135,10 @@ export default function ChartPieInteractive({
               : "flex justify-between items-start"
           )}
         >
-          <CardTitle>Pie Chart - Interactive</CardTitle>
-          <CardDescription>January - June 2024</CardDescription>
+          <CardTitle>{title || t("pie-chart-interactive")}</CardTitle>
+          <CardDescription>
+            {description || "January - June 2024"}
+          </CardDescription>
         </div>
         {data && data?.length > 0 && (
           <Select value={activeMonth} onValueChange={setActiveMonth}>
@@ -134,7 +170,7 @@ export default function ChartPieInteractive({
                             backgroundColor: `var(--color-${key})`,
                           }}
                         />
-                        {config?.label}
+                        {getTranslatedLabel(key || "")}
                       </div>
                     </SelectItem>
                   );
@@ -154,7 +190,27 @@ export default function ChartPieInteractive({
             <PieChart>
               <ChartTooltip
                 cursor={false}
-                content={<ChartTooltipContent hideLabel />}
+                content={({ active, payload }) => {
+                  if (active && payload && payload.length > 0) {
+                    const data = payload[0];
+                    const label = getTranslatedLabel(String(data.name || ""));
+                    return (
+                      <div className="rounded-lg border bg-background p-2 shadow-sm">
+                        <div className="grid grid-cols-2 gap-2">
+                          <div className="flex flex-col">
+                            <span className="text-[0.70rem] uppercase text-muted-foreground">
+                              {label}
+                            </span>
+                            <span className="font-bold text-muted-foreground">
+                              {data.value}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  }
+                  return null;
+                }}
               />
               <Pie
                 data={data}
@@ -201,7 +257,11 @@ export default function ChartPieInteractive({
                             y={(viewBox.cy || 0) + 24}
                             className="fill-muted-foreground"
                           >
-                            Visitors
+                            {data?.[activeIndex ?? 0]?.month
+                              ? getTranslatedLabel(
+                                  data[activeIndex ?? 0].month || ""
+                                )
+                              : "Items"}
                           </tspan>
                         </text>
                       );
