@@ -1,11 +1,11 @@
 import React from "react";
-import SidebarHeader from "@/components/layout/nav/sidebar-header";
 import DashboardClient from "./components/dashboard-client";
+import { SidebarHeader, SidebarTrigger } from "@/components/ui/sidebar";
 
 const Dashboard = () => {
   return (
     <div className="h-full">
-      <SidebarHeader title="dashboard" />
+      <SidebarTrigger />
 
       <DashboardClient />
     </div>

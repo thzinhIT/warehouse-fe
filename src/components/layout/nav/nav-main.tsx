@@ -55,28 +55,32 @@ export function NavMain({
             >
               <SidebarMenuItem>
                 <CollapsibleTrigger asChild>
-                  <button
-                    className={cn(
-                      " w-full p-1 pl-2 hover:bg-secondary flex items-center gap-2 text-sm rounded-md font-semibold",
-                      isActive && "bg-muted "
-                    )}
-                    onClick={() => {
-                      if (!item?.items) {
-                        router.push(item?.url);
-                      }
-                    }}
-                  >
+                  <SidebarMenuButton tooltip={item.title}>
                     {item.icon && item.icon}
-
-                    <span
-                      className={cn("", isActive && "bg-muted text-primary  ")}
+                    <div
+                      className={cn(
+                        " w-full p-1 pl-2 hover:bg-secondary flex items-center gap-2 text-sm rounded-md font-semibold",
+                        isActive && "bg-muted "
+                      )}
+                      onClick={() => {
+                        if (!item?.items) {
+                          router.push(item?.url);
+                        }
+                      }}
                     >
-                      {item.title}
-                    </span>
-                    {item?.items && item.items.length > 0 && (
-                      <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                    )}
-                  </button>
+                      <span
+                        className={cn(
+                          "",
+                          isActive && "bg-muted text-primary  "
+                        )}
+                      >
+                        {item.title}
+                      </span>
+                      {item?.items && item.items.length > 0 && (
+                        <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                      )}
+                    </div>
+                  </SidebarMenuButton>
                 </CollapsibleTrigger>
 
                 {item?.items && item.items.length > 0 && (
