@@ -11,6 +11,19 @@ export interface IAuthResponse {
     authenticated: boolean;
   };
 }
+
+export interface ISendCodeEmail {
+  code: number;
+  message: string;
+  error?: string;
+}
+
+export interface INewPassword {
+  code: number;
+  data?: boolean;
+  error?: string;
+}
+
 type TPayLoadLogin = {
   userName?: string;
   passWord?: string;
@@ -32,6 +45,60 @@ export async function Login({ userName, passWord }: TPayLoadLogin) {
     );
     if (res?.data?.code === 200) return res?.data;
     toast.error("Error: Login error ");
+    return Promise.reject(new Error("Error: Login error"));
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+export async function SendCodeEmail({ email }: { email?: string }) {
+  try {
+    if (!email) {
+      toast.error("Missing information");
+      return Promise.reject(new Error("Login missing information"));
+    }
+    const res = await publicApi.post<ISendCodeEmail>(
+      `${ApiEndPoint.SENDCODEEMAIL}`,
+      email
+    );
+    if (res?.data?.code === 200) return res?.data;
+
+    const errorMessage = res?.data?.error;
+    toast.error(errorMessage ?? "Error: Reset passWord error ");
+    return Promise.reject(new Error("Error: Login error"));
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+export async function NewPassword({
+  email,
+  code,
+  newPassword,
+}: {
+  email?: string;
+  code?: string;
+  newPassword?: string;
+}) {
+  try {
+    if (!email || !code || !newPassword) {
+      toast.error("Missing information");
+      return Promise.reject(new Error("New Password missing information"));
+    }
+
+    const body = {
+      email: email,
+      code: code,
+      newPassword: newPassword,
+    };
+    const res = await publicApi.post<INewPassword>(
+      `${ApiEndPoint.NEWPASSWORD}`,
+      body
+    );
+    if (res?.data?.code === 200) return res?.data;
+
+    const errorMessage = res?.data?.error;
+    toast.error(errorMessage ?? "Error: Reset passWord error ");
     return Promise.reject(new Error("Error: Login error"));
   } catch (e) {
     console.log(e);

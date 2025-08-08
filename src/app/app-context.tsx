@@ -6,6 +6,8 @@ type AppContextType = {
   setToken: (token: string) => void;
   username: string;
   setUsername: (username: string) => void;
+  accessToken: string;
+  setAccessToken: (username: string) => void;
 };
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -13,9 +15,17 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [token, setToken] = useState("");
   const [username, setUsername] = useState("");
+  const [accessToken, setAccessToken] = useState("");
   const value = useMemo(
-    () => ({ token, setToken, username, setUsername }),
-    [token, setToken, username, setUsername]
+    () => ({
+      token,
+      setToken,
+      username,
+      setUsername,
+      accessToken,
+      setAccessToken,
+    }),
+    [token, setToken, username, setUsername, accessToken, setAccessToken]
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
