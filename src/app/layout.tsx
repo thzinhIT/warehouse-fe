@@ -4,6 +4,7 @@ import "../styles/globals.css";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import { cn } from "@/lib/utils";
+import Providers from "./provider";
 
 const inter = Inter({
   subsets: ["latin", "vietnamese"],
@@ -38,7 +39,7 @@ export default async function RootLayout({
         )}
       >
         <NextIntlClientProvider timeZone={timeZone} messages={messages}>
-          {children}
+          <Providers>{children}</Providers>
         </NextIntlClientProvider>
       </body>
     </html>
