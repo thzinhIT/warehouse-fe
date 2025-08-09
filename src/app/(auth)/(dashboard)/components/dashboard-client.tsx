@@ -33,39 +33,39 @@ const DashboardClient = () => {
   ];
 
   return (
-    <div className=" h-full p-4 overflow-auto">
+    <div className="h-full p-4 overflow-auto">
       {/* Top row with 3 pie charts and compact weather widget */}
       <div className="grid grid-cols-12 gap-3 mb-5">
-        <div className="col-span-4">
+        <div className="col-span-3">
           <ChartPieInteractive
             data={warehouseData}
             title={t("warehouse-storage.title")}
             description={t("warehouse-storage.description")}
           />
         </div>
-        <div className="col-span-4">
+        <div className="col-span-3">
           <ChartPieInteractive
             data={inventoryData}
             title={t("inventory-category.title")}
             description={t("inventory-category.description")}
           />
         </div>
-        <div className="col-span-4">
+        <div className="col-span-3">
           <ChartPieInteractive
             data={ordersData}
             title={t("order-status.title")}
             description={t("order-status.description")}
           />
         </div>
-      </div>
-
-      {/* Bottom row with bar chart and compact weather widget */}
-      <div className="grid grid-cols-12 gap-3">
-        <div className="col-span-9">
-          <ChartBarStacked />
-        </div>
         <div className="col-span-3">
           <WeatherWidget compact className="h-fit" />
+        </div>
+      </div>
+
+      {/* Bottom row with bar chart full width */}
+      <div className="grid grid-cols-12 gap-3">
+        <div className="col-span-12">
+          <ChartBarStacked />
         </div>
       </div>
     </div>
