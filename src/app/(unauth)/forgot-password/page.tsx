@@ -11,6 +11,10 @@ import {
   ArrowLeft,
   CheckCircle,
   Clock,
+  CodeSquare,
+  Lock,
+  EyeOff,
+  Eye,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,6 +27,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import RightPanel from "../components/right-panel";
+import { useForgotPassword } from "@/hooks/Auth/use-auth";
 
 const mockStats = [
   { number: "256-bit", label: "Mã hóa SSL" },
@@ -39,26 +44,31 @@ const promotion = {
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [step, setStep] = useState("email");
+  const [code, setCode] = useState("");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const {
+    sendCodeEmail,
+    isPending,
+    step,
+    setStep,
+    isPendingNewPass,
+    newPassword,
+  } = useForgotPassword();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmitCodeEmail = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-
-    setStep("sent");
-    setIsLoading(false);
+    sendCodeEmail({ email });
   };
 
-  const handleResendEmail = async () => {
-    setIsLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    setIsLoading(false);
+  const handleSubmitResetPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const formData = new FormData(e.target as HTMLFormElement);
+    newPassword({
+      email,
+      newPassword: formData.get("password")?.toString(),
+      code,
+    });
   };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 flex items-center justify-center p-4">
       <div className="w-full max-w-6xl grid lg:grid-cols-2 gap-8 items-center">
@@ -117,7 +127,7 @@ export default function ForgotPassword() {
             <CardContent className="space-y-6">
               {/* Email Form */}
               {step === "email" && (
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={handleSubmitCodeEmail} className="space-y-4">
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -152,16 +162,16 @@ export default function ForgotPassword() {
                   >
                     <Button
                       type="submit"
-                      disabled={isLoading || !email.trim()}
+                      disabled={isPending || !email.trim()}
                       className="w-full h-12 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium rounded-lg transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98]"
                     >
-                      {isLoading ? (
+                      {isPending ? (
                         <div className="flex items-center space-x-2">
-                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                          <div className=" w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin pointer-events-none hover:cursor-not-allowed" />
                           <span>Đang gửi...</span>
                         </div>
                       ) : (
-                        <div className="flex items-center space-x-2">
+                        <div className="flex items-center space-x-2 hover:cursor-pointer">
                           <span>Gửi liên kết reset</span>
                           <ArrowRight className="h-4 w-4" />
                         </div>
@@ -213,11 +223,9 @@ export default function ForgotPassword() {
                       <div className="text-sm text-blue-700">
                         <p className="font-medium mb-1">Lưu ý quan trọng:</p>
                         <ul className="space-y-1 text-xs">
-                          <li>• Liên kết sẽ hết hạn sau 15 phút</li>
+                          <li>• Code sẽ hết hạn sau 5 phút</li>
                           <li>• Kiểm tra cả thư mục spam/junk</li>
-                          <li>
-                            • Chỉ sử dụng liên kết mới nhất nếu gửi nhiều lần
-                          </li>
+                          <li>• Chỉ sử dụng code mới nhất nếu gửi nhiều lần</li>
                         </ul>
                       </div>
                     </div>
@@ -225,20 +233,114 @@ export default function ForgotPassword() {
 
                   <div className="space-y-3">
                     <Button
-                      onClick={handleResendEmail}
-                      disabled={isLoading}
+                      type="button"
                       variant="outline"
-                      className="w-full h-12 border-blue-200 text-blue-600 hover:bg-blue-50 bg-transparent"
+                      className=" text-background w-full h-12 border-gray-200 hover:bg-gray-50 hover:cursor-pointer  bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 "
+                      onClick={() => setStep("reset-password")}
                     >
-                      {isLoading ? (
+                      <div className="flex items-center space-x-2">
+                        <span>Đổi mật khẩu mới</span>
+                        <ArrowRight className="h-4 w-4" />
+                      </div>
+                    </Button>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Reset password */}
+              {step === "new-password" && (
+                <form
+                  onSubmit={handleSubmitResetPassword}
+                  className="space-y-4"
+                >
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4 }}
+                    className="space-y-2"
+                  >
+                    <Label
+                      htmlFor="code"
+                      className="text-sm font-medium text-gray-700"
+                    >
+                      Code nhận trong email
+                    </Label>
+                    <div className="relative">
+                      <CodeSquare className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                      <Input
+                        id="code"
+                        type="text"
+                        inputMode="numeric"
+                        pattern="[0-9]*"
+                        value={code}
+                        onChange={(e) => {
+                          const numbersOnly = e.target.value.replace(
+                            /[^0-9]/g,
+                            ""
+                          );
+                          setCode(numbersOnly);
+                        }}
+                        placeholder="012345"
+                        className="pl-10 h-12 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
+                        required
+                      />
+                    </div>
+                  </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4 }}
+                    className="space-y-2"
+                  >
+                    <Label
+                      htmlFor="password"
+                      className="text-sm font-medium text-gray-700"
+                    >
+                      Mật khẩu
+                    </Label>
+                    <div className="relative">
+                      <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                      <Input
+                        id="password"
+                        type={showPassword ? "text" : "password"}
+                        placeholder="••••••••"
+                        className="pl-10 pr-10 h-12 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
+                        required
+                        name="password"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-4 w-4" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
+                      </button>
+                    </div>
+                  </motion.div>
+
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5 }}
+                    className="space-y-4"
+                  >
+                    <Button
+                      type="submit"
+                      disabled={isPendingNewPass}
+                      className="w-full h-12 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium rounded-lg transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98]"
+                    >
+                      {isPendingNewPass ? (
                         <div className="flex items-center space-x-2">
-                          <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
-                          <span>Đang gửi lại...</span>
+                          <div className=" w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin cursor-not-allowed" />
+                          <span>Loading...</span>
                         </div>
                       ) : (
-                        <div className="flex items-center space-x-2">
-                          <Mail className="h-4 w-4" />
-                          <span>Gửi lại email</span>
+                        <div className="flex items-center space-x-2 ">
+                          <span>Tạo mật khẩu mới</span>
                         </div>
                       )}
                     </Button>
@@ -247,15 +349,15 @@ export default function ForgotPassword() {
                       type="button"
                       variant="outline"
                       className="w-full h-12 border-gray-200 hover:bg-gray-50 bg-transparent"
-                      onClick={() => (window.location.href = "/")}
+                      onClick={() => (window.location.href = "/login")}
                     >
                       <div className="flex items-center space-x-2">
                         <ArrowLeft className="h-4 w-4" />
                         <span>Quay lại đăng nhập</span>
                       </div>
                     </Button>
-                  </div>
-                </motion.div>
+                  </motion.div>
+                </form>
               )}
             </CardContent>
           </Card>
