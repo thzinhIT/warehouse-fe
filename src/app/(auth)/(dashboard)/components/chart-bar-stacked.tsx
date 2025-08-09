@@ -2,6 +2,7 @@
 
 import { TrendingUp } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+import { useTranslations } from "next-intl";
 
 import {
   Card,
@@ -47,10 +48,12 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function ChartBarStacked() {
+  const t = useTranslations("dashboard.charts");
+
   return (
     <Card className="h-auto">
       <CardHeader>
-        <CardTitle>Bar Chart - Stacked + Legend</CardTitle>
+        <CardTitle>{t("bar-chart-title")}</CardTitle>
         <CardDescription>January - June 2024</CardDescription>
       </CardHeader>
       <CardContent>

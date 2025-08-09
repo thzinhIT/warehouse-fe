@@ -3,6 +3,94 @@
     "table": {
       "table-empty-message": "The table is currently empty. Data will appear here when new information is available."
     },
-    "empty-data": "Empty data"
+    "empty-data": "Empty data",
+    "language": {
+      "switch": "Switch language",
+      "english": "English",
+      "vietnamese": "Vietnamese"
+    }
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "warehouse-management": "Warehouse Management",
+    "stock-in": "Stock In",
+    "stock-in-history": "Stock In History",
+    "stock-out-management": "Stock Out Management",
+    "stock-out": "Stock Out",
+    "stock-out-history": "Stock Out History",
+    "storage-management": "Storage Management",
+    "plan-management": "Plan Management",
+    "product-management": "Product Management",
+    "defective-product-management": "Defective Product Management",
+    "labor-management": "Labor Management",
+    "system-settings": "System Settings",
+    "storage-configuration": "Storage Configuration",
+    "system-logs": "System Logs"
+  },
+  "dashboard": {
+    "charts": {
+      "pie-chart-interactive": "Pie Chart - Interactive",
+      "bar-chart-stacked": "Bar Chart - Stacked + Legend",
+      "no-data-available": "No Data Available",
+      "no-data-message": "We could not find any visitor data for the selected time period. Try adjusting your date range or check back later.",
+      "warehouse-storage": {
+        "title": "Warehouse Storage",
+        "description": "Monthly storage capacity",
+        "january": "January",
+        "february": "February",
+        "march": "March",
+        "april": "April",
+        "may": "May"
+      },
+      "inventory-category": {
+        "title": "Inventory by Category",
+        "description": "Product distribution",
+        "electronics": "Electronics",
+        "clothing": "Clothing",
+        "furniture": "Furniture",
+        "books": "Books",
+        "toys": "Toys"
+      },
+      "order-status": {
+        "title": "Order Status",
+        "description": "Current order tracking",
+        "completed": "Completed",
+        "pending": "Pending",
+        "shipped": "Shipped",
+        "returned": "Returned",
+        "cancelled": "Cancelled"
+      },
+      "bar-chart-title": "Desktop & Mobile Usage"
+    },
+    "sidebar": {
+      "platform": "Platform",
+      "projects": "Projects"
+    }
+  },
+  "weather": {
+    "title": "Today's Weather",
+    "loading": "Loading weather data...",
+    "retry": "Retry",
+    "noData": "No weather data available",
+    "feelsLike": "Feels like",
+    "humidity": "Humidity",
+    "wind": "Wind",
+    "visibility": "Visibility",
+    "pressure": "Pressure",
+    "sunrise": "Sunrise",
+    "sunset": "Sunset",
+    "airQuality": {
+      "title": "Air Quality",
+      "good": "Good",
+      "fair": "Fair",
+      "moderate": "Moderate",
+      "poor": "Poor",
+      "verypoor": "Very Poor",
+      "unknown": "Unknown",
+      "pm25": "PM2.5",
+      "pm10": "PM10",
+      "aqi": "AQI"
+    },
+    "errorLoading": "Unable to load weather data"
   }
 }

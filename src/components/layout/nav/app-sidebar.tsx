@@ -29,6 +29,7 @@ import { NavMain } from "@/components/layout/nav/nav-main";
 import { NavProjects } from "@/components/layout/nav/nav-projects";
 import { NavUser } from "@/components/layout/nav/nav-user";
 import { TeamSwitcher } from "@/components/layout/nav/team-switcher";
+import { LanguageSwitcher } from "@/components/common/language-switcher";
 import {
   Sidebar,
   SidebarContent,
@@ -156,84 +157,84 @@ const data = {
   // ],
   navMain: [
     {
-      title: "Dashboard",
+      title: "dashboard",
       url: "/",
       icon: <Icons.Dashboard />,
       isActive: true,
     },
     {
-      title: "Quản lý kho hàng",
+      title: "warehouse-management",
       url: "/manage-warehouse",
       icon: <RiLuggageCartFill />,
       items: [
         {
-          title: "Nhập kho",
+          title: "stock-in",
           url: "/manage-warehouse/stock-in",
           icon: <RxDownload />,
         },
         {
-          title: "Lịch sử nhập kho",
+          title: "stock-in-history",
           url: "/#",
           icon: <GrHistory />,
         },
       ],
     },
     {
-      title: "Quản lý xuất kho",
+      title: "stock-out-management",
       url: "#",
       icon: <LiaOpencart />,
       items: [
         {
-          title: "Xuất kho",
+          title: "stock-out",
           url: "#",
           icon: <RxUpload />,
         },
         {
-          title: "Lịch sử xuất kho",
+          title: "stock-out-history",
           url: "#",
           icon: <GrHistory />,
         },
       ],
     },
     {
-      title: "Quản lý lưu trữ",
+      title: "storage-management",
       url: "#",
       icon: <MdArchive />,
       items: [
         {
-          title: "Quản lý kế hoạch",
+          title: "plan-management",
           url: "#",
           icon: <MdCalendarToday />,
         },
         {
-          title: "Quản lý sản phẩm",
+          title: "product-management",
           url: "#",
           icon: <MdShoppingCart />,
         },
         {
-          title: "Quản lý sản phẩm lỗi",
+          title: "defective-product-management",
           url: "#",
           icon: <MdWarning />,
         },
       ],
     },
     {
-      title: "Quản lý lao động",
+      title: "labor-management",
       url: "#",
       icon: <MdTrendingUp />,
     },
     {
-      title: "Cài đặt hệ thống",
+      title: "system-settings",
       url: "#",
       icon: <MdSettings />,
       items: [
         {
-          title: "Cấu hình lưu trữ",
+          title: "storage-configuration",
           url: "#",
           icon: <MdStorage />,
         },
         {
-          title: "Nhật ký hệ thống",
+          title: "system-logs",
           url: "#",
           icon: <MdDescription />,
         },
@@ -270,6 +271,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
+        <div className="flex items-center justify-between p-2">
+          <LanguageSwitcher />
+        </div>
         <NavUser user={data.user} />
       </SidebarFooter>
       <SidebarRail />

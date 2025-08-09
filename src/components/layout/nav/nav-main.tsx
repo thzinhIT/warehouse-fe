@@ -1,6 +1,7 @@
 "use client";
 
 import { ChevronRight, type LucideIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import {
   Collapsible,
@@ -37,10 +38,12 @@ export function NavMain({
 }) {
   const router = useRouter();
   const pathname = usePathname();
+  const t = useTranslations("navigation");
+  const tDashboard = useTranslations("dashboard.sidebar");
 
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
+      <SidebarGroupLabel>{tDashboard("platform")}</SidebarGroupLabel>
       <SidebarMenu className="space-y-2">
         {items.map((item) => {
           const isActive =
@@ -59,8 +62,8 @@ export function NavMain({
                     {item.icon && item.icon}
                     <div
                       className={cn(
-                        " w-full p-1 pl-2 hover:bg-secondary flex items-center gap-2 text-sm rounded-md font-semibold",
-                        isActive && "bg-muted "
+                        "w-full p-1 pl-2 hover:bg-secondary flex items-center gap-2 text-sm rounded-md font-semibold",
+                        isActive && "bg-muted"
                       )}
                       onClick={() => {
                         if (!item?.items) {
@@ -69,12 +72,9 @@ export function NavMain({
                       }}
                     >
                       <span
-                        className={cn(
-                          "",
-                          isActive && "bg-muted text-primary  "
-                        )}
+                        className={cn("", isActive && "bg-muted text-primary")}
                       >
-                        {item.title}
+                        {t(item.title)}
                       </span>
                       {item?.items && item.items.length > 0 && (
                         <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
@@ -84,7 +84,7 @@ export function NavMain({
                 </CollapsibleTrigger>
 
                 {item?.items && item.items.length > 0 && (
-                  <CollapsibleContent className="">
+                  <CollapsibleContent>
                     <SidebarMenuSub className="mx-0 space-y-2 mt-2">
                       {item.items?.map((subItem) => {
                         const isActive =
@@ -93,22 +93,22 @@ export function NavMain({
                             subItem?.url !== "/");
                         return (
                           <SidebarMenuSubItem key={subItem.title}>
-                            <SidebarMenuSubButton asChild className="">
+                            <SidebarMenuSubButton asChild>
                               <div
                                 className={cn(
-                                  "w-full hover:bg-secondary ",
-                                  isActive && "bg-muted "
+                                  "w-full hover:bg-secondary",
+                                  isActive && "bg-muted"
                                 )}
                               >
                                 <span>{subItem?.icon && subItem.icon}</span>
-                                <a href={subItem.url} className="w-full  ">
+                                <a href={subItem.url} className="w-full">
                                   <span
                                     className={cn(
                                       "",
-                                      isActive && "bg-muted text-primary  "
+                                      isActive && "bg-muted text-primary"
                                     )}
                                   >
-                                    {subItem.title}
+                                    {t(subItem.title)}
                                   </span>
                                 </a>
                               </div>
