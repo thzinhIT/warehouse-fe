@@ -18,7 +18,7 @@ const StockIn = () => {
         <h1 className=" text-lg font-bold text-black">Dữ liệu nhập kho</h1>
         <div className="flex gap-2">
           <Button
-            className="cursor-pointer bg-green-600 hover:bg-green-700 flex items-center"
+            className="cursor-pointer bg-blue-600 hover:bg-blue-700 flex items-center"
             onClick={() => {
               setOpen(true);
             }}
@@ -28,14 +28,14 @@ const StockIn = () => {
             <span>Nhập hàng loạt</span>
           </Button>
           <Button
-            className="cursor-pointer bg-green-600 hover:bg-green-700 flex items-center"
+            className="cursor-pointer bg-blue-600 hover:bg-blue-700 flex items-center"
             onClick={() => {
               setOpenOnline(true);
             }}
           >
             <CirclePlus size={20} />
 
-            <span> Thêm trực tuyến</span>
+            <span> Thêm trực tiếp</span>
           </Button>
         </div>
       </div>

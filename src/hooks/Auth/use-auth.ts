@@ -28,6 +28,9 @@ export function useLogin() {
   const onLoginSuccess = (data: IAuthResponse) => {
     setToken(data?.data?.token);
     setAccessToken(data?.data?.refreshToken);
+    localStorage.setItem("token", data?.data?.token || "");
+    localStorage.setItem("refreshToken", data?.data?.refreshToken || "");
+    toast.success("Đăng nhập thành công");
     router.push("/");
   };
   return { login, isPending };
