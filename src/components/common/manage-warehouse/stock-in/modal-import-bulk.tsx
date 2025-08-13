@@ -33,7 +33,7 @@ export function ModalImportBulk({
 
   const handleOnChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) alert("thành vinh");
+    console.log("file", file);
   };
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -69,7 +69,7 @@ export function ModalImportBulk({
               <div className="">
                 <Button className="  flex items-center bg-slate-100 hover:bg-slate-100 cursor-pointer text-black ml-auto mb-3">
                   <FileDown size={20} />
-                  <span>Tải file in mẫu </span>
+                  <span>Tải file mẫu </span>
                 </Button>
               </div>
             </div>

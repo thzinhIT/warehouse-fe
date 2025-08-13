@@ -35,22 +35,29 @@ export async function Login({ userName, passWord }: TPayLoadLogin) {
       toast.error("Login missing information");
       return Promise.reject(new Error("Login missing information"));
     }
+
     const body = {
       username: userName,
       password: passWord,
     };
+
     const res = await publicApi.post<IAuthResponse>(
       `${ApiEndPoint.LOGIN}`,
-      body
+      body,
+      { withCredentials: true }
     );
-    if (res?.data?.code === 200) return res?.data;
-    toast.error("Error: Login error ");
+
+    if (res?.data?.code === 200) {
+      return res.data;
+    }
+
+    toast.error("Error: Login error");
     return Promise.reject(new Error("Error: Login error"));
   } catch (e) {
-    console.log(e);
+    console.log("Login error:", e);
+    return Promise.reject(e);
   }
 }
-
 export async function SendCodeEmail({ email }: { email?: string }) {
   try {
     if (!email) {

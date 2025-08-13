@@ -181,12 +181,12 @@ const data = {
     },
     {
       title: "stock-out-management",
-      url: "#",
+      url: "/manage-export",
       icon: <LiaOpencart />,
       items: [
         {
           title: "stock-out",
-          url: "#",
+          url: "/manage-export/stock-out",
           icon: <RxUpload />,
         },
         {

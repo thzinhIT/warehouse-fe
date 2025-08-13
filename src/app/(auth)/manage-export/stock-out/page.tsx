@@ -1,22 +1,15 @@
 "use client";
-import getColumsImportOrder from "@/components/common/manage-warehouse/stock-in/import-order-columns";
 import { ModalImportBulk } from "@/components/common/manage-warehouse/stock-in/modal-import-bulk";
 import { ModalImportOnline } from "@/components/common/manage-warehouse/stock-in/modal-import-online";
 import { DataTable } from "@/components/common/table/data-table";
 import SidebarHeader from "@/components/layout/nav/sidebar-header";
 import { Button } from "@/components/ui/button";
-import { useStockIn } from "@/hooks/manage-warehouse/use-stock-in";
 import { CirclePlus, FilePlus } from "lucide-react";
-import { use, useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 
-const StockIn = () => {
+const StockOutPage = () => {
   const [open, setOpen] = useState(false);
   const [openOnline, setOpenOnline] = useState(false);
-  const { data, isPending } = useStockIn();
-  const columns = useMemo(() => getColumsImportOrder(), []);
-  useEffect(() => {
-    console.log("aaaaa", data);
-  }, [data]);
   return (
     <div className="flex flex-col h-full">
       <SidebarHeader title="Nhập kho" />
@@ -46,9 +39,7 @@ const StockIn = () => {
           </Button>
         </div>
       </div>
-      <div className=" flex-1 min-h-0">
-        <DataTable columns={columns} data={data ?? []} />{" "}
-      </div>
+      <div className=" flex-1 min-h-0">thành vinh</div>
 
       <ModalImportBulk open={open} setOpen={setOpen} />
       <ModalImportOnline open={openOnline} setOpen={setOpenOnline} />
@@ -56,4 +47,4 @@ const StockIn = () => {
   );
 };
 
-export default StockIn;
+export default StockOutPage;
