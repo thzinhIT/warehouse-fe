@@ -35,7 +35,7 @@ export function DataTableBody<TData, TValue>({
       )}
     >
       <TableHeader>
-        {table.getHeaderGroups().map((headerGroup, index) => (
+        {table?.getHeaderGroups()?.map((headerGroup, index) => (
           <TableRow
             key={`headerGroup-${headerGroup.id}-${index}`}
             className={"dark:border-b-default-600 "}

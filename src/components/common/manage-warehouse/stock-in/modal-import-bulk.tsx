@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { FileUp } from "lucide-react";
+import { FileDown, FileUp } from "lucide-react";
 import { useRef } from "react";
 
 export function ModalImportBulk({
@@ -33,7 +33,7 @@ export function ModalImportBulk({
 
   const handleOnChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) alert("thành vinh");
+    console.log("file", file);
   };
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -47,20 +47,32 @@ export function ModalImportBulk({
             </DialogDescription>
           </DialogHeader>
           <div>
-            <Button
-              className="flex items-center bg-slate-100 hover:bg-slate-100 cursor-pointer text-black ml-auto mb-3"
-              onClick={() => fileRef?.current?.click()}
-            >
-              {" "}
-              <FileUp size={20} /> <span>Tải dữ liệu lên</span>
-            </Button>
-            <Input
-              className="hidden"
-              ref={fileRef}
-              type="file"
-              onChange={(e) => handleOnChangeFile(e)}
-              accept=".xlsx"
-            />
+            <div className="flex gap-3 justify-end ">
+              <div>
+                {" "}
+                <Button
+                  className="flex items-center bg-blue-600 hover:bg-blue-600  cursor-pointer text-background ml-auto mb-3"
+                  onClick={() => fileRef?.current?.click()}
+                >
+                  {" "}
+                  <FileUp size={20} /> <span>Tải dữ liệu lên</span>
+                </Button>
+                <Input
+                  className="hidden"
+                  ref={fileRef}
+                  type="file"
+                  onChange={(e) => handleOnChangeFile(e)}
+                  accept=".xlsx"
+                />
+              </div>
+
+              <div className="">
+                <Button className="  flex items-center bg-slate-100 hover:bg-slate-100 cursor-pointer text-black ml-auto mb-3">
+                  <FileDown size={20} />
+                  <span>Tải file mẫu </span>
+                </Button>
+              </div>
+            </div>
 
             <Table>
               <TableCaption>A list of your recent invoices.</TableCaption>
