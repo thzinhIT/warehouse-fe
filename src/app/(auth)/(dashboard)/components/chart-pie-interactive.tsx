@@ -27,14 +27,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { BarChart3, TrendingUp } from "lucide-react";
 import EmptyDataChart from "./empty-data-chart";
+import Loading from "@/components/common/loading";
 
 type TChartPieProps = {
   data?: { month?: string; desktop?: number; fill?: string }[];
   title?: string;
   description?: string;
+  isLoading?: boolean;
+  error?: string | null;
 };
 
 // const data = [
@@ -81,6 +82,8 @@ export default function ChartPieInteractive({
   data,
   title,
   description,
+  isLoading = false,
+  error = null,
 }: TChartPieProps) {
   const t = useTranslations("dashboard.charts");
   const id = "pie-interactive";
@@ -94,7 +97,17 @@ export default function ChartPieInteractive({
 
   // Function to get translated label for any data point
   const getTranslatedLabel = (key: string) => {
-    // Determine chart type based on the data content
+    // If the key looks like a date (YYYY-MM-DD), format it nicely
+    if (key.match(/^\d{4}-\d{2}-\d{2}$/)) {
+      return new Date(key).toLocaleDateString();
+    }
+
+    // If the key is already a readable string (like SKU names), return as is
+    if (key.length > 10 || key.includes(" ")) {
+      return key;
+    }
+
+    // Determine chart type based on the data content for predefined categories
     const chartType = data?.some((item) =>
       ["electronics", "clothing", "furniture", "books", "toys"].includes(
         item.month || ""
@@ -110,12 +123,32 @@ export default function ChartPieInteractive({
       : "warehouse-storage";
 
     try {
-      const translation = t(`${chartType}.${key}`);
-      // Check if translation exists (doesn't return the key itself)
-      if (translation && translation !== `${chartType}.${key}`) {
-        return translation;
+      // Only try to translate if it's a predefined key
+      const predefinedKeys = [
+        "electronics",
+        "clothing",
+        "furniture",
+        "books",
+        "toys",
+        "completed",
+        "pending",
+        "shipped",
+        "returned",
+        "cancelled",
+        "january",
+        "february",
+        "march",
+        "april",
+        "may",
+      ];
+
+      if (predefinedKeys.includes(key.toLowerCase())) {
+        const translation = t(`${chartType}.${key}`);
+        if (translation && translation !== `${chartType}.${key}`) {
+          return translation;
+        }
       }
-    } catch (error) {
+    } catch {
       // Translation not found, continue to fallback
     }
 
@@ -180,7 +213,18 @@ export default function ChartPieInteractive({
         )}
       </CardHeader>
 
-      {data && data?.length > 0 ? (
+      {isLoading ? (
+        <CardContent className="flex flex-1 justify-center pb-0">
+          <Loading className="h-[300px]" />
+        </CardContent>
+      ) : error ? (
+        <CardContent className="flex flex-1 justify-center items-center pb-0">
+          <div className="text-center text-red-500">
+            <p>Error loading chart data</p>
+            <p className="text-sm text-muted-foreground">{error}</p>
+          </div>
+        </CardContent>
+      ) : data && data?.length > 0 ? (
         <CardContent className="flex flex-1 justify-center pb-0">
           <ChartContainer
             id={id}

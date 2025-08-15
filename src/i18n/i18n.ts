@@ -9,11 +9,11 @@ export default getRequestConfig(async () => {
   // Get locale from cookie or use default
   const cookieStore = cookies();
   const preferredLanguage = (await cookieStore).get("preferredLanguage");
-  
+
   // Validate and fallback to default locale
   const requestedLocale = preferredLanguage?.value;
-  const locale = locales.includes(requestedLocale as Locale) 
-    ? (requestedLocale as Locale) 
+  const locale = locales.includes(requestedLocale as Locale)
+    ? (requestedLocale as Locale)
     : "vi";
 
   return {

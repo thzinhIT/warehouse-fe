@@ -60,6 +60,22 @@
         "returned": "Đã trả",
         "cancelled": "Đã hủy"
       },
+      "import-chart": {
+        "title": "Biểu đồ nhập kho",
+        "description": "Tổng quan hoạt động nhập kho"
+      },
+      "export-chart": {
+        "title": "Biểu đồ xuất kho",
+        "description": "Tổng quan hoạt động xuất kho"
+      },
+      "sku-type-ratio": {
+        "title": "Tỉ lệ loại SKU",
+        "description": "Phân bố loại sản phẩm"
+      },
+      "summary-chart": {
+        "title": "Tổng kết nhập - xuất kho",
+        "description": "Hoạt động tổng thể của kho"
+      },
       "bar-chart-title": "Sử dụng Desktop & Mobile"
     },
     "sidebar": {
@@ -92,5 +108,14 @@
       "aqi": "Chỉ số AQI"
     },
     "errorLoading": "Không thể tải dữ liệu thời tiết"
+  },
+
+  "sensor": {
+    "title": "Dữ liệu cảm biến",
+    "humidity": "Độ ẩm",
+    "dust": "Bụi",
+    "normal": "Bình thường",
+    "good": "Tốt",
+    "live": "Trực tiếp"
   }
 }
