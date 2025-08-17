@@ -5,5 +5,11 @@ const ApiEndPoint = {
   NEWPASSWORD: "user/reset-password",
   ALLIMPORTORDER: "/api/manage-import-orders/getallImportOrder",
   ALLDETAILIMPORTORDER: "/api/manage-import-orders/allDetails",
+  UPLOADFILEEXCEL: "api/manage-import-orders/upload-excel-to-temp",
+  TEMPITEMSTEMPORARY: "api/manage-import-orders/temp-items",
+  DELETETEMPORARY: "api/manage-import-orders/delete/temp",
+  UPDATETEMPORARY: "api/manage-import-orders/temp/update",
+  IMPORTWAREHOUSE: "/api/manage-import-orders/import-from-temp",
+  DOWNLOADTEMPLATEIMPORTORDER: "api/manage-import-orders/template",
 };
 export default ApiEndPoint;

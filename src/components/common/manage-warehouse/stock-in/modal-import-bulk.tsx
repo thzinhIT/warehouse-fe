@@ -18,9 +18,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { FileDown, FileUp } from "lucide-react";
-import { useRef } from "react";
+import { FileDown, FileUp, PenBox, Trash2 } from "lucide-react";
+import React, { useEffect, useRef, useState } from "react";
+
+import { Checkbox } from "@/components/ui/checkbox";
+import useTemporary from "@/hooks/manage-warehouse/use-temporary";
+
+import { AlertDialogDelete } from "./alert-dialog-delete";
+import { ModalUpdateImportOrder } from "./modal-update-order-import";
+import { TDataImportOrderTemporary } from "@/lib/networking/client/manage-warehouse/service";
 
 export function ModalImportBulk({
   open,
@@ -30,78 +36,220 @@ export function ModalImportBulk({
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const fileRef = useRef<HTMLInputElement>(null);
-
+  const [openAlter, setOpenAlert] = useState(false);
+  const [openModalUpdate, setOpenModalUpdate] = useState(false);
+  const [itemUpdate, setItemUpdate] = useState<TDataImportOrderTemporary>();
+  const [id, setId] = useState<number>();
+  const [listIdImport, setListIdImport] = useState<number[]>([]);
+  const [activeCheckbox, setActiveCheckbox] = useState(false);
+  const {
+    data,
+    onUpload,
+    isMutating,
+    downloadFile,
+    onDeleteTemporary,
+    onUpdateTemporary,
+    onImportWarehouse,
+  } = useTemporary(setOpenModalUpdate);
   const handleOnChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    console.log("file", file);
+    if (!file) return;
+    onUpload(file);
+  };
+
+  const handleCheckedItem = (id: number) => {
+    if (listIdImport?.includes(id)) {
+      setListIdImport(listIdImport.filter((item) => item !== id));
+    } else {
+      setListIdImport([...listIdImport, id]);
+    }
+  };
+
+  const handleCheckedAll = (isChecked: boolean) => {
+    setActiveCheckbox(isChecked);
+    if (!isChecked) {
+      setListIdImport([]);
+    } else {
+      setListIdImport(data?.map((item) => item.id) ?? []);
+    }
   };
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <form className="w-3/5">
-        <DialogContent className="w-3/5">
-          <DialogHeader>
-            <DialogTitle>Nhập hàng loạt đơn hàng</DialogTitle>
-            <DialogDescription className="hidden">
-              Make changes to your profile here. Click save when you&apos;re
-              done.
-            </DialogDescription>
-          </DialogHeader>
-          <div>
-            <div className="flex gap-3 justify-end ">
-              <div>
-                {" "}
-                <Button
-                  className="flex items-center bg-blue-600 hover:bg-blue-600  cursor-pointer text-background ml-auto mb-3"
-                  onClick={() => fileRef?.current?.click()}
-                >
+    <React.Fragment>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <form className="w-4/5">
+          <DialogContent className="w-4/5 h-[500px] overflow-hidden  flex flex-col">
+            <DialogHeader>
+              <DialogTitle>Nhập hàng loạt đơn hàng</DialogTitle>
+              <DialogDescription className="hidden">
+                Make changes to your profile here. Click save when you&apos;re
+                done.
+              </DialogDescription>
+            </DialogHeader>
+            <div>
+              <div className="flex gap-3 justify-end ">
+                <div>
                   {" "}
-                  <FileUp size={20} /> <span>Tải dữ liệu lên</span>
-                </Button>
-                <Input
-                  className="hidden"
-                  ref={fileRef}
-                  type="file"
-                  onChange={(e) => handleOnChangeFile(e)}
-                  accept=".xlsx"
-                />
+                  <Button
+                    className="flex items-center bg-blue-600 hover:bg-blue-600  cursor-pointer text-background ml-auto mb-3"
+                    onClick={() => fileRef?.current?.click()}
+                  >
+                    {" "}
+                    <FileUp size={20} /> <span>Tải file lên</span>
+                  </Button>
+                  <Input
+                    className="hidden"
+                    ref={fileRef}
+                    type="file"
+                    onChange={(e) => handleOnChangeFile(e)}
+                    accept=".xlsx"
+                  />
+                </div>
+
+                <div className="">
+                  <Button
+                    className="  flex items-center bg-slate-200 hover:bg-slate-200 cursor-pointer text-black ml-auto mb-3"
+                    onClick={() => {
+                      downloadFile();
+                    }}
+                  >
+                    <FileDown size={20} />
+                    <span>Tải file mẫu </span>
+                  </Button>
+                </div>
               </div>
 
-              <div className="">
-                <Button className="  flex items-center bg-slate-100 hover:bg-slate-100 cursor-pointer text-black ml-auto mb-3">
-                  <FileDown size={20} />
-                  <span>Tải file mẫu </span>
-                </Button>
+              <div className=" flex-1 py-2 overflow-y-auto min-h-0 max-h-[325px]  ">
+                <Table className="">
+                  <TableCaption className="text-center">
+                    Danh sách phiếu nhập tạm.
+                  </TableCaption>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>
+                        <Checkbox
+                          className="cursor-pointer"
+                          onCheckedChange={(checked) => {
+                            handleCheckedAll(checked === true);
+                          }}
+                          checked={
+                            (activeCheckbox && listIdImport?.length > 0) ||
+                            listIdImport?.length === data?.length
+                          }
+                        />
+                      </TableHead>
+                      <TableHead>Số thứ tự</TableHead>
+                      <TableHead>Mẫ SKU</TableHead>
+                      <TableHead>Tên sản phẩm</TableHead>
+                      <TableHead>Nguồn nhập</TableHead>
+                      <TableHead>Ngày nhập</TableHead>
+                      <TableHead>Số lượng</TableHead>
+                      <TableHead>Xóa</TableHead>
+                      <TableHead className="text-right">Sửa</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {data &&
+                      data?.length > 0 &&
+                      data.map((item, index) => (
+                        <TableRow key={item?.id}>
+                          <TableCell>
+                            <Checkbox
+                              className="cursor-pointer"
+                              checked={listIdImport?.includes(item?.id)}
+                              onClick={() => handleCheckedItem(item?.id)}
+                            />
+                          </TableCell>
+                          <TableCell className="font-medium text-center">
+                            {index + 1}
+                          </TableCell>
+                          <TableCell>{item.skuCode}</TableCell>
+                          <TableCell className="text-center">
+                            {item?.skuName ?? "--"}
+                          </TableCell>
+                          <TableCell className="text-center">
+                            {item.source ?? "--"}
+                          </TableCell>
+                          <TableCell>{item.createdAt ?? "--"}</TableCell>
+                          <TableCell className="text-center">
+                            {item?.quantity ?? "--"}
+                          </TableCell>
+                          <TableCell>
+                            <Trash2
+                              className="text-red-400 size-5 hover:cursor-pointer"
+                              onClick={() => {
+                                setOpenAlert(true);
+                                setId(item?.id);
+                                setItemUpdate(item);
+                                setListIdImport(
+                                  listIdImport?.filter(
+                                    (itemId) => itemId !== item.id
+                                  )
+                                );
+                              }}
+                            />
+                          </TableCell>
+                          <TableCell>
+                            <PenBox
+                              className="text-blue-400 size-5 hover:cursor-pointer"
+                              onClick={() => {
+                                setOpenModalUpdate(true);
+                                setItemUpdate(item);
+                              }}
+                            />
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                  </TableBody>
+                </Table>
               </div>
             </div>
+            <DialogFooter>
+              <div className="flex justify-between items-center w-full">
+                <div className="flex items-center">
+                  <span className="font-semibold ">Total:</span>
+                  <span>
+                    {data?.length}{" "}
+                    <span className="text-sm text-gray-400">
+                      {`(select ${listIdImport?.length ?? 0}/${data?.length})`}
+                    </span>
+                  </span>
+                </div>
+                <div className="flex gap-2 ">
+                  <DialogClose asChild>
+                    <Button variant="outline">Cancel</Button>
+                  </DialogClose>
+                  <Button
+                    className="hover:cursor-pointer"
+                    onClick={() => {
+                      onImportWarehouse(listIdImport);
+                    }}
+                  >
+                    Import{" "}
+                  </Button>
+                </div>
+              </div>
+            </DialogFooter>
+          </DialogContent>
+        </form>
+      </Dialog>
 
-            <Table>
-              <TableCaption>A list of your recent invoices.</TableCaption>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[100px]">Invoice</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Method</TableHead>
-                  <TableHead className="text-right">Amount</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                <TableRow>
-                  <TableCell className="font-medium">INV001</TableCell>
-                  <TableCell>Paid</TableCell>
-                  <TableCell>Credit Card</TableCell>
-                  <TableCell className="text-right">$250.00</TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </div>
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DialogClose>
-            <Button type="submit">Save changes</Button>
-          </DialogFooter>
-        </DialogContent>
-      </form>
-    </Dialog>
+      {openAlter && id && (
+        <AlertDialogDelete
+          open={openAlter}
+          setOpen={setOpenAlert}
+          onDelete={onDeleteTemporary}
+          id={id}
+        />
+      )}
+
+      {openModalUpdate && (
+        <ModalUpdateImportOrder
+          open={openModalUpdate}
+          setOpen={setOpenModalUpdate}
+          data={itemUpdate ?? ({} as TDataImportOrderTemporary)}
+          onUpdateTemporary={onUpdateTemporary}
+        />
+      )}
+    </React.Fragment>
   );
 }

@@ -6,14 +6,6 @@ import { useAppContext } from "@/app/app-context";
 import { redirect } from "next/navigation";
 
 const Dashboard = () => {
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const accessToken = localStorage.getItem("refreshToken");
-    if (!token && !accessToken) {
-      redirect("/login");
-    }
-  });
-
   return (
     <div className="h-full">
       <SidebarHeader />
