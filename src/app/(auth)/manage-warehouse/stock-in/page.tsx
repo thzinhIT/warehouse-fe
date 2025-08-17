@@ -50,7 +50,7 @@ const StockIn = () => {
         <DataTable columns={columns} data={data ?? []} />{" "}
       </div>
 
-      <ModalImportBulk open={open} setOpen={setOpen} />
+      {open && <ModalImportBulk open={open} setOpen={setOpen} />}
       <ModalImportOnline open={openOnline} setOpen={setOpenOnline} />
     </div>
   );

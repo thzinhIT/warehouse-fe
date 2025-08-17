@@ -28,6 +28,9 @@ export function useLogin() {
   const onLoginSuccess = (data: IAuthResponse) => {
     setToken(data?.data?.token);
     setAccessToken(data?.data?.refreshToken);
+    document.cookie = `token=${data?.data?.token}; path=/; max-age=${
+      60 * 60 * 24 * 7
+    }; secure; samesite=strict`;
     localStorage.setItem("token", data?.data?.token || "");
     localStorage.setItem("refreshToken", data?.data?.refreshToken || "");
     toast.success("Đăng nhập thành công");
