@@ -5,7 +5,13 @@ const ApiEndPoint = {
   NEWPASSWORD: "user/reset-password",
   ALLIMPORTORDER: "/api/manage-import-orders/getallImportOrder",
   ALLDETAILIMPORTORDER: "/api/manage-import-orders/allDetails",
-  
+
+  // Export Order API endpoints
+  ALLEXPORTORDER: "/admin/export-orders/getallExportOrder",
+  ALLEXPORTORDERDETAILS: "/admin/export-orders/getAllExportOrderDetails",
+  SEARCHEXPORTORDERS: "/admin/export-orders/search",
+  EXPORTORDERBOARDDETAILS: "/admin/export-orders/getAllExportOrder/board",
+
   // Dashboard API endpoints
   IMPORT_CHART: "/api/dashboard/import-chart",
   EXPORT_CHART: "/api/dashboard/export-chart",
