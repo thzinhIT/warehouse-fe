@@ -30,7 +30,6 @@ api.interceptors.response.use(
           {},
           { withCredentials: true }
         );
-        console.log("Refresh token response:", res.data);
         const newToken = res.data?.data?.token;
 
         localStorage.setItem("token", newToken);

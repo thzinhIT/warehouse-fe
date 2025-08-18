@@ -174,7 +174,7 @@ const data = {
         },
         {
           title: "stock-in-history",
-          url: "/#",
+          url: "/manage-warehouse/history",
           icon: <GrHistory />,
         },
       ],

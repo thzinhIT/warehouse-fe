@@ -10,7 +10,6 @@ export default async function Main({
   readonly children: React.ReactNode;
 }) {
   const token = (await cookies()).get("token")?.value;
-  console.log("Token from cookies:", token);
   if (!token) {
     redirect("/login");
   }

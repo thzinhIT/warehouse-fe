@@ -10,17 +10,20 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import Loading from "../../loading";
 
 export function AlertDialogDelete({
   open,
   setOpen,
   onDelete,
   id,
+  isPending,
 }: {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   onDelete: (id: number) => void;
   id: number;
+  isPending?: boolean;
 }) {
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
@@ -36,14 +39,15 @@ export function AlertDialogDelete({
           <AlertDialogCancel className="cursor-pointer">
             Cancel
           </AlertDialogCancel>
-          <AlertDialogAction
+          <Button
             className="bg-red-500 hover:bg-red-500 cursor-pointer"
             onClick={() => {
               onDelete(id);
             }}
+            disabled={isPending}
           >
-            Continue
-          </AlertDialogAction>
+            Delete
+          </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
