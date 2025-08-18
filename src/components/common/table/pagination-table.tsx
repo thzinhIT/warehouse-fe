@@ -2,15 +2,8 @@
 
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 import { Table } from "@tanstack/react-table";
-import { useTranslations } from "next-intl";
 import {
   RiArrowLeftDoubleFill,
   RiArrowLeftSLine,

@@ -7,7 +7,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -21,8 +20,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { TDataImportOrderTemporary } from "@/lib/networking/client/manage-warehouse/service";
+import { formatDDMMYY } from "@/lib/regex/format-date-time";
 import { EStatusOrder } from "@/lib/types/enum/stock-in.enum";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 
 export type TBodyUpdateImportOrderTemporary = {
@@ -42,15 +42,17 @@ export function ModalUpdateImportOrder({
   onUpdateTemporary,
 }: {
   open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isUpdate?: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   title?: string;
-  data: TDataImportOrderTemporary;
+  data?: TDataImportOrderTemporary;
   onUpdateTemporary?: (body: TBodyUpdateImportOrderTemporary) => void;
 }) {
-  const [status, setStaus] = useState<string>();
+  const [status, setStaus] = useState<string | undefined>(data?.source);
+  if (!data) return;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    if (!isUpdate) return;
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const dataSubmit = Object.fromEntries(formData.entries());
@@ -100,17 +102,22 @@ export function ModalUpdateImportOrder({
                   <Input
                     id="day"
                     name="day"
-                    defaultValue={data?.createdAt ?? "--"}
+                    defaultValue={formatDDMMYY(data?.createdAt) ?? "--"}
                     className="cursor-not-allowed"
                     disabled={true}
                   />
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="src">Nguồn nhập</Label>
+                  <div className="flex items-center gap-1">
+                    <Label htmlFor="src">Nguồn nhập </Label>
+                    {isUpdate && <span className="text-red-500">*</span>}
+                  </div>
+
                   <Select
                     defaultValue={data?.source}
                     onValueChange={setStaus}
                     value={status}
+                    disabled={!isUpdate}
                   >
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select a Status" />
@@ -134,6 +141,7 @@ export function ModalUpdateImportOrder({
                     id="note"
                     name="note"
                     defaultValue={data?.note ?? "--"}
+                    disabled={!isUpdate}
                   />
                 </div>
               </div>
@@ -148,6 +156,7 @@ export function ModalUpdateImportOrder({
                     id="skuCode"
                     name="skuCode"
                     defaultValue={data?.skuCode ?? "--"}
+                    disabled={!isUpdate}
                   />
                 </div>
                 <div className="grid gap-2">
@@ -158,6 +167,7 @@ export function ModalUpdateImportOrder({
                     defaultValue={data?.quantity ?? "--"}
                     type="number"
                     min={0}
+                    disabled={!isUpdate}
                   />
                 </div>
                 <div className="grid gap-2 col-span-2">
@@ -216,11 +226,15 @@ export function ModalUpdateImportOrder({
             </div>
           </div>
 
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DialogClose>
-            <Button type="submit">Update</Button>
+          <DialogFooter className="pt-2">
+            <div className="flex gap-2">
+              <DialogClose asChild>
+                <Button variant="outline">Cancel</Button>
+              </DialogClose>
+              <Button type="submit" className={`${!isUpdate && "hidden"}`}>
+                Update
+              </Button>
+            </div>
           </DialogFooter>
         </form>
       </DialogContent>

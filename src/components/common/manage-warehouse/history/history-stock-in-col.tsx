@@ -8,13 +8,9 @@ import { ColumnDef } from "@tanstack/react-table";
 import { de } from "date-fns/locale";
 import { Eye } from "lucide-react";
 
-type propsCol = {
-  handleOnClickDetail: (data: TDataImportOrderTemporary) => void;
-};
-
-const getColumsImportOrder = ({
-  handleOnClickDetail,
-}: propsCol): ColumnDef<TDataImportOrderTemporary>[] => [
+const getColumnsHistoryImportOrder = (
+  handleOnClickDetail?: (data: TDataImportOrderTemporary) => void
+): ColumnDef<TDataImportOrderTemporary>[] => [
   {
     id: "select",
     header: ({ table }) => (
@@ -56,13 +52,7 @@ const getColumsImportOrder = ({
       <div className="lowercase">{row.getValue("skuCode") ?? "--"}</div>
     ),
   },
-  {
-    accessorKey: "skuName",
-    header: () => <div>Tên sản phẩm</div>,
-    cell: ({ row }) => (
-      <div className="lowercase">{row.getValue("skuName") ?? "--"}</div>
-    ),
-  },
+
   {
     accessorKey: "createdAt",
     header: () => <div>Ngày nhập</div>,
@@ -78,6 +68,13 @@ const getColumsImportOrder = ({
     header: () => <div>Số lượng</div>,
   },
   {
+    accessorKey: "source",
+    header: () => <div>Nguồn nhập</div>,
+    cell: ({ row }) => (
+      <div className="lowercase">{row.getValue("source") ?? "--"}</div>
+    ),
+  },
+  {
     id: "actionsDetail",
     header: () => <div className="text-center">Xem chi tiết</div>,
 
@@ -88,7 +85,7 @@ const getColumsImportOrder = ({
             size={20}
             className="cursor-pointer mx-auto"
             onClick={() => {
-              handleOnClickDetail(row?.original);
+              handleOnClickDetail?.(row?.original);
             }}
           />
         </div>
@@ -97,4 +94,4 @@ const getColumsImportOrder = ({
   },
 ];
 
-export default getColumsImportOrder;
+export default getColumnsHistoryImportOrder;

@@ -13,7 +13,7 @@ export type TDataImportOrder = {
 
 export interface IGetImportOrder {
   code: number;
-  data: TDataImportOrder[];
+  data: TDataImportOrderTemporary[];
   error?: string;
 }
 export type TImportOrder = {
@@ -34,6 +34,7 @@ export type TResponseFileUpload = {
   message: string;
   data: string;
 };
+
 export type TDataImportOrderTemporary = {
   id: number;
   userId: number;
@@ -78,6 +79,22 @@ export async function getAllDetailImportOrder() {
     console.log("Error fetching import orders:", error);
   }
 }
+export async function getAllHistoryImportOrder() {
+  try {
+    const res = await api.get<IGetImportOrder>(
+      `${ApiEndPoint.ALLHISTORYIMPORTORDER}`
+    );
+    if (res?.data?.code === 200) {
+      return res.data?.data;
+    }
+    const errorMessage =
+      res?.data?.error || "Error fetching history import orders";
+    toast.error(errorMessage);
+    return Promise.reject(new Error(errorMessage));
+  } catch (error) {
+    console.log("Error fetching history import orders:", error);
+  }
+}
 
 export async function uploadFileExcel(file: File) {
   try {
@@ -112,7 +129,6 @@ export async function getTemporaryImportOrder() {
       `${ApiEndPoint.TEMPITEMSTEMPORARY}`
     );
     if (res?.data?.code === 200) {
-      toast.success("Get data successfully");
       return res.data?.data;
     }
     const errorMessage = res?.data?.message || "Error Get data temporary";

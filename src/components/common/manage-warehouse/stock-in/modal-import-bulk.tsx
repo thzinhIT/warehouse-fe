@@ -27,6 +27,8 @@ import useTemporary from "@/hooks/manage-warehouse/use-temporary";
 import { AlertDialogDelete } from "./alert-dialog-delete";
 import { ModalUpdateImportOrder } from "./modal-update-order-import";
 import { TDataImportOrderTemporary } from "@/lib/networking/client/manage-warehouse/service";
+import { cn } from "@/lib/utils";
+import Loading from "../../loading";
 
 export function ModalImportBulk({
   open,
@@ -46,10 +48,16 @@ export function ModalImportBulk({
     data,
     onUpload,
     isMutating,
+    isPending,
+    isOpenModalImport,
+    isOpenModalDelete,
+    isPendingDelete,
+    setIsOpenModalDelete,
     downloadFile,
     onDeleteTemporary,
     onUpdateTemporary,
     onImportWarehouse,
+    setIsOpenModalImport,
   } = useTemporary(setOpenModalUpdate);
   const handleOnChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -76,133 +84,144 @@ export function ModalImportBulk({
   return (
     <React.Fragment>
       <Dialog open={open} onOpenChange={setOpen}>
-        <form className="w-4/5">
-          <DialogContent className="w-4/5 h-[500px] overflow-hidden  flex flex-col">
-            <DialogHeader>
-              <DialogTitle>Nhập hàng loạt đơn hàng</DialogTitle>
-              <DialogDescription className="hidden">
-                Make changes to your profile here. Click save when you&apos;re
-                done.
-              </DialogDescription>
-            </DialogHeader>
+        <form className="w-4/5 h-full">
+          <DialogContent className="w-4/5 h-[500px] overflow-hidden  flex flex-col justify-between">
             <div>
-              <div className="flex gap-3 justify-end ">
-                <div>
-                  {" "}
-                  <Button
-                    className="flex items-center bg-blue-600 hover:bg-blue-600  cursor-pointer text-background ml-auto mb-3"
-                    onClick={() => fileRef?.current?.click()}
-                  >
+              <DialogHeader>
+                <DialogTitle>Nhập hàng loạt đơn hàng</DialogTitle>
+                <DialogDescription className="hidden">
+                  Make changes to your profile here. Click save when you&apos;re
+                  done.
+                </DialogDescription>
+              </DialogHeader>
+              <div>
+                <div className="flex gap-3 justify-end ">
+                  <div>
                     {" "}
-                    <FileUp size={20} /> <span>Tải file lên</span>
-                  </Button>
-                  <Input
-                    className="hidden"
-                    ref={fileRef}
-                    type="file"
-                    onChange={(e) => handleOnChangeFile(e)}
-                    accept=".xlsx"
-                  />
+                    <Button
+                      className="flex items-center bg-blue-600 hover:bg-blue-600  cursor-pointer text-background ml-auto mb-3"
+                      onClick={() => fileRef?.current?.click()}
+                    >
+                      {" "}
+                      <FileUp size={20} /> <span>Tải file lên</span>
+                    </Button>
+                    <Input
+                      className="hidden"
+                      ref={fileRef}
+                      type="file"
+                      onChange={(e) => handleOnChangeFile(e)}
+                      accept=".xlsx"
+                    />
+                  </div>
+
+                  <div className="">
+                    <Button
+                      className="  flex items-center bg-slate-200 hover:bg-slate-200 cursor-pointer text-black ml-auto mb-3"
+                      onClick={() => {
+                        downloadFile();
+                      }}
+                    >
+                      <FileDown size={20} />
+                      <span>Tải file mẫu </span>
+                    </Button>
+                  </div>
                 </div>
 
-                <div className="">
-                  <Button
-                    className="  flex items-center bg-slate-200 hover:bg-slate-200 cursor-pointer text-black ml-auto mb-3"
-                    onClick={() => {
-                      downloadFile();
-                    }}
-                  >
-                    <FileDown size={20} />
-                    <span>Tải file mẫu </span>
-                  </Button>
+                <div className=" flex-1 py-2 overflow-y-auto min-h-0 max-h-[325px]  ">
+                  <Table className="">
+                    <TableCaption className="text-center text-gray-400 pt-2">
+                      Danh sách phiếu nhập tạm.
+                    </TableCaption>
+                    <TableHeader>
+                      <TableRow className="bg-gray-200">
+                        <TableHead>
+                          <Checkbox
+                            className="cursor-pointer border-gray-400"
+                            onCheckedChange={(checked) => {
+                              handleCheckedAll(checked === true);
+                            }}
+                            checked={
+                              (activeCheckbox && listIdImport?.length > 0) ||
+                              listIdImport?.length === data?.length
+                            }
+                          />
+                        </TableHead>
+                        <TableHead>Số thứ tự</TableHead>
+                        <TableHead>Mẫ SKU</TableHead>
+                        <TableHead>Mã Import</TableHead>
+                        <TableHead>Tên sản phẩm</TableHead>
+                        <TableHead>Nguồn nhập</TableHead>
+                        <TableHead>Ngày nhập</TableHead>
+                        <TableHead className="text-center">Số lượng</TableHead>
+                        <TableHead>Xóa</TableHead>
+                        <TableHead className="text-right">Sửa</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {data &&
+                        data?.length > 0 &&
+                        data.map((item, index) => (
+                          <TableRow key={item?.id}>
+                            <TableCell>
+                              <Checkbox
+                                className={cn(
+                                  "cursor-pointer",
+                                  !item?.importCode && "pointer-events-none"
+                                )}
+                                checked={listIdImport?.includes(item?.id)}
+                                disabled={!item?.importCode}
+                                onClick={() => handleCheckedItem(item?.id)}
+                              />
+                            </TableCell>
+                            <TableCell className="font-medium text-center">
+                              {index + 1}
+                            </TableCell>
+                            <TableCell>{item.skuCode}</TableCell>
+                            <TableCell className="">
+                              {item?.importCode ?? "--"}
+                            </TableCell>
+                            <TableCell className="">
+                              {item?.skuName ?? "--"}
+                            </TableCell>
+                            <TableCell className="">
+                              {item.source ?? "--"}
+                            </TableCell>
+                            <TableCell>{item.createdAt ?? "--"}</TableCell>
+                            <TableCell className="text-center">
+                              {item?.quantity ?? "--"}
+                            </TableCell>
+                            <TableCell>
+                              <Trash2
+                                className="text-red-400 size-5 hover:cursor-pointer"
+                                onClick={() => {
+                                  setIsOpenModalDelete(true);
+                                  setId(item?.id);
+                                  setItemUpdate(item);
+                                  setListIdImport(
+                                    listIdImport?.filter(
+                                      (itemId) => itemId !== item.id
+                                    )
+                                  );
+                                }}
+                              />
+                            </TableCell>
+                            <TableCell>
+                              <PenBox
+                                className="text-blue-400 size-5 hover:cursor-pointer ml-auto"
+                                onClick={() => {
+                                  setOpenModalUpdate(true);
+                                  setItemUpdate(item);
+                                }}
+                              />
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                    </TableBody>
+                  </Table>
                 </div>
-              </div>
-
-              <div className=" flex-1 py-2 overflow-y-auto min-h-0 max-h-[325px]  ">
-                <Table className="">
-                  <TableCaption className="text-center">
-                    Danh sách phiếu nhập tạm.
-                  </TableCaption>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>
-                        <Checkbox
-                          className="cursor-pointer"
-                          onCheckedChange={(checked) => {
-                            handleCheckedAll(checked === true);
-                          }}
-                          checked={
-                            (activeCheckbox && listIdImport?.length > 0) ||
-                            listIdImport?.length === data?.length
-                          }
-                        />
-                      </TableHead>
-                      <TableHead>Số thứ tự</TableHead>
-                      <TableHead>Mẫ SKU</TableHead>
-                      <TableHead>Tên sản phẩm</TableHead>
-                      <TableHead>Nguồn nhập</TableHead>
-                      <TableHead>Ngày nhập</TableHead>
-                      <TableHead>Số lượng</TableHead>
-                      <TableHead>Xóa</TableHead>
-                      <TableHead className="text-right">Sửa</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {data &&
-                      data?.length > 0 &&
-                      data.map((item, index) => (
-                        <TableRow key={item?.id}>
-                          <TableCell>
-                            <Checkbox
-                              className="cursor-pointer"
-                              checked={listIdImport?.includes(item?.id)}
-                              onClick={() => handleCheckedItem(item?.id)}
-                            />
-                          </TableCell>
-                          <TableCell className="font-medium text-center">
-                            {index + 1}
-                          </TableCell>
-                          <TableCell>{item.skuCode}</TableCell>
-                          <TableCell className="text-center">
-                            {item?.skuName ?? "--"}
-                          </TableCell>
-                          <TableCell className="text-center">
-                            {item.source ?? "--"}
-                          </TableCell>
-                          <TableCell>{item.createdAt ?? "--"}</TableCell>
-                          <TableCell className="text-center">
-                            {item?.quantity ?? "--"}
-                          </TableCell>
-                          <TableCell>
-                            <Trash2
-                              className="text-red-400 size-5 hover:cursor-pointer"
-                              onClick={() => {
-                                setOpenAlert(true);
-                                setId(item?.id);
-                                setItemUpdate(item);
-                                setListIdImport(
-                                  listIdImport?.filter(
-                                    (itemId) => itemId !== item.id
-                                  )
-                                );
-                              }}
-                            />
-                          </TableCell>
-                          <TableCell>
-                            <PenBox
-                              className="text-blue-400 size-5 hover:cursor-pointer"
-                              onClick={() => {
-                                setOpenModalUpdate(true);
-                                setItemUpdate(item);
-                              }}
-                            />
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                  </TableBody>
-                </Table>
               </div>
             </div>
+
             <DialogFooter>
               <div className="flex justify-between items-center w-full">
                 <div className="flex items-center">
@@ -224,6 +243,7 @@ export function ModalImportBulk({
                       onImportWarehouse(listIdImport);
                     }}
                   >
+                    {isPending && <Loading size={15} className="" />}
                     Import{" "}
                   </Button>
                 </div>
@@ -233,12 +253,13 @@ export function ModalImportBulk({
         </form>
       </Dialog>
 
-      {openAlter && id && (
+      {isOpenModalDelete && id && (
         <AlertDialogDelete
-          open={openAlter}
-          setOpen={setOpenAlert}
+          open={isOpenModalDelete}
+          setOpen={setIsOpenModalDelete}
           onDelete={onDeleteTemporary}
           id={id}
+          isPending={isPendingDelete}
         />
       )}
 

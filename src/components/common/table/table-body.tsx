@@ -11,7 +11,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { FileText } from "lucide-react";
 import { EmptyData } from "../empty-data";
 
 interface DataTableProps<TData, TValue> {

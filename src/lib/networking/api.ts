@@ -4,6 +4,7 @@ const ApiEndPoint = {
   SENDCODEEMAIL: "/user/forgot-password",
   NEWPASSWORD: "user/reset-password",
   ALLIMPORTORDER: "/api/manage-import-orders/getallImportOrder",
+  ALLHISTORYIMPORTORDER: "/api/manage-import-orders/allDetails/merged-sku",
   ALLDETAILIMPORTORDER: "/api/manage-import-orders/allDetails",
   UPLOADFILEEXCEL: "api/manage-import-orders/upload-excel-to-temp",
   TEMPITEMSTEMPORARY: "api/manage-import-orders/temp-items",
