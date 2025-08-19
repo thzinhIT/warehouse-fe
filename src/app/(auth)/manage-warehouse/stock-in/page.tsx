@@ -2,6 +2,7 @@
 import getColumsImportOrder from "@/components/common/manage-warehouse/stock-in/import-order-columns";
 import { ModalImportBulk } from "@/components/common/manage-warehouse/stock-in/modal-import-bulk";
 import { ModalImportOnline } from "@/components/common/manage-warehouse/stock-in/modal-import-online";
+import { ModalUpdateImportOrder } from "@/components/common/manage-warehouse/stock-in/modal-update-order-import";
 import { DataTable } from "@/components/common/table/data-table";
 import SidebarHeader from "@/components/layout/nav/sidebar-header";
 import { Button } from "@/components/ui/button";
@@ -12,15 +13,22 @@ import { use, useEffect, useMemo, useState } from "react";
 const StockIn = () => {
   const [open, setOpen] = useState(false);
   const [openOnline, setOpenOnline] = useState(false);
-  const { data, isPending } = useStockIn();
-  const columns = useMemo(() => getColumsImportOrder(), []);
-  useEffect(() => {
-    console.log("aaaaa", data);
-  }, [data]);
+  const {
+    data,
+    isPending,
+    itemImportOrder,
+    handleOnClickDetail,
+    isOpenDetail,
+    setIsOpenDetail,
+  } = useStockIn();
+  const columns = useMemo(
+    () => getColumsImportOrder({ handleOnClickDetail }),
+    [handleOnClickDetail]
+  );
+
   return (
     <div className="flex flex-col h-full">
       <SidebarHeader title="Nhập kho" />
-
       <div className="flex justify-between items-center px-2 mt-2 ">
         <h1 className=" text-lg font-bold text-black">Dữ liệu nhập kho</h1>
         <div className="flex gap-2">
@@ -49,9 +57,16 @@ const StockIn = () => {
       <div className=" flex-1 min-h-0">
         <DataTable columns={columns} data={data ?? []} />{" "}
       </div>
-
-      <ModalImportBulk open={open} setOpen={setOpen} />
+      t{open && <ModalImportBulk open={open} setOpen={setOpen} />}
       <ModalImportOnline open={openOnline} setOpen={setOpenOnline} />
+      {isOpenDetail && (
+        <ModalUpdateImportOrder
+          open={isOpenDetail}
+          setOpen={setIsOpenDetail}
+          isUpdate={false}
+          data={itemImportOrder}
+        />
+      )}
     </div>
   );
 };

@@ -5,6 +5,9 @@ import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import { cn } from "@/lib/utils";
 import Providers from "./provider";
+import { redirect } from "next/navigation";
+import AuthGuard from "./auth-guard";
+import { cookies } from "next/headers";
 
 const inter = Inter({
   subsets: ["latin", "vietnamese"],
@@ -25,6 +28,7 @@ export default async function RootLayout({
   const locale = await getLocale();
 
   const messages = await getMessages();
+
   return (
     <html
       lang={locale}
