@@ -12,5 +12,6 @@ const ApiEndPoint = {
   UPDATETEMPORARY: "api/manage-import-orders/temp/update",
   IMPORTWAREHOUSE: "/api/manage-import-orders/import-from-temp",
   DOWNLOADTEMPLATEIMPORTORDER: "api/manage-import-orders/template",
+  HISTORY_IMPORT_ORDER_BY_ID: "/api/manage-import-orders/import-orders",
 };
 export default ApiEndPoint;

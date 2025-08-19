@@ -8,6 +8,7 @@ class StockInKeys {
   static readonly UPDATETEMPORARY = "UPDATETEMPORARY";
   static readonly IMPORTWAREHOUSE = "IMPORTWAREHOUSE";
   static readonly DOWNLOADTEMPLATEIMPORTORDER = "DOWNLOADTEMPLATEIMPORTORDER";
+  static readonly HISTORY_IMPORT_ORDER_BY_ID = "HISTORY_IMPORT_ORDER_BY_ID";
 }
 
 export default StockInKeys;

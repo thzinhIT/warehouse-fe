@@ -16,6 +16,32 @@ export interface IGetImportOrder {
   data: TDataImportOrderTemporary[];
   error?: string;
 }
+export type THistoryImportById = {
+  code: number;
+  message?: string;
+  data: TDataHistoryImportById;
+  error?: string;
+};
+export type TDataHistoryImportById = {
+  id: number;
+  source?: string;
+  status?: string;
+  note?: string;
+  createdAt?: string;
+  createdBy?: string;
+  importCode?: string;
+  details: TDetailDataImportOrder[];
+};
+export type TDetailDataImportOrder = {
+  id: string;
+  skuCode?: string;
+  skuName?: string;
+  quantity?: number;
+  unitVolume?: number;
+  type?: string;
+  color?: string;
+  size?: string;
+};
 export type TImportOrder = {
   importCode: string;
   skuCode: string;
@@ -83,6 +109,22 @@ export async function getAllHistoryImportOrder() {
   try {
     const res = await api.get<IGetImportOrder>(
       `${ApiEndPoint.ALLHISTORYIMPORTORDER}`
+    );
+    if (res?.data?.code === 200) {
+      return res.data?.data;
+    }
+    const errorMessage =
+      res?.data?.error || "Error fetching history import orders by ID";
+    toast.error(errorMessage);
+    return Promise.reject(new Error(errorMessage));
+  } catch (error) {
+    console.log("Error fetching history import orders byID:", error);
+  }
+}
+export async function getHistoryImportOrderById(id: number) {
+  try {
+    const res = await api.get<THistoryImportById>(
+      `${ApiEndPoint.HISTORY_IMPORT_ORDER_BY_ID}/${id}/fullDetail`
     );
     if (res?.data?.code === 200) {
       return res.data?.data;
