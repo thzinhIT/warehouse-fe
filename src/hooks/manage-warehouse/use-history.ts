@@ -7,12 +7,15 @@ import { useState } from "react";
 export function useHistory() {
   const [openModalDetail, setOpenModalDetail] = useState<boolean>(false);
 
-  const { data, isLoading, isPending } = useQuery({
+  const [id, setId] = useState<number>();
+  const { data, isPending } = useQuery({
     queryKey: [StockInKeys.GETALLHISTORYIMPORTORDER],
     queryFn: getAllHistoryImportOrder,
   });
   return {
     data,
+    id,
+    setId,
     isPending,
     openModalDetail,
     setOpenModalDetail,

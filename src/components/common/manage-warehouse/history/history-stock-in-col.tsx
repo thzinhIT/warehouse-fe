@@ -1,16 +1,16 @@
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  TDataImportOrder,
-  TDataImportOrderTemporary,
-} from "@/lib/networking/client/manage-warehouse/service";
+import { TDataImportOrderTemporary } from "@/lib/networking/client/manage-warehouse/service";
 import { formatDDMMYY } from "@/lib/regex/format-date-time";
 import { ColumnDef } from "@tanstack/react-table";
-import { de } from "date-fns/locale";
 import { Eye } from "lucide-react";
 
-const getColumnsHistoryImportOrder = (
-  handleOnClickDetail?: (data: TDataImportOrderTemporary) => void
-): ColumnDef<TDataImportOrderTemporary>[] => [
+const getColumnsHistoryImportOrder = ({
+  setOpenModalDetail,
+  setId,
+}: {
+  setOpenModalDetail: React.Dispatch<React.SetStateAction<boolean>>;
+  setId: React.Dispatch<React.SetStateAction<number | undefined>>;
+}): ColumnDef<TDataImportOrderTemporary>[] => [
   {
     id: "select",
     header: ({ table }) => (
@@ -85,7 +85,8 @@ const getColumnsHistoryImportOrder = (
             size={20}
             className="cursor-pointer mx-auto"
             onClick={() => {
-              handleOnClickDetail?.(row?.original);
+              setOpenModalDetail(true);
+              setId(row?.original?.id);
             }}
           />
         </div>
