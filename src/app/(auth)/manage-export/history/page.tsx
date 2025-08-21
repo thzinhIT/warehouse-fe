@@ -7,11 +7,11 @@ import SidebarHeader from "@/components/layout/nav/sidebar-header";
 import { Button } from "@/components/ui/button";
 import { CirclePlus, FilePlus } from "lucide-react";
 import { useState } from "react";
-import getColumnsExportOrder from "@/components/common/manage-warehouse/stock-out/export-order-columns";
-import { useStockOut } from "@/hooks/manage-warehouse/use-stock-out";
-import { TAllExportOrderDetails } from "@/lib/networking/client/manage-warehouse/service";
+import getColumnsExportHistory from "@/components/common/manage-warehouse/stock-out/export-history-columns";
+import { useExportHistory } from "@/hooks/manage-warehouse/use-export-history";
+import { TExportOrderBoard } from "@/lib/networking/client/manage-warehouse/service";
 
-const StockOutPage = () => {
+const ExportHistoryPage = () => {
   const [open, setOpen] = useState(false);
   const [openOnline, setOpenOnline] = useState(false);
 
@@ -23,14 +23,14 @@ const StockOutPage = () => {
     isDetailPending,
     handleOnClickDetail,
     handleCloseDetail,
-  } = useStockOut();
+  } = useExportHistory();
 
   return (
     <div className="h-full flex flex-col">
-      <SidebarHeader title="Xuất kho" />
+      <SidebarHeader title="Lịch sử xuất kho" />
 
       <div className="flex justify-between items-center px-2 mt-2">
-        <h1 className="text-lg font-bold text-black">Dữ liệu xuất kho</h1>
+        <h1 className="text-lg font-bold text-black">Lịch sử xuất kho</h1>
         <div className="flex gap-2">
           <Button
             className="cursor-pointer bg-blue-600 hover:bg-blue-700 flex items-center"
@@ -60,8 +60,8 @@ const StockOutPage = () => {
           </div>
         ) : (
           <DataTable
-            columns={getColumnsExportOrder({ handleOnClickDetail })}
-            data={(data as TAllExportOrderDetails[]) || []}
+            columns={getColumnsExportHistory({ handleOnClickDetail })}
+            data={(data as TExportOrderBoard[]) || []}
           />
         )}
       </div>
@@ -77,4 +77,4 @@ const StockOutPage = () => {
   );
 };
 
-export default StockOutPage;
+export default ExportHistoryPage;

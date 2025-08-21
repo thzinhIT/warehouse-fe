@@ -10,6 +10,7 @@ const ApiEndPoint = {
   // --- KEEP YOUR EXPORT AND DASHBOARD ENDPOINTS ---
   ALLEXPORTORDER: "/admin/export-orders/getallExportOrder",
   ALLEXPORTORDERDETAILS: "/admin/export-orders/getAllExportOrderDetails",
+  EXPORTORDERDETAILBYID: "/admin/export-orders/detail",
   SEARCHEXPORTORDERS: "/admin/export-orders/search",
   EXPORTORDERBOARDDETAILS: "/admin/export-orders/getAllExportOrder/board",
   IMPORT_CHART: "/api/dashboard/import-chart",

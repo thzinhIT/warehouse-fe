@@ -277,11 +277,6 @@ export async function DownloadTemplateImportOrder() {
   }
 }
 
-// --- END: IMPORT ORDER TYPES & FUNCTIONS ---
-
-
-// --- START: EXPORT ORDER TYPES & FUNCTIONS ---
-
 export interface ExportOrderSearchRequest {
   source?: "manual" | "haravan" | null;
   status?: "draft" | "confirmed" | "cancelled" | null;
@@ -322,6 +317,51 @@ export type TAllExportOrderDetailsResponse = {
   error?: string;
 };
 
+export type TExportOrderFullDetail = {
+  id: number;
+  exportCode: string;
+  source: string;
+  status: string;
+  createdBy: string;
+  createdAt: string;
+  note: string;
+  details: TExportOrderDetailItem[];
+};
+
+export type TExportOrderDetailItem = {
+  id: number;
+  skuCode: string;
+  skuName: string;
+  size: string;
+  color: string;
+  type: string;
+  unitVolume: number;
+  quantity: number;
+};
+
+export type TExportOrderFullDetailResponse = {
+  code: number;
+  data: TExportOrderFullDetail;
+  message?: string;
+  error?: string;
+};
+
+export type TExportOrderBoard = {
+  id: number;
+  exportCode: string;
+  skuCode: string;
+  skuName: string;
+  createdAt: string;
+  quantity: number;
+};
+
+export type TExportOrderBoardResponse = {
+  code: number;
+  data: TExportOrderBoard[];
+  message?: string;
+  error?: string;
+};
+
 export async function getAllExportOrders() {
   try {
     const res = await api.get<IGetExportOrder>(`${ApiEndPoint.ALLEXPORTORDER}`);
@@ -350,6 +390,40 @@ export async function getAllExportOrderDetails() {
     return Promise.reject(new Error(errorMessage));
   } catch (error) {
     console.log("Error fetching export order details:", error);
+  }
+}
+
+export async function getExportOrderDetailById(detailId: number) {
+  try {
+    const res = await api.get<TExportOrderFullDetailResponse>(
+      `${ApiEndPoint.EXPORTORDERDETAILBYID}/${detailId}/full`
+    );
+    if (res?.data?.code === 200) {
+      return res.data?.data;
+    }
+    const errorMessage =
+      res?.data?.error || "Error fetching export order detail";
+    toast.error(errorMessage);
+    return Promise.reject(new Error(errorMessage));
+  } catch (error) {
+    console.log("Error fetching export order detail:", error);
+  }
+}
+
+export async function getExportOrderBoard() {
+  try {
+    const res = await api.get<TExportOrderBoardResponse>(
+      `${ApiEndPoint.EXPORTORDERBOARDDETAILS}`
+    );
+    if (res?.data?.code === 200) {
+      return res.data?.data;
+    }
+    const errorMessage =
+      res?.data?.error || "Error fetching export order board details";
+    toast.error(errorMessage);
+    return Promise.reject(new Error(errorMessage));
+  } catch (error) {
+    console.log("Error fetching export order board details:", error);
   }
 }
 
