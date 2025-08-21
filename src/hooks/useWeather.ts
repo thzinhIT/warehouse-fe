@@ -52,7 +52,6 @@ export const useWeather = (
       setError(null);
       return true;
     } catch (err) {
-      console.warn("Failed to get location-based weather:", err);
       return false;
     }
   }, [useGeolocation, units]);
@@ -78,7 +77,6 @@ export const useWeather = (
         const errorMessage =
           err instanceof Error ? err.message : "Failed to fetch weather data";
         setError(errorMessage);
-        console.error("Weather fetch error:", err);
         return false;
       }
     },

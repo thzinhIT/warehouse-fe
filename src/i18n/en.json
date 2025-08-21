@@ -12,16 +12,16 @@
   },
   "navigation": {
     "dashboard": "Dashboard",
-    "warehouse-management": "Warehouse Management",
+    "warehouse-management": "Warehouse Manage..",
     "stock-in": "Stock In",
     "stock-in-history": "Stock In History",
-    "stock-out-management": "Stock Out Management",
+    "stock-out-management": "Stock Out Manage...",
     "stock-out": "Stock Out",
     "stock-out-history": "Stock Out History",
     "storage-management": "Storage Management",
     "plan-management": "Plan Management",
     "product-management": "Product Management",
-    "defective-product-management": "Defective Product Management",
+    "defective-product-management": "Defective Product...",
     "labor-management": "Labor Management",
     "system-settings": "System Settings",
     "storage-configuration": "Storage Configuration",
@@ -60,6 +60,22 @@
         "returned": "Returned",
         "cancelled": "Cancelled"
       },
+      "import-chart": {
+        "title": "Import Chart",
+        "description": "Import activity overview"
+      },
+      "export-chart": {
+        "title": "Export Chart",
+        "description": "Export activity overview"
+      },
+      "sku-type-ratio": {
+        "title": "SKU Type Ratio",
+        "description": "Product type distribution"
+      },
+      "summary-chart": {
+        "title": "Import vs Export Summary",
+        "description": "Overall warehouse activity"
+      },
       "bar-chart-title": "Desktop & Mobile Usage"
     },
     "sidebar": {
@@ -92,5 +108,14 @@
       "aqi": "AQI"
     },
     "errorLoading": "Unable to load weather data"
+  },
+  "sensor": {
+    "title": "Sensor Data",
+    "humidity": "Humidity",
+    "dust": "Dust",
+    "normal": "Normal",
+    "good": "Good",
+    "live": "Live",
+    "updatedAt": "Updated at"
   }
 }

@@ -1,71 +1,139 @@
-import React from "react";
+"use client";
+
+import React, { useEffect } from "react";
 import ChartPieInteractive from "./chart-pie-interactive";
 import { ChartBarStacked } from "./chart-bar-stacked";
 import WeatherWidget from "@/components/widgets/weather-widget";
 import { useTranslations } from "next-intl";
-
+import { useDashboardData } from "@/hooks/dashboard/useDashboardData";
+import SensorDataWidget from "./sensor-widget";
 const DashboardClient = () => {
   const t = useTranslations("dashboard.charts");
 
-  // Sample data for pie charts with translation-ready keys
-  const warehouseData = [
-    { month: "january", desktop: 186, fill: "var(--color-january)" },
-    { month: "february", desktop: 305, fill: "var(--color-february)" },
-    { month: "march", desktop: 237, fill: "var(--color-march)" },
-    { month: "april", desktop: 173, fill: "var(--color-april)" },
-    { month: "may", desktop: 209, fill: "var(--color-may)" },
-  ];
+  const {
+    // Data formatting functions
+    formatImportDataForPieChart,
+    formatExportDataForPieChart,
+    formatSkuTypeRatioForPieChart,
+    formatSummaryDataForBarChart,
 
-  const inventoryData = [
-    { month: "electronics", desktop: 450, fill: "var(--color-january)" },
-    { month: "clothing", desktop: 320, fill: "var(--color-february)" },
-    { month: "furniture", desktop: 280, fill: "var(--color-march)" },
-    { month: "books", desktop: 150, fill: "var(--color-april)" },
-    { month: "toys", desktop: 190, fill: "var(--color-may)" },
-  ];
+    // Loading states
+    isLoadingImportChart,
+    isLoadingExportChart,
+    isLoadingSkuTypeRatio,
+    isLoadingSummaryChart,
 
-  const ordersData = [
-    { month: "completed", desktop: 650, fill: "var(--color-january)" },
-    { month: "pending", desktop: 120, fill: "var(--color-february)" },
-    { month: "shipped", desktop: 340, fill: "var(--color-march)" },
-    { month: "returned", desktop: 45, fill: "var(--color-april)" },
-    { month: "cancelled", desktop: 25, fill: "var(--color-may)" },
+    // Error states
+    importChartError,
+    exportChartError,
+    skuTypeRatioError,
+    summaryChartError,
+
+    // Fetch functions
+    fetchImportChart,
+    fetchExportChart,
+    fetchSkuTypeRatio,
+    fetchSummaryChart,
+
+    // Raw data
+    storageStatusData,
+    fetchStorageStatus,
+  } = useDashboardData();
+
+  // Initialize data on component mount
+  useEffect(() => {
+    const initializeData = async () => {
+      // Set a broader date range to ensure we get some data
+      const endDate = new Date().toISOString().split("T")[0]; // Today
+      const startDate = new Date(2024, 0, 1).toISOString().split("T")[0]; // January 1, 2024
+
+      try {
+        // Fetch all dashboard data - try without warehouse ID first
+        await Promise.all([
+          fetchImportChart({ startDate, endDate }), // No warehouse ID
+          fetchExportChart({ startDate, endDate }), // No warehouse ID
+          fetchSkuTypeRatio(),
+          fetchSummaryChart({ startDate, endDate, type: "daily" }),
+          fetchStorageStatus({}), // No warehouse ID
+        ]);
+      } catch (error) {}
+    };
+
+    initializeData();
+  }, [
+    fetchImportChart,
+    fetchExportChart,
+    fetchSkuTypeRatio,
+    fetchSummaryChart,
+    fetchStorageStatus,
+  ]);
+
+  // Get formatted data for charts
+  const importData = formatImportDataForPieChart();
+  const exportData = formatExportDataForPieChart();
+  const skuTypeRatioData = formatSkuTypeRatioForPieChart();
+  const summaryData = formatSummaryDataForBarChart();
+
+
+
+  // Fallback data if no API data is available
+  const fallbackWarehouseData = [
+    { month: "january", desktop: 186, fill: "hsl(0, 70%, 50%)" },
+    { month: "february", desktop: 305, fill: "hsl(72, 70%, 50%)" },
+    { month: "march", desktop: 237, fill: "hsl(144, 70%, 50%)" },
+    { month: "april", desktop: 173, fill: "hsl(216, 70%, 50%)" },
+    { month: "may", desktop: 209, fill: "hsl(288, 70%, 50%)" },
   ];
 
   return (
     <div className="h-full p-4 overflow-auto">
-      {/* Top row with 3 pie charts and compact weather widget */}
+      {/* Top row with 3 pie charts and weather/sensor widgets */}
       <div className="grid grid-cols-12 gap-3 mb-5">
         <div className="col-span-3">
           <ChartPieInteractive
-            data={warehouseData}
-            title={t("warehouse-storage.title")}
-            description={t("warehouse-storage.description")}
+            data={importData.length > 0 ? importData : fallbackWarehouseData}
+            title={t("import-chart.title")}
+            description={t("import-chart.description")}
+            isLoading={isLoadingImportChart}
+            error={importChartError}
           />
         </div>
         <div className="col-span-3">
           <ChartPieInteractive
-            data={inventoryData}
-            title={t("inventory-category.title")}
-            description={t("inventory-category.description")}
+            data={exportData.length > 0 ? exportData : fallbackWarehouseData}
+            title={t("export-chart.title")}
+            description={t("export-chart.description")}
+            isLoading={isLoadingExportChart}
+            error={exportChartError}
           />
         </div>
         <div className="col-span-3">
           <ChartPieInteractive
-            data={ordersData}
-            title={t("order-status.title")}
-            description={t("order-status.description")}
+            data={
+              skuTypeRatioData.length > 0
+                ? skuTypeRatioData
+                : fallbackWarehouseData
+            }
+            title={t("sku-type-ratio.title")}
+            description={t("sku-type-ratio.description")}
+            isLoading={isLoadingSkuTypeRatio}
+            error={skuTypeRatioError}
           />
         </div>
-        <div className="col-span-3">
+        <div className="col-span-3 space-y-3">
           <WeatherWidget compact className="h-fit" />
+          <SensorDataWidget />
         </div>
       </div>
 
       {/* Bottom row with bar chart full width */}
       <div className="grid grid-cols-12 gap-3">
         <div className="col-span-12">
-          <ChartBarStacked />
+          <ChartBarStacked
+            data={summaryData.length > 0 ? summaryData : undefined}
+            isLoading={isLoadingSummaryChart}
+            error={summaryChartError}
+          />
         </div>
       </div>
     </div>

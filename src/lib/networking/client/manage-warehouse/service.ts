@@ -2,6 +2,8 @@ import { api } from "../../axious";
 import ApiEndPoint from "../../api";
 import toast from "react-hot-toast";
 
+// --- START: IMPORT ORDER TYPES & FUNCTIONS ---
+
 export type TDataImportOrder = {
   id: number;
   source: string;
@@ -13,9 +15,10 @@ export type TDataImportOrder = {
 
 export interface IGetImportOrder {
   code: number;
-  data: TDataImportOrderTemporary[];
+  data: TDataImportOrder[];
   error?: string;
 }
+
 export type THistoryImportById = {
   code: number;
   message?: string;
@@ -42,6 +45,7 @@ export type TDetailDataImportOrder = {
   color?: string;
   size?: string;
 };
+
 export type TImportOrder = {
   importCode: string;
   skuCode: string;
@@ -76,6 +80,7 @@ export type TDataImportOrderTemporary = {
   size?: string;
   importCode?: string;
 };
+
 export type TResponseImportOrderTemporary = {
   code: number;
   message: string;
@@ -102,9 +107,10 @@ export async function getAllDetailImportOrder() {
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
   } catch (error) {
-    console.log("Error fetching import orders:", error);
+    // Error handling for the developer, no user-facing log
   }
 }
+
 export async function getAllHistoryImportOrder() {
   try {
     const res = await api.get<IGetImportOrder>(
@@ -186,7 +192,6 @@ export async function DeleteTemporaryById(id: number) {
     if (!id) {
       return toast.error("Please provide an ID to delete");
     }
-
     const res = await api.delete<TResponseFileUpload>(
       `${ApiEndPoint.DELETETEMPORARY}/${id}`
     );
@@ -209,7 +214,6 @@ export async function UpdateTemporaryById(
     if (!body.id) {
       return toast.error("Please provide an ID to update");
     }
-
     const res = await api.put<TResponseFileUpload>(
       `${ApiEndPoint.UPDATETEMPORARY}`,
       body
@@ -228,10 +232,9 @@ export async function UpdateTemporaryById(
 export async function ImportWarehouse(id: number[]) {
   try {
     if (id?.length === 0) {
-      return toast.error("Please provide an ID to import ware  house");
+      return toast.error("Please provide an ID to import ware house");
     }
     const body = { tempIds: id };
-
     const res = await api.post<TResponseFileUpload>(
       `${ApiEndPoint.IMPORTWAREHOUSE}`,
       body
@@ -254,7 +257,6 @@ export async function DownloadTemplateImportOrder() {
     });
     const blob = new Blob([res.data]);
     const url = window.URL.createObjectURL(blob);
-
     const link = document.createElement("a");
     link.href = url;
     const contentDisposition = res.headers["content-disposition"];
@@ -268,10 +270,113 @@ export async function DownloadTemplateImportOrder() {
     link.setAttribute("download", fileName);
     document.body.appendChild(link);
     link.click();
-
     link.remove();
     window.URL.revokeObjectURL(url);
   } catch (error) {
     console.log("Error download template:", error);
   }
 }
+
+// --- END: IMPORT ORDER TYPES & FUNCTIONS ---
+
+
+// --- START: EXPORT ORDER TYPES & FUNCTIONS ---
+
+export interface ExportOrderSearchRequest {
+  source?: "manual" | "haravan" | null;
+  status?: "draft" | "confirmed" | "cancelled" | null;
+  createdBy?: string | null;
+  startDate?: string | null; // format: YYYY-MM-DD
+  endDate?: string | null; // format: YYYY-MM-DD
+}
+
+export type TDataExportOrder = {
+  id: number;
+  exportCode: string;
+  destination: string;
+  source: string;
+  status: string;
+  createdBy: string;
+  createdAt: string; // LocalDateTime from backend
+  note: string;
+};
+
+export interface IGetExportOrder {
+  code: number;
+  data: TDataExportOrder[];
+  error?: string;
+}
+
+export type TAllExportOrderDetails = {
+  id: number;
+  exportCode: string;
+  skuCode: string;
+  productName: string;
+  exportDate: string; // LocalDateTime from backend
+  quantity: number;
+};
+
+export type TAllExportOrderDetailsResponse = {
+  code: number;
+  data: TAllExportOrderDetails[];
+  error?: string;
+};
+
+export async function getAllExportOrders() {
+  try {
+    const res = await api.get<IGetExportOrder>(`${ApiEndPoint.ALLEXPORTORDER}`);
+    if (res?.data?.code === 200) {
+      return res.data?.data;
+    }
+    const errorMessage = res?.data?.error || "Error fetching export orders";
+    toast.error(errorMessage);
+    return Promise.reject(new Error(errorMessage));
+  } catch (error) {
+    console.log("Error fetching export orders:", error);
+  }
+}
+
+export async function getAllExportOrderDetails() {
+  try {
+    const res = await api.get<TAllExportOrderDetailsResponse>(
+      `${ApiEndPoint.ALLEXPORTORDERDETAILS}`
+    );
+    if (res?.data?.code === 200) {
+      return res.data?.data;
+    }
+    const errorMessage =
+      res?.data?.error || "Error fetching export order details";
+    toast.error(errorMessage);
+    return Promise.reject(new Error(errorMessage));
+  } catch (error) {
+    console.log("Error fetching export order details:", error);
+  }
+}
+
+export async function searchExportOrders(
+  searchParams: ExportOrderSearchRequest
+) {
+  try {
+    console.log("🌐 API Call - searchExportOrders called with:", searchParams);
+    console.log("🌐 API Call - Endpoint:", `${ApiEndPoint.SEARCHEXPORTORDERS}`);
+    const res = await api.post<IGetExportOrder>(
+      `${ApiEndPoint.SEARCHEXPORTORDERS}`,
+      searchParams
+    );
+    console.log("🌐 API Response received:", res);
+    if (res?.data?.code === 200) {
+      console.log("🌐 API Success - returning data:", res.data?.data);
+      return res.data?.data;
+    }
+    const errorMessage = res?.data?.error || "Error searching export orders";
+    console.log("🌐 API Error - non-200 response:", errorMessage);
+    toast.error(errorMessage);
+    return Promise.reject(new Error(errorMessage));
+  } catch (error) {
+    console.log("🌐 API Exception - Error searching export orders:", error);
+    toast.error("Network error occurred while searching");
+    return Promise.reject(error);
+  }
+}
+
+// --- END: EXPORT ORDER TYPES & FUNCTIONS ---
