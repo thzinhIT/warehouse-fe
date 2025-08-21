@@ -136,9 +136,6 @@ class WeatherService {
 
   constructor() {
     if (!this.API_KEY) {
-      console.warn(
-        "OpenWeather API key is not configured. Set NEXT_PUBLIC_OPENWEATHER_API_KEY in your environment variables."
-      );
     }
   }
 

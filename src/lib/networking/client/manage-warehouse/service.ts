@@ -41,7 +41,7 @@ export async function getAllDetailImportOrder() {
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
   } catch (error) {
-    console.log("Error fetching import orders:", error);
+    // Error handling for the developer, no user-facing log
   }
 }
 
@@ -98,7 +98,7 @@ export async function getAllExportOrders() {
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
   } catch (error) {
-    console.log("Error fetching export orders:", error);
+    // Error handling for the developer, no user-facing log
   }
 }
 
@@ -115,7 +115,7 @@ export async function getAllExportOrderDetails() {
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
   } catch (error) {
-    console.log("Error fetching export order details:", error);
+    // Error handling for the developer, no user-facing log
   }
 }
 
@@ -123,26 +123,18 @@ export async function searchExportOrders(
   searchParams: ExportOrderSearchRequest
 ) {
   try {
-    console.log("🌐 API Call - searchExportOrders called with:", searchParams);
-    console.log("🌐 API Call - Endpoint:", `${ApiEndPoint.SEARCHEXPORTORDERS}`);
-
     const res = await api.post<IGetExportOrder>(
       `${ApiEndPoint.SEARCHEXPORTORDERS}`,
       searchParams
     );
 
-    console.log("🌐 API Response received:", res);
-
     if (res?.data?.code === 200) {
-      console.log("🌐 API Success - returning data:", res.data?.data);
       return res.data?.data;
     }
     const errorMessage = res?.data?.error || "Error searching export orders";
-    console.log("🌐 API Error - non-200 response:", errorMessage);
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
   } catch (error) {
-    console.log("🌐 API Exception - Error searching export orders:", error);
     toast.error("Network error occurred while searching");
     return Promise.reject(error);
   }

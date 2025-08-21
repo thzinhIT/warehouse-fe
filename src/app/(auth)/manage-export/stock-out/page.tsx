@@ -8,9 +8,9 @@ import { CirclePlus, FilePlus } from "lucide-react";
 import { useState } from "react";
 import getColumnsExportOrder from "@/components/common/manage-warehouse/stock-out/export-order-columns";
 import getColumnsExportOrderSearch from "@/components/common/manage-warehouse/stock-out/export-order-search-columns";
-import { useMemo } from "react";
 import { useStockOutSearch } from "@/hooks/manage-warehouse/use-stock-out-search";
 import { ExportOrderSearch } from "@/components/common/manage-warehouse/stock-out/export-order-search";
+import { TDataExportOrder, TAllExportOrderDetails } from "@/lib/networking/client/manage-warehouse/service";
 
 const StockOutPage = () => {
   const [open, setOpen] = useState(false);
@@ -24,11 +24,6 @@ const StockOutPage = () => {
     handleClearSearch,
     handleRefresh,
   } = useStockOutSearch();
-
-  // Use different columns based on search state
-  const columns = useMemo(() => {
-    return isSearching ? getColumnsExportOrderSearch() : getColumnsExportOrder();
-  }, [isSearching]);
 
   return (
     <div className="flex flex-col h-full">
@@ -78,7 +73,17 @@ const StockOutPage = () => {
       </div>
 
       <div className=" flex-1 min-h-0">
-        <DataTable columns={columns} data={data ?? []} />
+        {isSearching ? (
+          <DataTable 
+            columns={getColumnsExportOrderSearch()} 
+            data={(data as TDataExportOrder[]) ?? []} 
+          />
+        ) : (
+          <DataTable 
+            columns={getColumnsExportOrder()} 
+            data={(data as TAllExportOrderDetails[]) ?? []} 
+          />
+        )}
       </div>
       <ModalImportBulk open={open} setOpen={setOpen} />
       <ModalImportOnline open={openOnline} setOpen={setOpenOnline} />

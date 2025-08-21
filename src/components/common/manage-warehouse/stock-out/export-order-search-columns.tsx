@@ -66,12 +66,17 @@ const getColumnsExportOrderSearch = (): ColumnDef<TDataExportOrder>[] => [
       const status = row.getValue("status") as string;
       const statusColors = {
         draft: "bg-yellow-100 text-yellow-800",
-        confirmed: "bg-green-100 text-green-800", 
-        cancelled: "bg-red-100 text-red-800"
+        confirmed: "bg-green-100 text-green-800",
+        cancelled: "bg-red-100 text-red-800",
       };
       return (
         <div className="text-center">
-          <span className={`px-2 py-1 rounded text-xs font-medium ${statusColors[status as keyof typeof statusColors] || "bg-gray-100 text-gray-800"}`}>
+          <span
+            className={`px-2 py-1 rounded text-xs font-medium ${
+              statusColors[status as keyof typeof statusColors] ||
+              "bg-gray-100 text-gray-800"
+            }`}
+          >
             {status}
           </span>
         </div>

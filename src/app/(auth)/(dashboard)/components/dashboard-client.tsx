@@ -47,11 +47,6 @@ const DashboardClient = () => {
       const endDate = new Date().toISOString().split("T")[0]; // Today
       const startDate = new Date(2024, 0, 1).toISOString().split("T")[0]; // January 1, 2024
 
-      console.log("Fetching dashboard data with date range:", {
-        startDate,
-        endDate,
-      });
-
       try {
         // Fetch all dashboard data - try without warehouse ID first
         await Promise.all([
@@ -61,9 +56,7 @@ const DashboardClient = () => {
           fetchSummaryChart({ startDate, endDate, type: "daily" }),
           fetchStorageStatus({}), // No warehouse ID
         ]);
-      } catch (error) {
-        console.error("Failed to initialize dashboard data:", error);
-      }
+      } catch (error) {}
     };
 
     initializeData();
@@ -81,15 +74,7 @@ const DashboardClient = () => {
   const skuTypeRatioData = formatSkuTypeRatioForPieChart();
   const summaryData = formatSummaryDataForBarChart();
 
-  // Debug logging
-  console.log("Dashboard Data:", {
-    importData,
-    exportData,
-    skuTypeRatioData,
-    summaryData,
-    isLoadingImportChart,
-    importChartError,
-  });
+
 
   // Fallback data if no API data is available
   const fallbackWarehouseData = [

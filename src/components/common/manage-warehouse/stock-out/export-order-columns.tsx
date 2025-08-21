@@ -1,9 +1,9 @@
 import { Checkbox } from "@/components/ui/checkbox";
-import { TExportOrder } from "@/lib/networking/client/manage-warehouse/service";
+import { TAllExportOrderDetails } from "@/lib/networking/client/manage-warehouse/service";
 import { ColumnDef } from "@tanstack/react-table";
 import { Eye } from "lucide-react";
 
-const getColumnsExportOrder = (): ColumnDef<TExportOrder>[] => [
+const getColumnsExportOrder = (): ColumnDef<TAllExportOrderDetails>[] => [
   {
     id: "select",
     header: ({ table }) => (

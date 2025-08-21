@@ -47,8 +47,6 @@ export const ExportOrderSearch = ({
   };
 
   const handleSearch = () => {
-    console.log("🔎 ExportOrderSearch - Search button clicked, current filters:", filters);
-
     // Clean filters - remove empty values
     const cleanFilters = Object.entries(filters).reduce((acc, [key, value]) => {
       if (value && value.trim() !== "") {
@@ -57,8 +55,6 @@ export const ExportOrderSearch = ({
       return acc;
     }, {} as ExportOrderSearchRequest);
 
-    console.log("🔎 ExportOrderSearch - Clean filters being sent:", cleanFilters);
-    console.log("🔎 ExportOrderSearch - Calling onSearch with cleanFilters");
     onSearch(cleanFilters);
   };
 

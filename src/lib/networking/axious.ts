@@ -15,7 +15,7 @@ api.interceptors.request.use(
     //   method: config.method,
     //   fullURL: `${config.baseURL}${config.url}`
     // });
-    
+
     if (typeof window !== "undefined") {
       const token = localStorage.getItem("token");
       if (token) {
@@ -62,9 +62,7 @@ api.interceptors.response.use(
         originalRequest.headers.Authorization = `Bearer ${newToken}`;
 
         return api(originalRequest);
-      } catch (err) {
-        console.error("Refresh token failed", err);
-      }
+      } catch (err) {}
     }
     return Promise.reject(error);
   }
