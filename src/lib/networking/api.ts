@@ -1,4 +1,5 @@
 const ApiEndPoint = {
+  API: "api",
   LOGIN: "/auth",
   REFRESHTOKEN: "/auth/refresh-token",
   SENDCODEEMAIL: "/user/forgot-password",
@@ -28,6 +29,11 @@ const ApiEndPoint = {
   IMPORTWAREHOUSE: "/api/manage-import-orders/import-from-temp",
   DOWNLOADTEMPLATEIMPORTORDER: "api/manage-import-orders/template",
   HISTORY_IMPORT_ORDER_BY_ID: "/api/manage-import-orders/import-orders",
+  GET_ALL_SHELVES: "api/shelves/all",
+  GET_BIN: "api/bins",
+  GET_BOX: "api/boxes/bin",
+  GET_DETAIL_SHELVES: "api/shelves",
+  GET_DETAIL_BOX: "api/boxes",
 };
 
 export default ApiEndPoint;

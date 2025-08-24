@@ -57,7 +57,7 @@ const StockIn = () => {
       <div className=" flex-1 min-h-0">
         <DataTable columns={columns} data={data ?? []} />{" "}
       </div>
-      t{open && <ModalImportBulk open={open} setOpen={setOpen} />}
+      {open && <ModalImportBulk open={open} setOpen={setOpen} />}
       <ModalImportOnline open={openOnline} setOpen={setOpenOnline} />
       {isOpenDetail && (
         <ModalUpdateImportOrder
