@@ -453,4 +453,158 @@ export async function searchExportOrders(
   }
 }
 
+// --- START: MANUAL EXPORT TYPES & FUNCTIONS ---
+
+export type TSkuStatusItem = {
+  skuCode: string;
+  availableQty: number;
+  queuedQty: number;
+};
+
+export type TMoveToQueueRequest = {
+  items: {
+    sku: string;
+    quantity: number;
+  }[];
+};
+
+export async function moveItemsToQueue(request: TMoveToQueueRequest) {
+  try {
+    const res = await api.post<string>(`${ApiEndPoint.MOVETOQUEUE}`, request);
+
+    if (res?.status === 200) {
+      toast.success("Chuyển item thành công!");
+      return res.data;
+    }
+
+    const errorMessage = "Error moving items to queue";
+    toast.error(errorMessage);
+    return Promise.reject(new Error(errorMessage));
+  } catch (error: any) {
+    if (error.response) {
+      toast.error(
+        `API Error: ${error.response.status} - ${
+          error.response.data?.message || "Unknown error"
+        }`
+      );
+    } else if (error.request) {
+      toast.error("No response from server. Please check your connection.");
+    } else {
+      toast.error("Request setup error: " + error.message);
+    }
+
+    return Promise.reject(error);
+  }
+}
+
+export async function moveItemsBackFromQueue(request: TMoveToQueueRequest) {
+  try {
+    const res = await api.post<string>(
+      `${ApiEndPoint.MOVEBACKFROMQUEUE}`,
+      request
+    );
+
+    if (res?.status === 200) {
+      toast.success("Chuyển item từ queued về available thành công!");
+      return res.data;
+    }
+
+    const errorMessage = "Error moving items back from queue";
+    toast.error(errorMessage);
+    return Promise.reject(new Error(errorMessage));
+  } catch (error: any) {
+    if (error.response) {
+      toast.error(
+        `API Error: ${error.response.status} - ${
+          error.response.data?.message || "Unknown error"
+        }`
+      );
+    } else if (error.request) {
+      toast.error("No response from server. Please check your connection.");
+    } else {
+      toast.error("Request setup error: " + error.message);
+    }
+
+    return Promise.reject(error);
+  }
+}
+
+export async function exportWithRoute(request: TMoveToQueueRequest) {
+  try {
+    const res = await api.post(
+      `${ApiEndPoint.EXPORTWITHROUTE}`,
+      request,
+      { responseType: "blob" } // For Excel file download
+    );
+
+    if (res?.status === 200) {
+      // Create download link for Excel file
+      const blob = new Blob([res.data], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `exported_items_with_route_${new Date().getTime()}.xlsx`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+
+      toast.success("Xuất kho thành công! File đã được tải xuống.");
+      return res.data;
+    }
+
+    const errorMessage = "Error exporting items with route";
+    toast.error(errorMessage);
+    return Promise.reject(new Error(errorMessage));
+  } catch (error: any) {
+    if (error.response) {
+      toast.error(
+        `API Error: ${error.response.status} - ${
+          error.response.data?.message || "Unknown error"
+        }`
+      );
+    } else if (error.request) {
+      toast.error("No response from server. Please check your connection.");
+    } else {
+      toast.error("Request setup error: " + error.message);
+    }
+
+    return Promise.reject(error);
+  }
+}
+
+export async function getSkuStatusForExport() {
+  try {
+    const res = await api.get<TSkuStatusItem[]>(
+      `${ApiEndPoint.SKUSTATUSEXPORT}`
+    );
+
+    if (res?.data) {
+      return res.data;
+    }
+
+    const errorMessage = "No data received from SKU status API";
+    toast.error(errorMessage);
+    return Promise.reject(new Error(errorMessage));
+  } catch (error: any) {
+    if (error.response) {
+      toast.error(
+        `API Error: ${error.response.status} - ${
+          error.response.data?.message || "Unknown error"
+        }`
+      );
+    } else if (error.request) {
+      toast.error("No response from server. Please check your connection.");
+    } else {
+      toast.error("Request setup error: " + error.message);
+    }
+
+    return Promise.reject(error);
+  }
+}
+
+// --- END: MANUAL EXPORT TYPES & FUNCTIONS ---
+
 // --- END: EXPORT ORDER TYPES & FUNCTIONS ---
