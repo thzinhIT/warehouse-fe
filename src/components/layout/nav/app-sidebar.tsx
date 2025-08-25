@@ -270,8 +270,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
-      <SidebarContent className="scrollbar overflow-auto">
-        <NavMain items={data.navMain} />
+      <SidebarContent className="scrollbar overflow-aut">
+        <NavMain items={data.navMain} />o
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
