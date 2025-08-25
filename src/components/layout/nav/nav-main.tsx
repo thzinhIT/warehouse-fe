@@ -72,7 +72,10 @@ export function NavMain({
                       }}
                     >
                       <span
-                        className={cn("", isActive && "bg-muted text-primary")}
+                        className={cn(
+                          "truncate",
+                          isActive && "bg-muted text-primary"
+                        )}
                       >
                         {t(item.title)}
                       </span>
@@ -96,7 +99,7 @@ export function NavMain({
                             <SidebarMenuSubButton asChild>
                               <div
                                 className={cn(
-                                  "w-full hover:bg-secondary",
+                                  "w-full hover:bg-secondary ",
                                   isActive && "bg-muted"
                                 )}
                               >
@@ -104,7 +107,7 @@ export function NavMain({
                                 <a href={subItem.url} className="w-full">
                                   <span
                                     className={cn(
-                                      "",
+                                      "truncate",
                                       isActive && "bg-muted text-primary"
                                     )}
                                   >

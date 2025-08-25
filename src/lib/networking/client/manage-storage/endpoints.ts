@@ -5,6 +5,7 @@ class ShelveKeys {
   static readonly GET_DETAIL_SHELVES = " GET_DETAIL_SHELVES";
   static readonly GET_DETAIL_BIN = " GET_DETAIL_BIN";
   static readonly GET_DETAIL_BOX = " GET_DETAIL_BOX";
+  static readonly CREATE_SHELVE = " CREATE_SHELVE";
 }
 
 export default ShelveKeys;

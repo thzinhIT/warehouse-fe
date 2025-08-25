@@ -77,6 +77,17 @@ export type TResponseGetDetailBox = {
   message: string;
   data: TDetailBox;
 };
+
+export type TShelfResponse = {
+  code: number;
+  message: string;
+  data: {
+    id: number;
+    shelfCode: string;
+    binCount: number;
+    binCodes: string[];
+  };
+};
 export async function GetAllShelves() {
   try {
     const res = await api.get<TResponseAllShelves>(
@@ -175,6 +186,17 @@ export async function GetDetailBoxById(id?: number) {
 
     if (res?.data?.code === 200) return res?.data?.data;
     return Promise.reject(new Error("errors get Box by ID"));
+  } catch (error) {
+    console.error(error);
+    return Promise.reject(error);
+  }
+}
+
+export async function CreateShelve() {
+  try {
+    const res = await api.post<TShelfResponse>(`${ApiEndPoint.CREATE_SHELVES}`);
+    if (res?.data?.code === 200) return res?.data?.data;
+    return Promise.reject(new Error("errors create shelves"));
   } catch (error) {
     console.error(error);
     return Promise.reject(error);

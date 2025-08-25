@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
 const Dashboard = () => {
   return (
     <div className="h-full">
-      <SidebarHeader />
+      <SidebarHeader title="Bảng điều khiển" />
       <DashboardClient />
     </div>
   );

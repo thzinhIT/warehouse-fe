@@ -3,20 +3,20 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
 import { useShelves } from "@/hooks/manage-storage/use-shelves";
-import { TDataAllShelves } from "@/lib/networking/client/manage-storage/service";
-import { ChevronRight, ChevronUp, Eye, Key } from "lucide-react";
+import { ChevronRight, Eye } from "lucide-react";
 import React, { useState } from "react";
 import { DialogDetailStorage } from "./modal/modal-detail-shelve-bin";
 import { DialogDetailBox } from "./modal/modal-detail-box";
+import { EmptyData } from "../empty-data";
 
 const TableShelves = () => {
   const [idShelve, setIdShelve] = useState<number | undefined>();
   const [idBin, setIdBin] = useState<number>();
-  const [idBox, setIdBox] = useState<number>();
   const [isOpenModalDetail, setIsOpenModalDetail] = useState<boolean>(false);
   const [isOpenModalDetailBin, setIsOpenModalDetailBin] =
     useState<boolean>(false);
@@ -45,23 +45,26 @@ const TableShelves = () => {
   } = useShelves({ id: idShelve, idBin });
   return (
     <>
-      <Table className="border-collapse">
-        <TableHeader className=" bg-gray-200  ">
+      <Table className=" scrollbar h-auto border-separate border-spacing-0 overflow-auto ">
+        <TableHeader className="    ">
           <TableRow className="h-full ">
-            <TableCell className="border border-gray-300 ">#</TableCell>
-            <TableCell className="border border-gray-300">Mã quản lý</TableCell>
-            <TableCell className="border border-gray-300">
+            <TableHead className="last:border-r-0 h-8 border-b border-r border-gray-300 bg-background  sticky top-0 z-50 ">
+              #
+            </TableHead>
+            <TableHead className="last:border-r-0 h-8 border-b border-r border-gray-300 bg-background  sticky top-0 z-50">
+              Mã quản lý
+            </TableHead>
+            <TableHead className="last:border-r-0 h-8 border-b border-r border-gray-300  bg-background sticky top-0 z-50">
               Số lượng item chứa
-            </TableCell>
-            <TableCell className="border border-gray-300 text-center">
+            </TableHead>
+            <TableHead className="last:border-r-0 h-8 border-b border-r border-gray-300 bg-background sticky top-0 z-50  text-center">
               Xem chi tiết
-            </TableCell>
+            </TableHead>
           </TableRow>
         </TableHeader>
 
-        <TableBody>
-          {data &&
-            data?.length > 0 &&
+        <TableBody className="  flex-1 h-full w-full">
+          {data && data?.length > 0 ? (
             data?.map((item) => {
               return (
                 <React.Fragment key={`${item?.shelfCode}-${item?.id}`}>
@@ -194,7 +197,14 @@ const TableShelves = () => {
                     ))}
                 </React.Fragment>
               );
-            })}
+            })
+          ) : (
+            <TableRow>
+              <TableCell colSpan={4} className="border">
+                <EmptyData />
+              </TableCell>
+            </TableRow>
+          )}
         </TableBody>
       </Table>
 
