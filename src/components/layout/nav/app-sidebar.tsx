@@ -212,7 +212,7 @@ const data = {
         },
         {
           title: "product-management",
-          url: "#",
+          url: "/manage-storage/product",
           icon: <MdShoppingCart />,
         },
         {

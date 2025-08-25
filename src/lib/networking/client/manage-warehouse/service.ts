@@ -2,8 +2,6 @@ import { api } from "../../axious";
 import ApiEndPoint from "../../api";
 import toast from "react-hot-toast";
 
-// --- START: IMPORT ORDER TYPES & FUNCTIONS ---
-
 export type TDataImportOrder = {
   id: number;
   source: string;
@@ -15,7 +13,7 @@ export type TDataImportOrder = {
 
 export interface IGetImportOrder {
   code: number;
-  data: TDataImportOrder[];
+  data: TDataImportOrderTemporary[];
   error?: string;
 }
 
@@ -107,7 +105,7 @@ export async function getAllDetailImportOrder() {
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
   } catch (error) {
-    // Error handling for the developer, no user-facing log
+    return Promise.reject(error);
   }
 }
 
@@ -125,6 +123,7 @@ export async function getAllHistoryImportOrder() {
     return Promise.reject(new Error(errorMessage));
   } catch (error) {
     console.log("Error fetching history import orders byID:", error);
+    return Promise.reject(error);
   }
 }
 export async function getHistoryImportOrderById(id: number) {
@@ -141,6 +140,7 @@ export async function getHistoryImportOrderById(id: number) {
     return Promise.reject(new Error(errorMessage));
   } catch (error) {
     console.log("Error fetching history import orders:", error);
+    return Promise.reject(error);
   }
 }
 
@@ -168,6 +168,7 @@ export async function uploadFileExcel(file: File) {
     return Promise.reject(new Error(errorMessage));
   } catch (error) {
     console.log("Error uploading file:", error);
+    return Promise.reject(error);
   }
 }
 
@@ -184,6 +185,7 @@ export async function getTemporaryImportOrder() {
     return Promise.reject(new Error(errorMessage));
   } catch (error) {
     console.log("Error Get data temporary:", error);
+    return Promise.reject(error);
   }
 }
 
@@ -204,6 +206,7 @@ export async function DeleteTemporaryById(id: number) {
     return Promise.reject(new Error(errorMessage));
   } catch (error) {
     console.log("Error delete data temporary:", error);
+    return Promise.reject(error);
   }
 }
 
@@ -226,6 +229,7 @@ export async function UpdateTemporaryById(
     return Promise.reject(new Error(errorMessage));
   } catch (error) {
     console.log("Error Update data temporary:", error);
+    return Promise.reject(error);
   }
 }
 
@@ -247,6 +251,7 @@ export async function ImportWarehouse(id: number[]) {
     return Promise.reject(new Error(errorMessage));
   } catch (error) {
     console.log("Error import data temporary:", error);
+    return Promise.reject(error);
   }
 }
 
@@ -274,20 +279,16 @@ export async function DownloadTemplateImportOrder() {
     window.URL.revokeObjectURL(url);
   } catch (error) {
     console.log("Error download template:", error);
+    return Promise.reject(error);
   }
 }
-
-// --- END: IMPORT ORDER TYPES & FUNCTIONS ---
-
-
-// --- START: EXPORT ORDER TYPES & FUNCTIONS ---
 
 export interface ExportOrderSearchRequest {
   source?: "manual" | "haravan" | null;
   status?: "draft" | "confirmed" | "cancelled" | null;
   createdBy?: string | null;
-  startDate?: string | null; // format: YYYY-MM-DD
-  endDate?: string | null; // format: YYYY-MM-DD
+  startDate?: string | null;
+  endDate?: string | null;
 }
 
 export type TDataExportOrder = {
@@ -297,7 +298,7 @@ export type TDataExportOrder = {
   source: string;
   status: string;
   createdBy: string;
-  createdAt: string; // LocalDateTime from backend
+  createdAt: string;
   note: string;
 };
 
@@ -312,7 +313,7 @@ export type TAllExportOrderDetails = {
   exportCode: string;
   skuCode: string;
   productName: string;
-  exportDate: string; // LocalDateTime from backend
+  exportDate: string;
   quantity: number;
 };
 
@@ -333,6 +334,7 @@ export async function getAllExportOrders() {
     return Promise.reject(new Error(errorMessage));
   } catch (error) {
     console.log("Error fetching export orders:", error);
+    return Promise.reject(error);
   }
 }
 
@@ -350,6 +352,7 @@ export async function getAllExportOrderDetails() {
     return Promise.reject(new Error(errorMessage));
   } catch (error) {
     console.log("Error fetching export order details:", error);
+    return Promise.reject(error);
   }
 }
 
@@ -357,19 +360,15 @@ export async function searchExportOrders(
   searchParams: ExportOrderSearchRequest
 ) {
   try {
-    console.log("🌐 API Call - searchExportOrders called with:", searchParams);
-    console.log("🌐 API Call - Endpoint:", `${ApiEndPoint.SEARCHEXPORTORDERS}`);
     const res = await api.post<IGetExportOrder>(
       `${ApiEndPoint.SEARCHEXPORTORDERS}`,
       searchParams
     );
-    console.log("🌐 API Response received:", res);
     if (res?.data?.code === 200) {
       console.log("🌐 API Success - returning data:", res.data?.data);
       return res.data?.data;
     }
     const errorMessage = res?.data?.error || "Error searching export orders";
-    console.log("🌐 API Error - non-200 response:", errorMessage);
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
   } catch (error) {

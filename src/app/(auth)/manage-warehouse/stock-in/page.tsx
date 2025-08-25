@@ -8,7 +8,7 @@ import SidebarHeader from "@/components/layout/nav/sidebar-header";
 import { Button } from "@/components/ui/button";
 import { useStockIn } from "@/hooks/manage-warehouse/use-stock-in";
 import { CirclePlus, FilePlus } from "lucide-react";
-import { use, useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 const StockIn = () => {
   const [open, setOpen] = useState(false);
