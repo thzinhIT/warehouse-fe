@@ -44,7 +44,7 @@ export function DataTableBody<TData, TValue>({
                 <TableHead
                   key={`header-${header.id}-${index}`}
                   className={cn(
-                    "last:border-r-0, h-8 border-b border-r bg-background px-2",
+                    "last:border-r-0 h-8 border-b border-r bg-background px-2",
                     header?.column?.columnDef?.meta?.headerClassName,
                     isSticky ? "sticky top-0 z-20" : ""
                   )}

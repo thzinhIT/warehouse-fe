@@ -8,7 +8,7 @@ import SidebarHeader from "@/components/layout/nav/sidebar-header";
 import { Button } from "@/components/ui/button";
 import { useStockIn } from "@/hooks/manage-warehouse/use-stock-in";
 import { CirclePlus, FilePlus } from "lucide-react";
-import { use, useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 const StockIn = () => {
   const [open, setOpen] = useState(false);
@@ -57,7 +57,7 @@ const StockIn = () => {
       <div className=" flex-1 min-h-0">
         <DataTable columns={columns} data={data ?? []} />{" "}
       </div>
-      t{open && <ModalImportBulk open={open} setOpen={setOpen} />}
+      {open && <ModalImportBulk open={open} setOpen={setOpen} />}
       <ModalImportOnline open={openOnline} setOpen={setOpenOnline} />
       {isOpenDetail && (
         <ModalUpdateImportOrder

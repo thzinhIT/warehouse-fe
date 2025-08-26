@@ -11,6 +11,8 @@ import {
   icons,
   Map,
   PieChart,
+  Save,
+  SaveIcon,
   Settings2,
   SquareTerminal,
 } from "lucide-react";
@@ -23,6 +25,8 @@ import {
   MdSettings,
   MdStorage,
   MdDescription,
+  MdShelves,
+  MdSdStorage,
 } from "react-icons/md";
 
 import { NavMain } from "@/components/layout/nav/nav-main";
@@ -39,7 +43,7 @@ import {
 } from "@/components/ui/sidebar";
 import Dashboard from "@/app/(auth)/(dashboard)/page";
 import { Icons } from "@/components/common/icons";
-import { RiLuggageCartFill } from "react-icons/ri";
+import { RiLuggageCartFill, RiStopLargeLine } from "react-icons/ri";
 import { RxDownload, RxUpload } from "react-icons/rx";
 import { GrHistory } from "react-icons/gr";
 import { LiaOpencart } from "react-icons/lia";
@@ -198,17 +202,17 @@ const data = {
     },
     {
       title: "storage-management",
-      url: "#",
-      icon: <MdArchive />,
+      url: "/manage-storage",
+      icon: <SaveIcon />,
       items: [
         {
-          title: "plan-management",
-          url: "#",
-          icon: <MdCalendarToday />,
+          title: "shelves-management",
+          url: "/manage-storage/shelves",
+          icon: <MdShelves />,
         },
         {
           title: "product-management",
-          url: "#",
+          url: "/manage-storage/product",
           icon: <MdShoppingCart />,
         },
         {
@@ -220,7 +224,7 @@ const data = {
     },
     {
       title: "labor-management",
-      url: "#",
+      url: "/manage-employee",
       icon: <MdTrendingUp />,
     },
     {
@@ -266,8 +270,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
-      <SidebarContent className="scrollbar overflow-auto">
-        <NavMain items={data.navMain} />
+      <SidebarContent className="scrollbar overflow-aut">
+        <NavMain items={data.navMain} />o
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>

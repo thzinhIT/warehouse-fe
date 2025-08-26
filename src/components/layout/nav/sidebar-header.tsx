@@ -10,7 +10,7 @@ const SidebarHeader = ({ title }: { title?: string }) => {
           orientation="vertical"
           className="mr-2 h-4 w-[1px] bg-accent"
         />
-        {title && <p> {title}</p>}
+        {title && <p className="text-lg font-semibold"> {title}</p>}
       </div>
     </header>
   );

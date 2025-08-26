@@ -2,8 +2,6 @@ import { api } from "../../axious";
 import ApiEndPoint from "../../api";
 import toast from "react-hot-toast";
 
-// --- START: IMPORT ORDER TYPES & FUNCTIONS ---
-
 export type TDataImportOrder = {
   id: number;
   source: string;
@@ -15,7 +13,7 @@ export type TDataImportOrder = {
 
 export interface IGetImportOrder {
   code: number;
-  data: TDataImportOrder[];
+  data: TDataImportOrderTemporary[];
   error?: string;
 }
 
@@ -106,7 +104,9 @@ export async function getAllDetailImportOrder() {
     const errorMessage = res?.data?.error || "Error fetching import orders";
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
-  } catch (error) {}
+  } catch (error) {
+    return Promise.reject(error);
+  }
 }
 
 export async function getAllHistoryImportOrder() {
@@ -121,7 +121,10 @@ export async function getAllHistoryImportOrder() {
       res?.data?.error || "Error fetching history import orders by ID";
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
-  } catch (error) {}
+  } catch (error) {
+    console.log("Error fetching history import orders byID:", error);
+    return Promise.reject(error);
+  }
 }
 export async function getHistoryImportOrderById(id: number) {
   try {
@@ -135,7 +138,10 @@ export async function getHistoryImportOrderById(id: number) {
       res?.data?.error || "Error fetching history import orders";
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
-  } catch (error) {}
+  } catch (error) {
+    console.log("Error fetching history import orders:", error);
+    return Promise.reject(error);
+  }
 }
 
 export async function uploadFileExcel(file: File) {
@@ -160,7 +166,10 @@ export async function uploadFileExcel(file: File) {
     const errorMessage = res?.data?.message || "Error uploading file";
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
-  } catch (error) {}
+  } catch (error) {
+    console.log("Error uploading file:", error);
+    return Promise.reject(error);
+  }
 }
 
 export async function getTemporaryImportOrder() {
@@ -174,7 +183,10 @@ export async function getTemporaryImportOrder() {
     const errorMessage = res?.data?.message || "Error Get data temporary";
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
-  } catch (error) {}
+  } catch (error) {
+    console.log("Error Get data temporary:", error);
+    return Promise.reject(error);
+  }
 }
 
 export async function DeleteTemporaryById(id: number) {
@@ -192,7 +204,10 @@ export async function DeleteTemporaryById(id: number) {
     const errorMessage = res?.data?.message || "Error delete data temporary";
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
-  } catch (error) {}
+  } catch (error) {
+    console.log("Error delete data temporary:", error);
+    return Promise.reject(error);
+  }
 }
 
 export async function UpdateTemporaryById(
@@ -212,7 +227,10 @@ export async function UpdateTemporaryById(
     }
     const errorMessage = res?.data?.message || "Error Update data temporary:";
     return Promise.reject(new Error(errorMessage));
-  } catch (error) {}
+  } catch (error) {
+    console.log("Error Update data temporary:", error);
+    return Promise.reject(error);
+  }
 }
 
 export async function ImportWarehouse(id: number[]) {
@@ -231,7 +249,10 @@ export async function ImportWarehouse(id: number[]) {
     }
     const errorMessage = res?.data?.message || "Error import data temporary:";
     return Promise.reject(new Error(errorMessage));
-  } catch (error) {}
+  } catch (error) {
+    console.log("Error import data temporary:", error);
+    return Promise.reject(error);
+  }
 }
 
 export async function DownloadTemplateImportOrder() {
@@ -256,7 +277,10 @@ export async function DownloadTemplateImportOrder() {
     link.click();
     link.remove();
     window.URL.revokeObjectURL(url);
-  } catch (error) {}
+  } catch (error) {
+    console.log("Error download template:", error);
+    return Promise.reject(error);
+  }
 }
 
 export interface ExportOrderSearchRequest {
@@ -353,7 +377,10 @@ export async function getAllExportOrders() {
     const errorMessage = res?.data?.error || "Error fetching export orders";
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
-  } catch (error) {}
+  } catch (error) {
+    console.log("Error fetching export orders:", error);
+    return Promise.reject(error);
+  }
 }
 
 export async function getAllExportOrderDetails() {
@@ -398,6 +425,7 @@ export async function getExportOrderBoard() {
       res?.data?.error || "Error fetching export order board details";
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
+    return Promise.reject(error);
   } catch (error) {}
 }
 

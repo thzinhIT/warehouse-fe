@@ -1,4 +1,5 @@
 const ApiEndPoint = {
+  API: "api",
   LOGIN: "/auth",
   REFRESHTOKEN: "/auth/refresh-token",
   SENDCODEEMAIL: "/user/forgot-password",
@@ -6,8 +7,6 @@ const ApiEndPoint = {
   ALLIMPORTORDER: "/api/manage-import-orders/getallImportOrder",
   ALLHISTORYIMPORTORDER: "/api/manage-import-orders/allDetails/merged-sku",
   ALLDETAILIMPORTORDER: "/api/manage-import-orders/allDetails",
-
-  // --- KEEP YOUR EXPORT AND DASHBOARD ENDPOINTS ---
   ALLEXPORTORDER: "/admin/export-orders/getallExportOrder",
   ALLEXPORTORDERDETAILS: "/admin/export-orders/getAllExportOrderDetails",
   EXPORTORDERDETAILBYID: "/admin/export-orders/detail",
@@ -24,8 +23,6 @@ const ApiEndPoint = {
   OPTIMIZATION_INDEX: "/api/dashboard/optimization-index",
   STORAGE_STATUS: "/api/dashboard/storage-status",
   WAREHOUSE_SUMMARY_PDF: "/api/dashboard/warehouse-summary-pdf",
-
-  // --- AND KEEP THE INCOMING UPLOAD/IMPORT ENDPOINTS ---
   UPLOADFILEEXCEL: "api/manage-import-orders/upload-excel-to-temp",
   TEMPITEMSTEMPORARY: "api/manage-import-orders/temp-items",
   DELETETEMPORARY: "api/manage-import-orders/delete/temp",
@@ -33,6 +30,12 @@ const ApiEndPoint = {
   IMPORTWAREHOUSE: "/api/manage-import-orders/import-from-temp",
   DOWNLOADTEMPLATEIMPORTORDER: "api/manage-import-orders/template",
   HISTORY_IMPORT_ORDER_BY_ID: "/api/manage-import-orders/import-orders",
+  GET_ALL_SHELVES: "api/shelves/all",
+  GET_BIN: "api/bins",
+  GET_BOX: "api/boxes/bin",
+  GET_DETAIL_SHELVES: "api/shelves",
+  GET_DETAIL_BOX: "api/boxes",
+  CREATE_SHELVES: "api/shelves/create",
 };
 
 export default ApiEndPoint;
