@@ -106,9 +106,7 @@ export async function getAllDetailImportOrder() {
     const errorMessage = res?.data?.error || "Error fetching import orders";
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
-  } catch (error) {
-    // Error handling for the developer, no user-facing log
-  }
+  } catch (error) {}
 }
 
 export async function getAllHistoryImportOrder() {
@@ -123,9 +121,7 @@ export async function getAllHistoryImportOrder() {
       res?.data?.error || "Error fetching history import orders by ID";
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
-  } catch (error) {
-    console.log("Error fetching history import orders byID:", error);
-  }
+  } catch (error) {}
 }
 export async function getHistoryImportOrderById(id: number) {
   try {
@@ -139,9 +135,7 @@ export async function getHistoryImportOrderById(id: number) {
       res?.data?.error || "Error fetching history import orders";
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
-  } catch (error) {
-    console.log("Error fetching history import orders:", error);
-  }
+  } catch (error) {}
 }
 
 export async function uploadFileExcel(file: File) {
@@ -166,9 +160,7 @@ export async function uploadFileExcel(file: File) {
     const errorMessage = res?.data?.message || "Error uploading file";
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
-  } catch (error) {
-    console.log("Error uploading file:", error);
-  }
+  } catch (error) {}
 }
 
 export async function getTemporaryImportOrder() {
@@ -182,9 +174,7 @@ export async function getTemporaryImportOrder() {
     const errorMessage = res?.data?.message || "Error Get data temporary";
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
-  } catch (error) {
-    console.log("Error Get data temporary:", error);
-  }
+  } catch (error) {}
 }
 
 export async function DeleteTemporaryById(id: number) {
@@ -202,9 +192,7 @@ export async function DeleteTemporaryById(id: number) {
     const errorMessage = res?.data?.message || "Error delete data temporary";
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
-  } catch (error) {
-    console.log("Error delete data temporary:", error);
-  }
+  } catch (error) {}
 }
 
 export async function UpdateTemporaryById(
@@ -224,9 +212,7 @@ export async function UpdateTemporaryById(
     }
     const errorMessage = res?.data?.message || "Error Update data temporary:";
     return Promise.reject(new Error(errorMessage));
-  } catch (error) {
-    console.log("Error Update data temporary:", error);
-  }
+  } catch (error) {}
 }
 
 export async function ImportWarehouse(id: number[]) {
@@ -245,9 +231,7 @@ export async function ImportWarehouse(id: number[]) {
     }
     const errorMessage = res?.data?.message || "Error import data temporary:";
     return Promise.reject(new Error(errorMessage));
-  } catch (error) {
-    console.log("Error import data temporary:", error);
-  }
+  } catch (error) {}
 }
 
 export async function DownloadTemplateImportOrder() {
@@ -272,17 +256,15 @@ export async function DownloadTemplateImportOrder() {
     link.click();
     link.remove();
     window.URL.revokeObjectURL(url);
-  } catch (error) {
-    console.log("Error download template:", error);
-  }
+  } catch (error) {}
 }
 
 export interface ExportOrderSearchRequest {
   source?: "manual" | "haravan" | null;
   status?: "draft" | "confirmed" | "cancelled" | null;
   createdBy?: string | null;
-  startDate?: string | null; // format: YYYY-MM-DD
-  endDate?: string | null; // format: YYYY-MM-DD
+  startDate?: string | null;
+  endDate?: string | null;
 }
 
 export type TDataExportOrder = {
@@ -292,7 +274,7 @@ export type TDataExportOrder = {
   source: string;
   status: string;
   createdBy: string;
-  createdAt: string; // LocalDateTime from backend
+  createdAt: string;
   note: string;
 };
 
@@ -307,7 +289,7 @@ export type TAllExportOrderDetails = {
   exportCode: string;
   skuCode: string;
   productName: string;
-  exportDate: string; // LocalDateTime from backend
+  exportDate: string;
   quantity: number;
 };
 
@@ -371,9 +353,7 @@ export async function getAllExportOrders() {
     const errorMessage = res?.data?.error || "Error fetching export orders";
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
-  } catch (error) {
-    console.log("Error fetching export orders:", error);
-  }
+  } catch (error) {}
 }
 
 export async function getAllExportOrderDetails() {
@@ -388,9 +368,7 @@ export async function getAllExportOrderDetails() {
       res?.data?.error || "Error fetching export order details";
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
-  } catch (error) {
-    console.log("Error fetching export order details:", error);
-  }
+  } catch (error) {}
 }
 
 export async function getExportOrderDetailById(detailId: number) {
@@ -405,9 +383,7 @@ export async function getExportOrderDetailById(detailId: number) {
       res?.data?.error || "Error fetching export order detail";
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
-  } catch (error) {
-    console.log("Error fetching export order detail:", error);
-  }
+  } catch (error) {}
 }
 
 export async function getExportOrderBoard() {
@@ -422,32 +398,24 @@ export async function getExportOrderBoard() {
       res?.data?.error || "Error fetching export order board details";
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
-  } catch (error) {
-    console.log("Error fetching export order board details:", error);
-  }
+  } catch (error) {}
 }
 
 export async function searchExportOrders(
   searchParams: ExportOrderSearchRequest
 ) {
   try {
-    console.log("🌐 API Call - searchExportOrders called with:", searchParams);
-    console.log("🌐 API Call - Endpoint:", `${ApiEndPoint.SEARCHEXPORTORDERS}`);
     const res = await api.post<IGetExportOrder>(
       `${ApiEndPoint.SEARCHEXPORTORDERS}`,
       searchParams
     );
-    console.log("🌐 API Response received:", res);
     if (res?.data?.code === 200) {
-      console.log("🌐 API Success - returning data:", res.data?.data);
       return res.data?.data;
     }
     const errorMessage = res?.data?.error || "Error searching export orders";
-    console.log("🌐 API Error - non-200 response:", errorMessage);
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
   } catch (error) {
-    console.log("🌐 API Exception - Error searching export orders:", error);
     toast.error("Network error occurred while searching");
     return Promise.reject(error);
   }
@@ -531,14 +499,11 @@ export async function moveItemsBackFromQueue(request: TMoveToQueueRequest) {
 
 export async function exportWithRoute(request: TMoveToQueueRequest) {
   try {
-    const res = await api.post(
-      `${ApiEndPoint.EXPORTWITHROUTE}`,
-      request,
-      { responseType: "blob" } // For Excel file download
-    );
+    const res = await api.post(`${ApiEndPoint.EXPORTWITHROUTE}`, request, {
+      responseType: "blob",
+    });
 
     if (res?.status === 200) {
-      // Create download link for Excel file
       const blob = new Blob([res.data], {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       });
@@ -606,5 +571,4 @@ export async function getSkuStatusForExport() {
 }
 
 // --- END: MANUAL EXPORT TYPES & FUNCTIONS ---
-
 // --- END: EXPORT ORDER TYPES & FUNCTIONS ---
