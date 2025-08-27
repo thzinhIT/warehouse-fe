@@ -3,33 +3,13 @@
 import * as React from "react";
 import {
   AudioWaveform,
-  BookOpen,
-  Bot,
   Command,
   Frame,
   GalleryVerticalEnd,
-  icons,
-  LayoutDashboard,
-  LayoutDashboardIcon,
   Map,
   PieChart,
-  Save,
-  SaveIcon,
-  Settings2,
-  SquareTerminal,
 } from "lucide-react";
-import {
-  MdArchive,
-  MdCalendarToday,
-  MdShoppingCart,
-  MdWarning,
-  MdTrendingUp,
-  MdSettings,
-  MdStorage,
-  MdDescription,
-  MdShelves,
-  MdSdStorage,
-} from "react-icons/md";
+
 import { MdDashboard, MdWarehouse, MdLocalShipping } from "react-icons/md";
 import { IoSave } from "react-icons/io5";
 import { FaUserEdit } from "react-icons/fa";
@@ -54,12 +34,6 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import Dashboard from "@/app/(auth)/(dashboard)/page";
-import { Icons } from "@/components/common/icons";
-import { RiLuggageCartFill, RiStopLargeLine } from "react-icons/ri";
-import { RxDownload, RxUpload } from "react-icons/rx";
-import { GrHistory } from "react-icons/gr";
-import { LiaOpencart } from "react-icons/lia";
 
 const data = {
   user: {
@@ -101,12 +75,12 @@ const data = {
         {
           title: "stock-in",
           url: "/manage-warehouse/stock-in",
-          icon: <HiArchiveBoxArrowDown />,
+          icon: <HiArchiveBoxArrowDown className="text-yellow-500" />,
         },
         {
           title: "stock-in-history",
           url: "/manage-warehouse/history",
-          icon: <GoClockFill />,
+          icon: <GoClockFill className="text-amber-800" />,
         },
       ],
     },
@@ -118,12 +92,12 @@ const data = {
         {
           title: "stock-out",
           url: "/manage-export/stock-out",
-          icon: <GiBoxUnpacking />,
+          icon: <GiBoxUnpacking className="text-purple-600" />,
         },
         {
           title: "stock-out-history",
           url: "#",
-          icon: <GoClockFill />,
+          icon: <GoClockFill className="text-amber-800" />,
         },
       ],
     },
@@ -135,24 +109,24 @@ const data = {
         {
           title: "shelves-management",
           url: "/manage-storage/shelves",
-          icon: <BiCabinet />, // xanh ngọc
+          icon: <BiCabinet className="text-orange-500" />,
         },
         {
           title: "product-management",
           url: "/manage-storage/product",
-          icon: <FaBoxOpen />, // hồng
+          icon: <FaBoxOpen className="text-amber-500" />,
         },
         {
           title: "defective-product-management",
           url: "#",
-          icon: <FaExclamationTriangle />, // vàng cảnh báo
+          icon: <FaExclamationTriangle className="text-yellow-400" />,
         },
       ],
     },
     {
       title: "employee-management",
       url: "/manage-employee",
-      icon: <FaUserEdit className="text-cyan-600" size={18} />, // xanh ngọc đậm
+      icon: <FaUserEdit className="text-cyan-600" size={18} />,
     },
     {
       title: "system-settings",
@@ -162,7 +136,7 @@ const data = {
         {
           title: "system-logs",
           url: "#",
-          icon: <MdNoteAlt />, // cam
+          icon: <MdNoteAlt className="text-red-600" />,
         },
       ],
     },

@@ -20,6 +20,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { FileDown, FileUp, PenBox, Trash2 } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
+import { MdQrCodeScanner } from "react-icons/md";
 
 import { Checkbox } from "@/components/ui/checkbox";
 import useTemporary from "@/hooks/manage-warehouse/use-temporary";
@@ -29,6 +30,7 @@ import { ModalUpdateImportOrder } from "./modal-update-order-import";
 import { TDataImportOrderTemporary } from "@/lib/networking/client/manage-warehouse/service";
 import { cn } from "@/lib/utils";
 import Loading from "../../loading";
+import { EmptyData } from "../../empty-data";
 
 export function ModalImportBulk({
   open,
@@ -97,6 +99,12 @@ export function ModalImportBulk({
               <div>
                 <div className="flex gap-3 justify-end ">
                   <div>
+                    <Button className="  flex items-center bg-blue-600 hover:bg-blue-600 cursor-pointer text-white  mb-3">
+                      <MdQrCodeScanner size={20} />
+                      <span>Quét mã code </span>
+                    </Button>
+                  </div>
+                  <div>
                     {" "}
                     <Button
                       className="flex items-center bg-blue-600 hover:bg-blue-600  cursor-pointer text-background ml-auto mb-3"
@@ -114,7 +122,7 @@ export function ModalImportBulk({
                     />
                   </div>
 
-                  <div className="">
+                  <div>
                     <Button
                       className="  flex items-center bg-slate-200 hover:bg-slate-200 cursor-pointer text-black ml-auto mb-3"
                       onClick={() => {
@@ -130,7 +138,7 @@ export function ModalImportBulk({
                 <div className=" flex-1 py-2 overflow-y-auto min-h-0 max-h-[325px]  ">
                   <Table className="">
                     <TableCaption className="text-center text-gray-400 pt-2">
-                      Danh sách phiếu nhập tạm.
+                      {data && data?.length > 0 && "Danh sách phiếu nhập tạm."}
                     </TableCaption>
                     <TableHeader>
                       <TableRow className="bg-gray-200">
@@ -158,8 +166,7 @@ export function ModalImportBulk({
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {data &&
-                        data?.length > 0 &&
+                      {data && data?.length > 0 ? (
                         data.map((item, index) => (
                           <TableRow key={item?.id}>
                             <TableCell>
@@ -215,7 +222,14 @@ export function ModalImportBulk({
                               />
                             </TableCell>
                           </TableRow>
-                        ))}
+                        ))
+                      ) : (
+                        <TableRow>
+                          <TableCell colSpan={10}>
+                            <EmptyData />
+                          </TableCell>
+                        </TableRow>
+                      )}
                     </TableBody>
                   </Table>
                 </div>
@@ -225,11 +239,14 @@ export function ModalImportBulk({
             <DialogFooter>
               <div className="flex justify-between items-center w-full">
                 <div className="flex items-center">
-                  <span className="font-semibold ">Total:</span>
+                  <span className="font-semibold ">Total: </span>
                   <span>
-                    {data?.length}{" "}
+                    {" "}
+                    {data?.length ?? 0}{" "}
                     <span className="text-sm text-gray-400">
-                      {`(select ${listIdImport?.length ?? 0}/${data?.length})`}
+                      {`(select ${listIdImport?.length ?? 0}/${
+                        data?.length ?? 0
+                      })`}
                     </span>
                   </span>
                 </div>
