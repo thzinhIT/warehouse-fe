@@ -32,22 +32,31 @@ export const useStockOutSearch = () => {
   } = useQuery({
     queryKey: [StockOutKeys.SEARCHEXPORTORDERS, searchFilters],
     queryFn: () => {
+      console.log("Making API call with filters:", searchFilters);
       return searchExportOrders(searchFilters);
     },
     enabled: isSearching,
   });
 
   const handleSearch = (filters: ExportOrderSearchRequest) => {
+    console.log("🔍 useStockOutSearch - handleSearch called with:", filters);
     setSearchFilters(filters);
     setIsSearching(true);
+    console.log("🔍 Search state changed - isSearching: true");
   };
 
   const handleClearSearch = () => {
+    console.log("🔍 useStockOutSearch - handleClearSearch called");
     setSearchFilters({});
     setIsSearching(false);
+    console.log("🔍 Search state changed - isSearching: false");
   };
 
   const handleRefresh = () => {
+    console.log(
+      "🔍 useStockOutSearch - handleRefresh called, isSearching:",
+      isSearching
+    );
     if (isSearching) {
       refetchSearch();
     } else {

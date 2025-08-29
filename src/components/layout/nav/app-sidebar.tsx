@@ -35,6 +35,7 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 
+
 const data = {
   user: {
     name: "shadcn",
@@ -84,23 +85,24 @@ const data = {
         },
       ],
     },
+  {
+  title: "stock-out-management",
+  url: "/manage-export",
+  icon: <MdLocalShipping className="text-green-600" size={18} />,
+  items: [
     {
-      title: "stock-out-management",
-      url: "/manage-export",
-      icon: <MdLocalShipping className="text-green-600" size={18} />,
-      items: [
-        {
-          title: "stock-out",
-          url: "/manage-export/stock-out",
-          icon: <GiBoxUnpacking className="text-purple-600" />,
-        },
-        {
-          title: "stock-out-history",
-          url: "#",
-          icon: <GoClockFill className="text-amber-800" />,
-        },
-      ],
+      title: "stock-out",
+      url: "/manage-export/stock-out",
+      icon: <GiBoxUnpacking className="text-purple-600" />,
     },
+    {
+      title: "stock-out-history",
+      url: "/manage-export/history",
+      icon: <GoClockFill className="text-amber-800" />,
+    },
+  ],
+},
+
     {
       title: "storage-management",
       url: "/manage-storage",

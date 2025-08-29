@@ -1,23 +1,21 @@
 "use client";
 import StockOutKeys from "@/lib/networking/client/manage-warehouse/stock-out-endpoints";
 import {
-  getAllExportOrderDetails,
+  getExportOrderBoard,
   getExportOrderDetailById,
-  TAllExportOrderDetails,
-  TExportOrderFullDetail,
+  TExportOrderBoard,
 } from "@/lib/networking/client/manage-warehouse/service";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
-export const useStockOut = () => {
+export const useExportHistory = () => {
   const [isOpenDetail, setIsOpenDetail] = useState(false);
   const [selectedDetailId, setSelectedDetailId] = useState<number | null>(null);
-  const [itemExportOrder, setItemExportOrder] =
-    useState<TAllExportOrderDetails>();
+  const [itemExportOrder, setItemExportOrder] = useState<TExportOrderBoard>();
 
   const { data, isPending } = useQuery({
-    queryKey: [StockOutKeys.GETALLEXPORTORDERDETAILS],
-    queryFn: getAllExportOrderDetails,
+    queryKey: [StockOutKeys.GETEXPORTORDERBOARDDETAILS],
+    queryFn: getExportOrderBoard,
   });
 
   const { data: detailData, isPending: isDetailPending } = useQuery({
@@ -26,7 +24,7 @@ export const useStockOut = () => {
     enabled: !!selectedDetailId,
   });
 
-  const handleOnClickDetail = (data: TAllExportOrderDetails) => {
+  const handleOnClickDetail = (data: TExportOrderBoard) => {
     setIsOpenDetail(true);
     setItemExportOrder(data);
     setSelectedDetailId(data.id);

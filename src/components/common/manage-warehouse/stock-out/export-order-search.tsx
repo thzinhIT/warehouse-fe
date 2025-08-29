@@ -1,191 +1,135 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ExportOrderSearchRequest } from "@/lib/networking/client/manage-warehouse/service";
-import { Search, X, RotateCcw } from "lucide-react";
+import { Search, RefreshCw, X } from "lucide-react";
 import { useState } from "react";
 
-interface ExportOrderSearchProps {
-  onSearch: (filters: ExportOrderSearchRequest) => void;
+type SearchParams = {
+  exportCode?: string;
+  skuCode?: string;
+  productName?: string;
+  exportDate?: string;
+};
+
+type ExportOrderSearchProps = {
+  onSearch: (params: SearchParams) => void;
   onClear: () => void;
   onRefresh: () => void;
   isSearching: boolean;
   isPending: boolean;
-}
+};
 
-export const ExportOrderSearch = ({
+export function ExportOrderSearch({
   onSearch,
   onClear,
   onRefresh,
   isSearching,
   isPending,
-}: ExportOrderSearchProps) => {
-  const [filters, setFilters] = useState<ExportOrderSearchRequest>({
-    source: null,
-    status: null,
-    createdBy: null,
-    startDate: null,
-    endDate: null,
-  });
-
-  const handleFilterChange = (
-    key: keyof ExportOrderSearchRequest,
-    value: string | null
-  ) => {
-    setFilters((prev) => ({
-      ...prev,
-      [key]: value || null,
-    }));
-  };
+}: ExportOrderSearchProps) {
+  const [searchParams, setSearchParams] = useState<SearchParams>({});
 
   const handleSearch = () => {
-    // Clean filters - remove empty values
-    const cleanFilters = Object.entries(filters).reduce((acc, [key, value]) => {
-      if (value && value.trim() !== "") {
-        acc[key as keyof ExportOrderSearchRequest] = value.trim();
-      }
-      return acc;
-    }, {} as ExportOrderSearchRequest);
-
-    onSearch(cleanFilters);
+    onSearch(searchParams);
   };
 
   const handleClear = () => {
-    setFilters({
-      source: null,
-      status: null,
-      createdBy: null,
-      startDate: null,
-      endDate: null,
-    });
+    setSearchParams({});
     onClear();
+  };
+
+  const handleInputChange = (key: keyof SearchParams, value: string) => {
+    setSearchParams(prev => ({
+      ...prev,
+      [key]: value || undefined
+    }));
   };
 
   return (
     <Card className="mb-4">
       <CardHeader>
-        <CardTitle className="text-lg flex items-center gap-2">
-          <Search size={20} />
-          Tìm kiếm đơn xuất
-        </CardTitle>
+        <CardTitle className="text-lg">Tìm kiếm đơn xuất</CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-4">
-          {/* Source Filter */}
+      <CardContent className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="source">Nguồn</Label>
-            <Select
-              value={filters.source || "all"}
-              onValueChange={(value) =>
-                handleFilterChange("source", value === "all" ? null : value)
-              }
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Chọn nguồn" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">Tất cả</SelectItem>
-                <SelectItem value="manual">Manual</SelectItem>
-                <SelectItem value="haravan">Haravan</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          {/* Status Filter */}
-          <div className="space-y-2">
-            <Label htmlFor="status">Trạng thái</Label>
-            <Select
-              value={filters.status || "all"}
-              onValueChange={(value) =>
-                handleFilterChange("status", value === "all" ? null : value)
-              }
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Chọn trạng thái" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">Tất cả</SelectItem>
-                <SelectItem value="draft">Draft</SelectItem>
-                <SelectItem value="confirmed">Confirmed</SelectItem>
-                <SelectItem value="cancelled">Cancelled</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          {/* Created By Filter */}
-          <div className="space-y-2">
-            <Label htmlFor="createdBy">Người tạo</Label>
+            <Label htmlFor="export-code-search">Mã đơn xuất</Label>
             <Input
-              id="createdBy"
-              placeholder="Nhập tên người tạo..."
-              value={filters.createdBy || ""}
-              onChange={(e) => handleFilterChange("createdBy", e.target.value)}
+              id="export-code-search"
+              placeholder="Nhập mã đơn xuất"
+              value={searchParams.exportCode || ''}
+              onChange={(e) => handleInputChange('exportCode', e.target.value)}
             />
           </div>
-
-          {/* Start Date Filter */}
+          
           <div className="space-y-2">
-            <Label htmlFor="startDate">Từ ngày</Label>
+            <Label htmlFor="sku-code-search">Mã SKU</Label>
             <Input
-              id="startDate"
-              type="date"
-              value={filters.startDate || ""}
-              onChange={(e) => handleFilterChange("startDate", e.target.value)}
+              id="sku-code-search"
+              placeholder="Nhập mã SKU"
+              value={searchParams.skuCode || ''}
+              onChange={(e) => handleInputChange('skuCode', e.target.value)}
             />
           </div>
-
-          {/* End Date Filter */}
+          
           <div className="space-y-2">
-            <Label htmlFor="endDate">Đến ngày</Label>
+            <Label htmlFor="product-name-search">Tên sản phẩm</Label>
             <Input
-              id="endDate"
+              id="product-name-search"
+              placeholder="Nhập tên sản phẩm"
+              value={searchParams.productName || ''}
+              onChange={(e) => handleInputChange('productName', e.target.value)}
+            />
+          </div>
+          
+          <div className="space-y-2">
+            <Label htmlFor="export-date-search">Ngày xuất</Label>
+            <Input
+              id="export-date-search"
               type="date"
-              value={filters.endDate || ""}
-              onChange={(e) => handleFilterChange("endDate", e.target.value)}
+              value={searchParams.exportDate || ''}
+              onChange={(e) => handleInputChange('exportDate', e.target.value)}
             />
           </div>
         </div>
-
-        {/* Action Buttons */}
+        
         <div className="flex gap-2">
-          <Button
-            onClick={handleSearch}
+          <Button 
+            onClick={handleSearch} 
             disabled={isPending}
-            className="bg-blue-600 hover:bg-blue-700"
+            className="flex items-center gap-2"
           >
-            <Search size={16} className="mr-2" />
-            {isPending ? "Đang tìm..." : "Tìm kiếm"}
+            <Search size={16} />
+            {isPending ? 'Đang tìm...' : 'Tìm kiếm'}
           </Button>
-
-          <Button variant="outline" onClick={handleClear} disabled={isPending}>
-            <X size={16} className="mr-2" />
+          
+          <Button 
+            variant="outline" 
+            onClick={handleClear}
+            disabled={isPending}
+            className="flex items-center gap-2"
+          >
+            <X size={16} />
             Xóa bộ lọc
           </Button>
-
-          <Button variant="outline" onClick={onRefresh} disabled={isPending}>
-            <RotateCcw size={16} className="mr-2" />
+          
+          <Button 
+            variant="outline" 
+            onClick={onRefresh}
+            disabled={isPending}
+            className="flex items-center gap-2"
+          >
+            <RefreshCw size={16} />
             Làm mới
           </Button>
         </div>
-
-        {/* Search Status Indicator */}
+        
         {isSearching && (
-          <div className="mt-2 text-sm text-gray-600">
-            <span className="font-medium">Đang hiển thị kết quả tìm kiếm</span>
-            {Object.values(filters).some((value) => value) && (
-              <span> - Có bộ lọc được áp dụng</span>
-            )}
+          <div className="text-sm text-muted-foreground">
+            Hiển thị kết quả tìm kiếm. Nhấn &quot;Xóa bộ lọc&quot; để xem tất cả dữ liệu.
           </div>
         )}
       </CardContent>
     </Card>
   );
-};
+}

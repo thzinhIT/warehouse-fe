@@ -9,11 +9,11 @@ export const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     // Debug logging (comment out in production)
-    // console.log('🚀 API Request:', {
+    // console.log("🚀 API Request:", {
     //   baseURL: config.baseURL,
     //   url: config.url,
     //   method: config.method,
-    //   fullURL: `${config.baseURL}${config.url}`
+    //   fullURL: `${config.baseURL}${config.url}`,
     // });
 
     if (typeof window !== "undefined") {

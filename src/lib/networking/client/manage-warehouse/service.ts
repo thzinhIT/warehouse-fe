@@ -323,6 +323,51 @@ export type TAllExportOrderDetailsResponse = {
   error?: string;
 };
 
+export type TExportOrderFullDetail = {
+  id: number;
+  exportCode: string;
+  source: string;
+  status: string;
+  createdBy: string;
+  createdAt: string;
+  note: string;
+  details: TExportOrderDetailItem[];
+};
+
+export type TExportOrderDetailItem = {
+  id: number;
+  skuCode: string;
+  skuName: string;
+  size: string;
+  color: string;
+  type: string;
+  unitVolume: number;
+  quantity: number;
+};
+
+export type TExportOrderFullDetailResponse = {
+  code: number;
+  data: TExportOrderFullDetail;
+  message?: string;
+  error?: string;
+};
+
+export type TExportOrderBoard = {
+  id: number;
+  exportCode: string;
+  skuCode: string;
+  skuName: string;
+  createdAt: string;
+  quantity: number;
+};
+
+export type TExportOrderBoardResponse = {
+  code: number;
+  data: TExportOrderBoard[];
+  message?: string;
+  error?: string;
+};
+
 export async function getAllExportOrders() {
   try {
     const res = await api.get<IGetExportOrder>(`${ApiEndPoint.ALLEXPORTORDER}`);
@@ -350,10 +395,38 @@ export async function getAllExportOrderDetails() {
       res?.data?.error || "Error fetching export order details";
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
-  } catch (error) {
-    console.log("Error fetching export order details:", error);
+  } catch (error) {}
+}
+
+export async function getExportOrderDetailById(detailId: number) {
+  try {
+    const res = await api.get<TExportOrderFullDetailResponse>(
+      `${ApiEndPoint.EXPORTORDERDETAILBYID}/${detailId}/full`
+    );
+    if (res?.data?.code === 200) {
+      return res.data?.data;
+    }
+    const errorMessage =
+      res?.data?.error || "Error fetching export order detail";
+    toast.error(errorMessage);
+    return Promise.reject(new Error(errorMessage));
+  } catch (error) {}
+}
+
+export async function getExportOrderBoard() {
+  try {
+    const res = await api.get<TExportOrderBoardResponse>(
+      `${ApiEndPoint.EXPORTORDERBOARDDETAILS}`
+    );
+    if (res?.data?.code === 200) {
+      return res.data?.data;
+    }
+    const errorMessage =
+      res?.data?.error || "Error fetching export order board details";
+    toast.error(errorMessage);
+    return Promise.reject(new Error(errorMessage));
     return Promise.reject(error);
-  }
+  } catch (error) {}
 }
 
 export async function searchExportOrders(
@@ -365,17 +438,165 @@ export async function searchExportOrders(
       searchParams
     );
     if (res?.data?.code === 200) {
-      console.log("🌐 API Success - returning data:", res.data?.data);
       return res.data?.data;
     }
     const errorMessage = res?.data?.error || "Error searching export orders";
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
   } catch (error) {
-    console.log("🌐 API Exception - Error searching export orders:", error);
     toast.error("Network error occurred while searching");
     return Promise.reject(error);
   }
 }
 
+// --- START: MANUAL EXPORT TYPES & FUNCTIONS ---
+
+export type TSkuStatusItem = {
+  skuCode: string;
+  availableQty: number;
+  queuedQty: number;
+};
+
+export type TMoveToQueueRequest = {
+  items: {
+    sku: string;
+    quantity: number;
+  }[];
+};
+
+export async function moveItemsToQueue(request: TMoveToQueueRequest) {
+  try {
+    const res = await api.post<string>(`${ApiEndPoint.MOVETOQUEUE}`, request);
+
+    if (res?.status === 200) {
+      toast.success("Chuyển item thành công!");
+      return res.data;
+    }
+
+    const errorMessage = "Error moving items to queue";
+    toast.error(errorMessage);
+    return Promise.reject(new Error(errorMessage));
+  } catch (error: any) {
+    if (error.response) {
+      toast.error(
+        `API Error: ${error.response.status} - ${
+          error.response.data?.message || "Unknown error"
+        }`
+      );
+    } else if (error.request) {
+      toast.error("No response from server. Please check your connection.");
+    } else {
+      toast.error("Request setup error: " + error.message);
+    }
+
+    return Promise.reject(error);
+  }
+}
+
+export async function moveItemsBackFromQueue(request: TMoveToQueueRequest) {
+  try {
+    const res = await api.post<string>(
+      `${ApiEndPoint.MOVEBACKFROMQUEUE}`,
+      request
+    );
+
+    if (res?.status === 200) {
+      toast.success("Chuyển item từ queued về available thành công!");
+      return res.data;
+    }
+
+    const errorMessage = "Error moving items back from queue";
+    toast.error(errorMessage);
+    return Promise.reject(new Error(errorMessage));
+  } catch (error: any) {
+    if (error.response) {
+      toast.error(
+        `API Error: ${error.response.status} - ${
+          error.response.data?.message || "Unknown error"
+        }`
+      );
+    } else if (error.request) {
+      toast.error("No response from server. Please check your connection.");
+    } else {
+      toast.error("Request setup error: " + error.message);
+    }
+
+    return Promise.reject(error);
+  }
+}
+
+export async function exportWithRoute(request: TMoveToQueueRequest) {
+  try {
+    const res = await api.post(`${ApiEndPoint.EXPORTWITHROUTE}`, request, {
+      responseType: "blob",
+    });
+
+    if (res?.status === 200) {
+      const blob = new Blob([res.data], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `exported_items_with_route_${new Date().getTime()}.xlsx`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+
+      toast.success("Xuất kho thành công! File đã được tải xuống.");
+      return res.data;
+    }
+
+    const errorMessage = "Error exporting items with route";
+    toast.error(errorMessage);
+    return Promise.reject(new Error(errorMessage));
+  } catch (error: any) {
+    if (error.response) {
+      toast.error(
+        `API Error: ${error.response.status} - ${
+          error.response.data?.message || "Unknown error"
+        }`
+      );
+    } else if (error.request) {
+      toast.error("No response from server. Please check your connection.");
+    } else {
+      toast.error("Request setup error: " + error.message);
+    }
+
+    return Promise.reject(error);
+  }
+}
+
+export async function getSkuStatusForExport() {
+  try {
+    const res = await api.get<TSkuStatusItem[]>(
+      `${ApiEndPoint.SKUSTATUSEXPORT}`
+    );
+
+    if (res?.data) {
+      return res.data;
+    }
+
+    const errorMessage = "No data received from SKU status API";
+    toast.error(errorMessage);
+    return Promise.reject(new Error(errorMessage));
+  } catch (error: any) {
+    if (error.response) {
+      toast.error(
+        `API Error: ${error.response.status} - ${
+          error.response.data?.message || "Unknown error"
+        }`
+      );
+    } else if (error.request) {
+      toast.error("No response from server. Please check your connection.");
+    } else {
+      toast.error("Request setup error: " + error.message);
+    }
+
+    return Promise.reject(error);
+  }
+}
+
+// --- END: MANUAL EXPORT TYPES & FUNCTIONS ---
 // --- END: EXPORT ORDER TYPES & FUNCTIONS ---

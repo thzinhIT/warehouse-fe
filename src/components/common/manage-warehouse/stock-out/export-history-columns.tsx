@@ -1,9 +1,15 @@
 import { Checkbox } from "@/components/ui/checkbox";
-import { TAllExportOrderDetails } from "@/lib/networking/client/manage-warehouse/service";
+import { TExportOrderBoard } from "@/lib/networking/client/manage-warehouse/service";
 import { ColumnDef } from "@tanstack/react-table";
 import { Eye } from "lucide-react";
 
-const getColumnsExportOrderSearch = (): ColumnDef<TAllExportOrderDetails>[] => [
+type propsCol = {
+  handleOnClickDetail?: (data: TExportOrderBoard) => void;
+};
+
+const getColumnsExportHistory = ({
+  handleOnClickDetail,
+}: propsCol = {}): ColumnDef<TExportOrderBoard>[] => [
   {
     id: "select",
     header: ({ table }) => (
@@ -53,10 +59,10 @@ const getColumnsExportOrderSearch = (): ColumnDef<TAllExportOrderDetails>[] => [
     ),
   },
   {
-    accessorKey: "productName",
+    accessorKey: "skuName",
     header: () => <div>Tên sản phẩm</div>,
     cell: ({ row }) => (
-      <div className="lowercase">{row.getValue("productName") ?? "--"}</div>
+      <div className="lowercase">{row.getValue("skuName") ?? "--"}</div>
     ),
   },
   {
@@ -68,12 +74,12 @@ const getColumnsExportOrderSearch = (): ColumnDef<TAllExportOrderDetails>[] => [
     },
   },
   {
-    accessorKey: "exportDate",
-    header: () => <div className="text-center">Ngày xuất</div>,
+    accessorKey: "createdAt",
+    header: () => <div className="text-center">Ngày tạo</div>,
     cell: ({ row }) => {
-      const exportDate = row.getValue("exportDate") as string;
-      const formatDate = exportDate
-        ? new Date(exportDate).toLocaleDateString("vi-VN")
+      const createdAt = row.getValue("createdAt") as string;
+      const formatDate = createdAt
+        ? new Date(createdAt).toLocaleDateString("vi-VN")
         : "--";
       return <div className="text-center font-medium">{formatDate}</div>;
     },
@@ -81,16 +87,15 @@ const getColumnsExportOrderSearch = (): ColumnDef<TAllExportOrderDetails>[] => [
   {
     id: "actions",
     enableHiding: false,
-    cell: () => {
+    cell: ({ row }) => {
       return (
         <div className="flex items-center justify-center">
-          <Eye 
-            size={16} 
-            className="cursor-pointer hover:text-blue-600" 
-            onClick={() => {
-              // TODO: Add search result detail view logic
-              console.log("View search result details");
-            }}
+          <Eye
+            size={16}
+            className={`cursor-pointer hover:text-blue-600 ${
+              !handleOnClickDetail ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            onClick={() => handleOnClickDetail?.(row.original)}
           />
         </div>
       );
@@ -98,4 +103,4 @@ const getColumnsExportOrderSearch = (): ColumnDef<TAllExportOrderDetails>[] => [
   },
 ];
 
-export default getColumnsExportOrderSearch;
+export default getColumnsExportHistory;

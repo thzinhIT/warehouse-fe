@@ -74,8 +74,6 @@ const DashboardClient = () => {
   const skuTypeRatioData = formatSkuTypeRatioForPieChart();
   const summaryData = formatSummaryDataForBarChart();
 
-
-
   // Fallback data if no API data is available
   const fallbackWarehouseData = [
     { month: "january", desktop: 186, fill: "hsl(0, 70%, 50%)" },
@@ -84,6 +82,7 @@ const DashboardClient = () => {
     { month: "april", desktop: 173, fill: "hsl(216, 70%, 50%)" },
     { month: "may", desktop: 209, fill: "hsl(288, 70%, 50%)" },
   ];
+  console.log(`importData`);
 
   return (
     <div className="h-full p-4 overflow-auto">
