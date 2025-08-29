@@ -3,32 +3,24 @@
 import * as React from "react";
 import {
   AudioWaveform,
-  BookOpen,
-  Bot,
   Command,
   Frame,
   GalleryVerticalEnd,
-  icons,
   Map,
   PieChart,
-  Save,
-  SaveIcon,
-  Settings2,
-  SquareTerminal,
 } from "lucide-react";
-import {
-  MdArchive,
-  MdCalendarToday,
-  MdShoppingCart,
-  MdWarning,
-  MdTrendingUp,
-  MdSettings,
-  MdStorage,
-  MdDescription,
-  MdShelves,
-  MdSdStorage,
-} from "react-icons/md";
+
+import { MdDashboard, MdWarehouse, MdLocalShipping } from "react-icons/md";
+import { IoSave } from "react-icons/io5";
+import { FaUserEdit } from "react-icons/fa";
+import { FcSettings } from "react-icons/fc";
+import { HiArchiveBoxArrowDown } from "react-icons/hi2";
 import { GoClockFill } from "react-icons/go";
+import { GiBoxUnpacking } from "react-icons/gi";
+import { BiCabinet } from "react-icons/bi";
+import { FaBoxOpen } from "react-icons/fa";
+import { FaExclamationTriangle } from "react-icons/fa";
+import { MdNoteAlt } from "react-icons/md";
 
 import { NavMain } from "@/components/layout/nav/nav-main";
 import { NavProjects } from "@/components/layout/nav/nav-projects";
@@ -42,14 +34,8 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import Dashboard from "@/app/(auth)/(dashboard)/page";
-import { Icons } from "@/components/common/icons";
-import { RiLuggageCartFill, RiStopLargeLine } from "react-icons/ri";
-import { RxDownload, RxUpload } from "react-icons/rx";
-import { GrHistory } from "react-icons/gr";
-import { LiaOpencart } from "react-icons/lia";
 
-// This is sample data.
+
 const data = {
   user: {
     name: "shadcn",
@@ -73,179 +59,91 @@ const data = {
       plan: "Free",
     },
   ],
-  // navMain: [
-  //   {
-  //     title: "Playground",
-  //     url: "#",
-  //     icon: SquareTerminal,
-  //     isActive: true,
-  //     items: [
-  //       {
-  //         title: "History",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Starred",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Settings",
-  //         url: "#",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     title: "Models",
-  //     url: "#",
-  //     icon: Bot,
-  //     items: [
-  //       {
-  //         title: "Genesis",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Explorer",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Quantum",
-  //         url: "#",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     title: "Documentation",
-  //     url: "#",
-  //     icon: BookOpen,
-  //     items: [
-  //       {
-  //         title: "Introduction",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Get Started",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Tutorials",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Changelog",
-  //         url: "#",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     title: "Settings",
-  //     url: "#",
-  //     icon: Settings2,
-  //     items: [
-  //       {
-  //         title: "General",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Team",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Billing",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Limits",
-  //         url: "#",
-  //       },
-  //     ],
-  //   },
-  // ],
+
   navMain: [
     {
       title: "dashboard",
       url: "/",
-      icon: <Icons.Dashboard />,
+      icon: <MdDashboard className="text-blue-500 " size={18} />,
+
       isActive: true,
     },
     {
       title: "warehouse-management",
       url: "/manage-warehouse",
-      icon: <RiLuggageCartFill />,
+      icon: <MdWarehouse className="text-red-400" size={18} />,
       items: [
         {
           title: "stock-in",
           url: "/manage-warehouse/stock-in",
-          icon: <RxDownload />,
+          icon: <HiArchiveBoxArrowDown className="text-yellow-500" />,
         },
         {
           title: "stock-in-history",
           url: "/manage-warehouse/history",
-          icon: <GrHistory />,
-        },
-      ],
-    },
-    {
-      title: "stock-out-management",
-      url: "/manage-export",
-      icon: <LiaOpencart />,
-      items: [
-        {
-          title: "stock-out",
-          url: "/manage-export/stock-out",
-          icon: <RxUpload />,
-        },
-        {
-          title: "stock-out-history",
-          url: "/manage-export/history",
           icon: <GoClockFill className="text-amber-800" />,
         },
       ],
     },
+  {
+  title: "stock-out-management",
+  url: "/manage-export",
+  icon: <MdLocalShipping className="text-green-600" size={18} />,
+  items: [
+    {
+      title: "stock-out",
+      url: "/manage-export/stock-out",
+      icon: <GiBoxUnpacking className="text-purple-600" />,
+    },
+    {
+      title: "stock-out-history",
+      url: "/manage-export/history",
+      icon: <GoClockFill className="text-amber-800" />,
+    },
+  ],
+},
+
     {
       title: "storage-management",
       url: "/manage-storage",
-      icon: <SaveIcon />,
+      icon: <IoSave className="text-amber-800" size={18} />,
       items: [
         {
           title: "shelves-management",
           url: "/manage-storage/shelves",
-          icon: <MdShelves />,
+          icon: <BiCabinet className="text-orange-500" />,
         },
         {
           title: "product-management",
           url: "/manage-storage/product",
-          icon: <MdShoppingCart />,
+          icon: <FaBoxOpen className="text-amber-500" />,
         },
         {
           title: "defective-product-management",
           url: "#",
-          icon: <MdWarning />,
+          icon: <FaExclamationTriangle className="text-yellow-400" />,
         },
       ],
     },
     {
-      title: "labor-management",
+      title: "employee-management",
       url: "/manage-employee",
-      icon: <MdTrendingUp />,
+      icon: <FaUserEdit className="text-cyan-600" size={18} />,
     },
     {
       title: "system-settings",
       url: "#",
-      icon: <MdSettings />,
+      icon: <FcSettings size={18} />,
       items: [
-        {
-          title: "storage-configuration",
-          url: "#",
-          icon: <MdStorage />,
-        },
         {
           title: "system-logs",
           url: "#",
-          icon: <MdDescription />,
+          icon: <MdNoteAlt className="text-red-600" />,
         },
       ],
     },
   ],
+
   projects: [
     {
       name: "Design Engineering",
@@ -271,8 +169,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
-      <SidebarContent className="scrollbar overflow-aut">
-        <NavMain items={data.navMain} />o
+      <SidebarContent className="scrollbar overflow-auto">
+        <NavMain items={data.navMain} />
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>

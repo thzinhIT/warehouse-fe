@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronRight, type LucideIcon } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import {
@@ -18,7 +18,7 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 export function NavMain({
@@ -58,8 +58,9 @@ export function NavMain({
             >
               <SidebarMenuItem>
                 <CollapsibleTrigger asChild>
-                  <SidebarMenuButton tooltip={item.title}>
-                    {item.icon && item.icon}
+                  <SidebarMenuButton tooltip={item.title} className="mt-1">
+                    <div>{item.icon && item.icon}</div>
+
                     <div
                       className={cn(
                         "w-full p-1 pl-2 hover:bg-secondary flex items-center gap-2 text-sm rounded-md font-semibold",
