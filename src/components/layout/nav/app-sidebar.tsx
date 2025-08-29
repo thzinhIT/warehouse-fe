@@ -28,6 +28,7 @@ import {
   MdShelves,
   MdSdStorage,
 } from "react-icons/md";
+import { GoClockFill } from "react-icons/go";
 
 import { NavMain } from "@/components/layout/nav/nav-main";
 import { NavProjects } from "@/components/layout/nav/nav-projects";
@@ -196,7 +197,7 @@ const data = {
         {
           title: "stock-out-history",
           url: "/manage-export/history",
-          icon: <GrHistory />,
+          icon: <GoClockFill className="text-amber-800" />,
         },
       ],
     },
