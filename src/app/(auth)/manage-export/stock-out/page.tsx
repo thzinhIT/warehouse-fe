@@ -1,7 +1,8 @@
 "use client";
 import { ModalImportBulk } from "@/components/common/manage-warehouse/stock-in/modal-import-bulk";
 import { ModalImportOnline } from "@/components/common/manage-warehouse/stock-in/modal-import-online";
-import { ModalDetailExportOrder } from "@/components/common/manage-warehouse/stock-out/modal-detail-export-order";
+import { ModalUpdateExportOrder } from "@/components/common/manage-warehouse/stock-out/modal-update-export-order";
+import { ExportOrderSearch } from "@/components/common/manage-warehouse/stock-out/export-order-search";
 import {
   ModalManualExport,
   TManualExportItem,
@@ -19,11 +20,11 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import getColumnsExportOrder from "@/components/common/manage-warehouse/stock-out/export-order-columns";
-import { useStockOut } from "@/hooks/manage-warehouse/use-stock-out";
 import {
   useSkuStatusForExport,
   transformSkuStatusToModalData,
 } from "@/hooks/manage-warehouse/use-manual-export";
+import { useStockOutFullSearch } from "@/hooks/manage-warehouse/use-stock-out-full-search";
 import { TAllExportOrderDetails } from "@/lib/networking/client/manage-warehouse/service";
 
 const StockOutPage = () => {
@@ -34,12 +35,20 @@ const StockOutPage = () => {
   const {
     data,
     isPending,
-    isOpenDetail,
-    detailData,
-    isDetailPending,
-    handleOnClickDetail,
-    handleCloseDetail,
-  } = useStockOut();
+    isSearching,
+    handleSearch,
+    handleClearSearch,
+    handleRefresh,
+  } = useStockOutFullSearch();
+
+  // Modal state for export order details
+  const [isOpenDetail, setIsOpenDetail] = useState(false);
+  const [selectedDetailId, setSelectedDetailId] = useState<number>(0);
+
+  const handleOnClickDetail = (item: TAllExportOrderDetails) => {
+    setSelectedDetailId(item.id);
+    setIsOpenDetail(true);
+  };
 
   // Use API hook for manual export data
   const { data: skuStatusData, isLoading: isSkuStatusLoading } =
@@ -53,30 +62,25 @@ const StockOutPage = () => {
   // Handlers for the 4 export buttons
   const handleExportingOrders = () => {
     // API call for "Đơn đang xuất"
-    console.log("Đơn đang xuất clicked");
     // TODO: Call your API here
   };
 
   const handleExportToExcel = () => {
     // API call for "Xuất Excel"
-    console.log("Xuất Excel clicked");
     // TODO: Call your API here
   };
 
   const handleExportByOrder = () => {
     // API call for "Xuất theo đơn"
-    console.log("Xuất theo đơn clicked");
     // TODO: Call your API here
   };
 
   const handleManualExport = () => {
-    // Open the manual export modal
-    console.log("Xuất thủ công clicked");
+    // Open the manual export modal    console.log("Xuất thủ công clicked");
     setOpenManualExport(true);
   };
 
   const handleManualExportConfirm = (selectedItems: TManualExportItem[]) => {
-    console.log("Selected items for export:", selectedItems);
     // TODO: Call your API to process the manual export
     setOpenManualExport(false);
   };
@@ -109,8 +113,19 @@ const StockOutPage = () => {
         </div>
       </div>
 
+      {/* Search Component */}
+      <div className="px-2 mt-4">
+        <ExportOrderSearch
+          onSearch={handleSearch}
+          onClear={handleClearSearch}
+          onRefresh={handleRefresh}
+          isSearching={isSearching}
+          isPending={isPending}
+        />
+      </div>
+
       {/* 4 Export Action Buttons */}
-      <div className="px-2 mt-4 mb-4">
+      <div className="px-2 mb-4">
         <div className="flex gap-3 justify-start">
           <Button
             className="cursor-pointer bg-orange-500 hover:bg-orange-600 flex items-center gap-2 text-white"
@@ -157,11 +172,11 @@ const StockOutPage = () => {
       </div>
       <ModalImportBulk open={open} setOpen={setOpen} />
       <ModalImportOnline open={openOnline} setOpen={setOpenOnline} />
-      <ModalDetailExportOrder
+      <ModalUpdateExportOrder
         open={isOpenDetail}
-        setOpen={handleCloseDetail}
-        data={detailData}
-        isLoading={isDetailPending}
+        setOpen={setIsOpenDetail}
+        detailId={selectedDetailId}
+        title="Chi tiết sản phẩm xuất kho"
       />
       <ModalManualExport
         open={openManualExport}

@@ -122,7 +122,6 @@ export async function getAllHistoryImportOrder() {
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
   } catch (error) {
-    console.log("Error fetching history import orders byID:", error);
     return Promise.reject(error);
   }
 }
@@ -139,7 +138,6 @@ export async function getHistoryImportOrderById(id: number) {
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
   } catch (error) {
-    console.log("Error fetching history import orders:", error);
     return Promise.reject(error);
   }
 }
@@ -167,7 +165,6 @@ export async function uploadFileExcel(file: File) {
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
   } catch (error) {
-    console.log("Error uploading file:", error);
     return Promise.reject(error);
   }
 }
@@ -184,7 +181,6 @@ export async function getTemporaryImportOrder() {
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
   } catch (error) {
-    console.log("Error Get data temporary:", error);
     return Promise.reject(error);
   }
 }
@@ -205,7 +201,6 @@ export async function DeleteTemporaryById(id: number) {
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
   } catch (error) {
-    console.log("Error delete data temporary:", error);
     return Promise.reject(error);
   }
 }
@@ -228,7 +223,6 @@ export async function UpdateTemporaryById(
     const errorMessage = res?.data?.message || "Error Update data temporary:";
     return Promise.reject(new Error(errorMessage));
   } catch (error) {
-    console.log("Error Update data temporary:", error);
     return Promise.reject(error);
   }
 }
@@ -250,7 +244,6 @@ export async function ImportWarehouse(id: number[]) {
     const errorMessage = res?.data?.message || "Error import data temporary:";
     return Promise.reject(new Error(errorMessage));
   } catch (error) {
-    console.log("Error import data temporary:", error);
     return Promise.reject(error);
   }
 }
@@ -278,7 +271,6 @@ export async function DownloadTemplateImportOrder() {
     link.remove();
     window.URL.revokeObjectURL(url);
   } catch (error) {
-    console.log("Error download template:", error);
     return Promise.reject(error);
   }
 }
@@ -323,7 +315,54 @@ export type TAllExportOrderDetailsResponse = {
   error?: string;
 };
 
+export type TExportOrderBoard = {
+  id: number;
+  exportCode: string;
+  skuCode: string;
+  skuName: string;
+  createdAt: string;
+  quantity: number;
+};
+
+export type TExportOrderBoardResponse = {
+  code: number;
+  data: TExportOrderBoard[];
+  message?: string;
+  error?: string;
+};
+
+// Export Order Full Detail Types
+export type TExportOrderFullDetailItem = {
+  id: number;
+  skuCode: string;
+  skuName: string;
+  size: string;
+  color: string;
+  type: string;
+  unitVolume: number;
+  quantity: number;
+};
+
 export type TExportOrderFullDetail = {
+  id: number;
+  exportCode: string;
+  source: string;
+  status: string;
+  createdBy: string;
+  createdAt: string;
+  note: string;
+  details: TExportOrderFullDetailItem[];
+};
+
+export type TExportOrderFullDetailResponse = {
+  code: number;
+  data: TExportOrderFullDetail;
+  message?: string;
+  error?: string;
+};
+
+// Export Order Detail by DetailId Types (for individual item details in stock-out)
+export type TExportOrderDetailFull = {
   id: number;
   exportCode: string;
   source: string;
@@ -345,25 +384,9 @@ export type TExportOrderDetailItem = {
   quantity: number;
 };
 
-export type TExportOrderFullDetailResponse = {
+export type TExportOrderDetailFullResponse = {
   code: number;
-  data: TExportOrderFullDetail;
-  message?: string;
-  error?: string;
-};
-
-export type TExportOrderBoard = {
-  id: number;
-  exportCode: string;
-  skuCode: string;
-  skuName: string;
-  createdAt: string;
-  quantity: number;
-};
-
-export type TExportOrderBoardResponse = {
-  code: number;
-  data: TExportOrderBoard[];
+  data: TExportOrderDetailFull;
   message?: string;
   error?: string;
 };
@@ -378,7 +401,6 @@ export async function getAllExportOrders() {
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
   } catch (error) {
-    console.log("Error fetching export orders:", error);
     return Promise.reject(error);
   }
 }
@@ -445,6 +467,144 @@ export async function searchExportOrders(
     return Promise.reject(new Error(errorMessage));
   } catch (error) {
     toast.error("Network error occurred while searching");
+    return Promise.reject(error);
+  }
+}
+
+// Search Export Orders Full - for stock-out page
+export type TSearchExportOrderRequest = {
+  exportCode?: string;
+  skuCode?: string;
+  startDate?: string; // Format: "yyyy-MM-dd"
+  endDate?: string; // Format: "yyyy-MM-dd"
+};
+
+export type TSearchExportOrderResponse = {
+  code: number;
+  data: TAllExportOrderDetails[];
+  message?: string;
+  error?: string;
+};
+
+export async function searchExportOrdersFull(
+  searchParams: TSearchExportOrderRequest
+) {
+  try {
+    const res = await api.post<TSearchExportOrderResponse>(
+      `${ApiEndPoint.SEARCHEXPORTORDERSFULL}`,
+      searchParams
+    );
+    if (res?.data?.code === 200) {
+      return res.data?.data;
+    }
+    const errorMessage =
+      res?.data?.error || "Error searching export orders full";
+    toast.error(errorMessage);
+    return Promise.reject(new Error(errorMessage));
+  } catch (error: any) {
+    if (error.response) {
+      toast.error(
+        `API Error: ${error.response.status} - ${
+          error.response.data?.message || "Unknown error"
+        }`
+      );
+    } else if (error.request) {
+      toast.error("No response from server. Please check your connection.");
+    } else {
+      toast.error("Request setup error: " + error.message);
+    }
+    return Promise.reject(error);
+  }
+}
+
+// Search Export Orders Board - for stock-out history page
+export type TSearchExportOrder2Request = {
+  exportCode?: string;
+  source?: "manual" | "haravan" | null;
+  startDate?: string; // Format: "yyyy-MM-dd"
+  endDate?: string; // Format: "yyyy-MM-dd"
+};
+
+export type TSearchExportOrderBoardResponse = {
+  code: number;
+  data: TExportOrderBoard[];
+  message?: string;
+  error?: string;
+};
+
+export async function searchExportOrdersBoard(
+  searchParams: TSearchExportOrder2Request
+) {
+  try {
+    const res = await api.post<TSearchExportOrderBoardResponse>(
+      `${ApiEndPoint.SEARCHEXPORTORDERSBOARD}`,
+      searchParams
+    );
+    if (res?.data?.code === 200) {
+      return res.data?.data;
+    }
+    const errorMessage =
+      res?.data?.error || "Error searching export orders board";
+    toast.error(errorMessage);
+    return Promise.reject(new Error(errorMessage));
+  } catch (error: any) {
+    if (error.response) {
+      toast.error(
+        `API Error: ${error.response.status} - ${
+          error.response.data?.message || "Unknown error"
+        }`
+      );
+    } else if (error.request) {
+      toast.error("No response from server. Please check your connection.");
+    } else {
+      toast.error("Request setup error: " + error.message);
+    }
+    return Promise.reject(error);
+  }
+}
+
+// Get Export Order Full Details by ID
+export async function getExportOrderFullById(orderId: number) {
+  try {
+    const res = await api.get<TExportOrderFullDetailResponse>(
+      `${ApiEndPoint.EXPORTORDERFULLBYID}/${orderId}/full`
+    );
+    if (res?.data?.code === 200) {
+      return res.data?.data;
+    }
+    const errorMessage =
+      res?.data?.error || "Error getting export order details";
+    toast.error(errorMessage);
+    return Promise.reject(new Error(errorMessage));
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      toast.error("Request error: " + error.message);
+    } else {
+      toast.error("Unknown error occurred while getting export order details");
+    }
+    return Promise.reject(error);
+  }
+}
+
+// Get Export Order Detail by DetailId (for individual item details)
+export async function getExportOrderDetailByDetailId(detailId: number) {
+  try {
+    const res = await api.get<TExportOrderDetailFullResponse>(
+      `${ApiEndPoint.EXPORTORDERDETAILFULLBYID}/${detailId}/full`
+    );
+    if (res?.data?.code === 200) {
+      return res.data?.data;
+    }
+    const errorMessage =
+      res?.data?.error || "Error getting export order detail";
+    toast.error(errorMessage);
+    return Promise.reject(new Error(errorMessage));
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      toast.error("Request error: " + error.message);
+    } else {
+      toast.error("Unknown error occurred while getting export order detail");
+    }
     return Promise.reject(error);
   }
 }

@@ -1,14 +1,15 @@
 "use client";
 import { ModalImportBulk } from "@/components/common/manage-warehouse/stock-in/modal-import-bulk";
 import { ModalImportOnline } from "@/components/common/manage-warehouse/stock-in/modal-import-online";
-import { ModalDetailExportOrder } from "@/components/common/manage-warehouse/stock-out/modal-detail-export-order";
+import { ModalExportDetail } from "@/components/common/manage-warehouse/stock-out/modal-export-detail";
+import { ExportHistorySearch } from "@/components/common/manage-warehouse/stock-out/export-history-search";
 import { DataTable } from "@/components/common/table/data-table";
 import SidebarHeader from "@/components/layout/nav/sidebar-header";
 import { Button } from "@/components/ui/button";
 import { CirclePlus, FilePlus } from "lucide-react";
 import { useState } from "react";
 import getColumnsExportHistory from "@/components/common/manage-warehouse/stock-out/export-history-columns";
-import { useExportHistory } from "@/hooks/manage-warehouse/use-export-history";
+import { useExportHistorySearch } from "@/hooks/manage-warehouse/use-export-history-search";
 import { TExportOrderBoard } from "@/lib/networking/client/manage-warehouse/service";
 
 const ExportHistoryPage = () => {
@@ -18,12 +19,20 @@ const ExportHistoryPage = () => {
   const {
     data,
     isPending,
-    isOpenDetail,
-    detailData,
-    isDetailPending,
-    handleOnClickDetail,
-    handleCloseDetail,
-  } = useExportHistory();
+    isSearching,
+    handleSearch,
+    handleClearSearch,
+    handleRefresh,
+  } = useExportHistorySearch();
+
+  // Modal state for export order details
+  const [isOpenDetail, setIsOpenDetail] = useState(false);
+  const [selectedExportId, setSelectedExportId] = useState<number>(0);
+
+  const handleOnClickDetail = (item: TExportOrderBoard) => {
+    setSelectedExportId(item.id);
+    setIsOpenDetail(true);
+  };
 
   return (
     <div className="h-full flex flex-col">
@@ -53,7 +62,17 @@ const ExportHistoryPage = () => {
         </div>
       </div>
 
-      <div className="flex-1 px-2 mt-4">
+      <div className="px-2 mt-4">
+        <ExportHistorySearch
+          onSearch={handleSearch}
+          onClear={handleClearSearch}
+          onRefresh={handleRefresh}
+          isSearching={isSearching}
+          isPending={isPending}
+        />
+      </div>
+
+      <div className="flex-1 px-2">
         {isPending ? (
           <div className="flex items-center justify-center h-64">
             <div className="text-lg">Đang tải dữ liệu...</div>
@@ -67,11 +86,10 @@ const ExportHistoryPage = () => {
       </div>
       <ModalImportBulk open={open} setOpen={setOpen} />
       <ModalImportOnline open={openOnline} setOpen={setOpenOnline} />
-      <ModalDetailExportOrder
+      <ModalExportDetail
         open={isOpenDetail}
-        setOpen={handleCloseDetail}
-        data={detailData}
-        isLoading={isDetailPending}
+        setOpen={setIsOpenDetail}
+        id={selectedExportId}
       />
     </div>
   );

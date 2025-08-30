@@ -218,7 +218,7 @@ const data = {
         },
         {
           title: "defective-product-management",
-          url: "#",
+          url: "/manage-storage/error-product",
           icon: <MdWarning />,
         },
       ],

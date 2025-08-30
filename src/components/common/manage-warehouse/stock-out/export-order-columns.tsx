@@ -90,9 +90,11 @@ const getColumnsExportOrder = ({
     cell: ({ row }) => {
       return (
         <div className="flex items-center justify-center">
-          <Eye 
-            size={16} 
-            className={`cursor-pointer hover:text-blue-600 ${!handleOnClickDetail ? 'opacity-50 cursor-not-allowed' : ''}`}
+          <Eye
+            size={16}
+            className={`cursor-pointer hover:text-blue-600 ${
+              !handleOnClickDetail ? "opacity-50 cursor-not-allowed" : ""
+            }`}
             onClick={() => handleOnClickDetail?.(row.original)}
           />
         </div>

@@ -10,7 +10,11 @@ const ApiEndPoint = {
   ALLEXPORTORDER: "/admin/export-orders/getallExportOrder",
   ALLEXPORTORDERDETAILS: "/admin/export-orders/getAllExportOrderDetails",
   EXPORTORDERDETAILBYID: "/admin/export-orders/detail",
+  EXPORTORDERDETAILFULLBYID: "/admin/export-orders/detail",
+  EXPORTORDERFULLBYID: "/admin/export-orders",
   SEARCHEXPORTORDERS: "/admin/export-orders/search",
+  SEARCHEXPORTORDERSFULL: "/admin/export-orders/search-full",
+  SEARCHEXPORTORDERSBOARD: "/admin/export-orders/search-board",
   EXPORTORDERBOARDDETAILS: "/admin/export-orders/getAllExportOrder/board",
   SKUSTATUSEXPORT: "/admin/export-orders/sku-status",
   MOVETOQUEUE: "/admin/export-orders/multiple/move-to-queue",
@@ -36,6 +40,14 @@ const ApiEndPoint = {
   GET_DETAIL_SHELVES: "api/shelves",
   GET_DETAIL_BOX: "api/boxes",
   CREATE_SHELVES: "api/shelves/create",
+  // Product/SKU endpoints
+  GET_ALL_SKUS: "/api/skus",
+  SEARCH_SKUS: "/api/skus/search",
+  GET_SKU_BY_ID: "/api/skus/getById",
+  // Error Product/SKU endpoints (damaged products)
+  GET_ALL_ERROR_SKUS: "/api/skus/damaged",
+  SEARCH_ERROR_SKUS: "/api/skus/damaged/search",
+  GET_ERROR_SKU_BY_ID: "/api/skus/damaged",
 };
 
 export default ApiEndPoint;

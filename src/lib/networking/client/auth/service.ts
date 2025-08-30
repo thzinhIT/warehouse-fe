@@ -54,7 +54,6 @@ export async function Login({ userName, passWord }: TPayLoadLogin) {
     toast.error("Error: Login error");
     return Promise.reject(new Error("Error: Login error"));
   } catch (e) {
-    console.log("Login error:", e);
     return Promise.reject(e);
   }
 }
@@ -73,9 +72,7 @@ export async function SendCodeEmail({ email }: { email?: string }) {
     const errorMessage = res?.data?.error;
     toast.error(errorMessage ?? "Error: Reset passWord error ");
     return Promise.reject(new Error("Error: Login error"));
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (e) {}
 }
 
 export async function NewPassword({
@@ -107,7 +104,5 @@ export async function NewPassword({
     const errorMessage = res?.data?.error;
     toast.error(errorMessage ?? "Error: Reset passWord error ");
     return Promise.reject(new Error("Error: Login error"));
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (e) {}
 }

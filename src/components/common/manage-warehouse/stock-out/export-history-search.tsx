@@ -2,16 +2,23 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useState } from "react";
 
 type SearchParams = {
   exportCode?: string;
-  skuCode?: string;
+  source?: "manual" | "haravan" | null;
   startDate?: string;
   endDate?: string;
 };
 
-type ExportOrderSearchProps = {
+type ExportHistorySearchProps = {
   onSearch: (params: SearchParams) => void;
   onClear: () => void;
   onRefresh: () => void;
@@ -19,13 +26,13 @@ type ExportOrderSearchProps = {
   isPending: boolean;
 };
 
-export function ExportOrderSearch({
+export function ExportHistorySearch({
   onSearch,
   onClear,
   onRefresh,
   isSearching,
   isPending,
-}: ExportOrderSearchProps) {
+}: ExportHistorySearchProps) {
   const [searchParams, setSearchParams] = useState<SearchParams>({});
 
   const handleSearch = () => {
@@ -44,10 +51,17 @@ export function ExportOrderSearch({
     }));
   };
 
+  const handleSourceChange = (value: string) => {
+    setSearchParams((prev) => ({
+      ...prev,
+      source: value === "all" ? null : (value as "manual" | "haravan"),
+    }));
+  };
+
   return (
     <Card className="mb-4">
       <CardHeader>
-        <CardTitle className="text-lg">Tìm kiếm đơn xuất</CardTitle>
+        <CardTitle className="text-lg">Tìm kiếm lịch sử xuất</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -62,19 +76,26 @@ export function ExportOrderSearch({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="sku-code-search">Mã SKU</Label>
-            <Input
-              id="sku-code-search"
-              placeholder="Input text"
-              value={searchParams.skuCode || ""}
-              onChange={(e) => handleInputChange("skuCode", e.target.value)}
-            />
+            <Label htmlFor="source-search">Nguồn</Label>
+            <Select
+              value={searchParams.source || "all"}
+              onValueChange={handleSourceChange}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Chọn nguồn" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Tất cả</SelectItem>
+                <SelectItem value="manual">Manual</SelectItem>
+                <SelectItem value="haravan">Haravan</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="export-date-search">Ngày xuất kho</Label>
+            <Label htmlFor="start-date-search">Ngày bắt đầu</Label>
             <Input
-              id="export-date-search"
+              id="start-date-search"
               type="date"
               value={searchParams.startDate || ""}
               onChange={(e) => handleInputChange("startDate", e.target.value)}
