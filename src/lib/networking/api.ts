@@ -31,6 +31,11 @@ const ApiEndPoint = {
   GET_DETAIL_SHELVES: "api/shelves",
   GET_DETAIL_BOX: "api/boxes",
   CREATE_SHELVES: "api/shelves/create",
+  CHART_IMPORT: "api/dashboard/1.2-import-chart",
+  CHART_EXPORT: "api/dashboard/2.2-export-chart",
+  STORAGE_CHART: "api/dashboard/3.3-storage-shelf-chart",
+  ERROR_CHART: "api/dashboard/4.2-trend",
+  STORAGE_DONUT: "api/dashboard/3.2-storage-donut",
 };
 
 export default ApiEndPoint;
