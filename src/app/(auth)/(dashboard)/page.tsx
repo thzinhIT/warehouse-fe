@@ -6,7 +6,7 @@ import SidebarHeader from "@/components/layout/nav/sidebar-header";
 const Dashboard = () => {
   return (
     <div className="h-full flex flex-col  ">
-      <SidebarHeader title="Dashboard" />
+      <SidebarHeader title="Bảng điều khiển" />
       <div className="overflow-auto flex-1">
         <DashboardClient />
       </div>

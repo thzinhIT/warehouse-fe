@@ -27,8 +27,10 @@ const chartConfig = {
 
 export function ChartLineMultiple({
   data,
+  isPending,
 }: {
   readonly data: TDataChartError[];
+  readonly isPending: boolean;
 }) {
   return (
     <Card>

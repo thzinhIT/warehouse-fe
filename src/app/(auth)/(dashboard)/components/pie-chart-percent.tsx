@@ -36,7 +36,13 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function ChartPieLabel({ data }: { readonly data?: TDonutChartData }) {
+export function ChartPieLabel({
+  data,
+  isPending,
+}: {
+  readonly data?: TDonutChartData;
+  readonly isPending: boolean;
+}) {
   const result = data
     ? [
         {

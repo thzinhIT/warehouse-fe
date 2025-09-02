@@ -1,19 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import {
-  Droplets,
-  Wind,
-  Clock,
-  AlertTriangle,
-  Thermometer,
-} from "lucide-react";
+import { Droplets, Wind, Clock, AlertTriangle } from "lucide-react";
+import { GiDustCloud } from "react-icons/gi";
 
 interface SensorData {
   timestamp: string;
   humidity: number;
   dust: number;
-  temperature: number;
   event?: string;
 }
 
@@ -21,93 +15,80 @@ export default function IoTDashboard() {
   const [sensorData, setSensorData] = useState<SensorData | null>(null);
   const [hasAlert, setHasAlert] = useState(false);
 
-  const formatTimestamp = (isoString: string) => {
-    const date = new Date(isoString);
-    const pad = (n: number) => n.toString().padStart(2, "0");
-    const ss = pad(date.getSeconds());
-    const mm = pad(date.getMinutes());
-    const hh = pad(date.getHours());
-    const dd = pad(date.getDate());
-    const MM = pad(date.getMonth() + 1);
-    const yyyy = date.getFullYear();
-    return `${ss}:${mm}:${hh} ${dd}/${MM}/${yyyy}`;
-  };
+  // const formatTimestamp = (isoString: string) => {
+  //   const date = new Date(isoString);
+  //   const pad = (n: number) => n.toString().padStart(2, "0");
+  //   const ss = pad(date.getSeconds());
+  //   const mm = pad(date.getMinutes());
+  //   const hh = pad(date.getHours());
+  //   const dd = pad(date.getDate());
+  //   const MM = pad(date.getMonth() + 1);
+  //   const yyyy = date.getFullYear();
+  //   return `${hh}:${ss}:${mm}    ${dd}/${MM}/${yyyy}`;
+  // };
 
-  useEffect(() => {
-    const dataInterval = setInterval(() => {
-      const humidity = Math.floor(Math.random() * 60) + 30; // 30-90%
-      const dust = Math.floor(Math.random() * 150) + 10; // 10-160 µg/m³
-      const temperature = Math.floor(Math.random() * 40) + 15; // 15-55°C
-      const alertCondition = humidity > 80 || dust > 100 || temperature > 45;
-      setHasAlert(alertCondition);
-      setSensorData({
-        timestamp: new Date().toISOString(),
-        humidity,
-        dust,
-        temperature,
-        event: alertCondition ? "ALERT" : "NORMAL",
-      });
-    }, 3000);
-    return () => clearInterval(dataInterval);
-  }, []);
+  // useEffect(() => {
+  //   const dataInterval = setInterval(() => {
+  //     const humidity = Math.floor(Math.random() * 60) + 30; // 30-90%
+  //     const dust = Math.floor(Math.random() * 150) + 10; // 10-160 µg/m³
+  //     const alertCondition = humidity > 80 || dust > 100;
+  //     setHasAlert(alertCondition);
+  //     setSensorData({
+  //       timestamp: new Date().toISOString(),
+  //       humidity,
+  //       dust,
+  //       event: alertCondition ? "ALERT" : "NORMAL",
+  //     });
+  //   }, 3000);
+  //   return () => clearInterval(dataInterval);
+  // }, []);
 
   return (
-    <div className="max-w-2xl mx-auto">
-      <div className="mb-8">
+    <div className="max-w-2xl mx-auto pl-2">
+      <div className="mb-2">
         {true ? (
-          // Alert Box
           <div className="bg-gradient-to-br from-red-500/60 to-orange-500/60 backdrop-blur-sm border border-red-500/50 rounded-2xl p-8 shadow-2xl ">
             <div className="flex items-center gap-3 mb-6">
               <div className="p-3 bg-red-500/30 rounded-xl">
-                <AlertTriangle className="w-8 h-8 text-red-400" />
+                <AlertTriangle className="w-8 h-8 text-amber-200" />
               </div>
-              <h2 className="text-2xl font-bold text-white">
+              <h2 className="text-2xl font-bold text-red-800">
                 Giá trị vượt ngưỡng
               </h2>
             </div>
 
-            {sensorData && (
+            {true && (
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="text-center">
                     <div className="flex items-center justify-center gap-2 mb-2">
-                      <Droplets className="w-5 h-5 text-blue-400" />
-                      <span className="text-blue-300 font-medium">
-                        Humidity
-                      </span>
+                      <Droplets className="w-5 h-5 text-blue-600" />
+                      <span className="text-blue-600  text-lg">Humidity</span>
                     </div>
-                    <div
-                      className={`text-2xl font-bold ${
-                        sensorData.humidity > 80 ? "text-red-400" : "text-white"
-                      }`}
-                    >
-                      {sensorData.humidity}%
+                    <div className={`text-2xl font-bold ${"text-white"}`}>
+                      70%
                     </div>
                   </div>
 
                   <div className="text-center">
                     <div className="flex items-center justify-center gap-2 mb-2">
-                      <Wind className="w-5 h-5 text-purple-400" />
-                      <span className="text-purple-300 font-medium">Dust</span>
+                      <GiDustCloud className="w-5 h-5 text-purple-600" />
+                      <span className="text-purple-600 font-medium">Dust</span>
                     </div>
-                    <div
-                      className={`text-2xl font-bold ${
-                        sensorData.dust > 100 ? "text-red-400" : "text-white"
-                      }`}
-                    >
-                      {sensorData.dust} µg/m³
+                    <div className={`text-2xl font-bold ${"text-white"}`}>
+                      70 µg/m³
                     </div>
                   </div>
                 </div>
 
-                <div className="text-center pt-4 border-t border-red-500/30">
+                {/* <div className="text-center pt-4 border-t border-red-500/30">
                   <div className="flex items-center justify-center gap-2 text-red-300">
-                    <Clock className="w-4 h-4" />
-                    <span className="text-sm">
+                    <Clock className="w-4 h-4 text-gray-600" />
+                    <span className="text-sm text-gray-600 whitespace-pre">
                       {formatTimestamp(sensorData.timestamp)}
                     </span>
                   </div>
-                </div>
+                </div> */}
               </div>
             )}
           </div>
@@ -134,7 +115,7 @@ export default function IoTDashboard() {
                       </span>
                     </div>
                     <div className="text-2xl font-bold text-white">
-                      {sensorData.humidity}%
+                      {sensorData?.humidity}%
                     </div>
                   </div>
 
@@ -144,19 +125,19 @@ export default function IoTDashboard() {
                       <span className="text-slate-300 font-medium">Dust</span>
                     </div>
                     <div className="text-2xl font-bold text-white">
-                      {sensorData.dust} µg/m³
+                      {sensorData?.dust} µg/m³
                     </div>
                   </div>
                 </div>
 
-                <div className="text-center pt-4 border-t border-blue-500/30">
+                {/* <div className="text-center pt-4 border-t border-blue-500/30">
                   <div className="flex items-center justify-center gap-2 text-slate-400">
                     <Clock className="w-4 h-4" />
                     <span className="text-sm">
                       {formatTimestamp(sensorData.timestamp)}
                     </span>
                   </div>
-                </div>
+                </div> */}
               </div>
             ) : (
               <div className="animate-pulse space-y-4">
@@ -183,9 +164,7 @@ export default function IoTDashboard() {
               <span className="text-slate-300 text-sm">Data Streaming</span>
             </div>
           </div>
-          <div className="text-slate-400 text-sm">
-            Last updated: {new Date().toLocaleTimeString()}
-          </div>
+          <div className="text-slate-300 text-sm">Last updated: HH/MM/SS</div>
         </div>
       </div>
     </div>

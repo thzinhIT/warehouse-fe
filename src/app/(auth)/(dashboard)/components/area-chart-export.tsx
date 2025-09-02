@@ -29,8 +29,10 @@ const chartConfig = {
 
 export function ChartAreaExport({
   data,
+  isPending,
 }: {
   readonly data: TDataExportChart[];
+  readonly isPending: boolean;
 }) {
   return (
     <Card>
@@ -41,7 +43,7 @@ export function ChartAreaExport({
         </CardTitle>
       </CardHeader>
       <CardContent>
-        {1 > 2 ? (
+        {data && !!data?.length ? (
           <ChartContainer
             config={chartConfig}
             className="max-h-[150px] min-h-[150px] w-full "

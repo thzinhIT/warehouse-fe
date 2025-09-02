@@ -19,7 +19,7 @@ export function LoadingBtn() {
 
 export function LoadingNormal({ size }: { readonly size?: number }) {
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-white/70 z-50">
+    <div className=" flex items-center justify-center z-50">
       <Icons.Loading size={size} />
     </div>
   );

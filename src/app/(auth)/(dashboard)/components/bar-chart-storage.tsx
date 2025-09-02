@@ -13,6 +13,8 @@ import {
 } from "@/components/ui/chart";
 import EmptyDataChart from "./empty-data-chart";
 import { TDataChartStorage } from "@/lib/networking/client/dashboard/service";
+import { LoadingNormal } from "@/components/common/loading-page";
+import { Divide } from "lucide-react";
 
 export const description = "A stacked bar chart with a legend";
 const chartConfig = {
@@ -28,8 +30,10 @@ const chartConfig = {
 
 export function ChartBarMultiple({
   data,
+  isPending,
 }: {
   readonly data: TDataChartStorage[];
+  readonly isPending: boolean;
 }) {
   const newData = data?.map((item) => ({
     ...item,
@@ -42,7 +46,7 @@ export function ChartBarMultiple({
         <CardTitle>Lưu trữ & tồn kho</CardTitle>
       </CardHeader>
       <CardContent>
-        {1 > 2 ? (
+        {data && !!data?.length ? (
           <ChartContainer
             config={chartConfig}
             className=" mx-auto  w-full max-h-[250px] min-h-[250px]"

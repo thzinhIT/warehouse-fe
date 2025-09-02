@@ -24,8 +24,10 @@ const chartConfig = {
 
 export function ChartAreaImport({
   data,
+  isPending,
 }: {
   readonly data: TDataImportChart[];
+  readonly isPending: boolean;
 }) {
   return (
     <Card>

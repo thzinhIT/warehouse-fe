@@ -62,11 +62,9 @@ export function ElegantCard({
         className
       )}
     >
-      {/* Subtle gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-50/50 to-transparent opacity-60" />
 
-      {/* Header section */}
-      <div className="relative flex items-center justify-between p-6 border-b border-slate-100">
+      <div className="relative flex items-center justify-between p-6 border-b border-slate-300">
         {icon && (
           <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-gradient-to-br from-slate-100 to-slate-200/80 text-slate-700 shadow-sm">
             {icon}
@@ -74,24 +72,23 @@ export function ElegantCard({
         )}
 
         <div className="flex flex-col items-end text-right">
-          <span className="text-sm font-medium text-slate-500 tracking-wide uppercase">
+          <span className="text-sm font-semibold text-slate-600 tracking-wide text-nowrap ">
             {title}
           </span>
-          <span className="text-2xl font-bold text-slate-900 mt-1">
+          <span className="text-2xl font-bold text-blue-500 mt-1">
             {value ?? "--"}
           </span>
         </div>
       </div>
 
-      <div className="relative p-4">
+      <div className="relative p-1">
         <div
           className={cn(
-            "inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium transition-colors",
-            trendColors[trend]
+            "inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium transition-colors"
           )}
         >
-          <span className="text-lg leading-none">{trendIcons[trend]}</span>
-          <span className="capitalize">{subtitle}</span>
+          {/* <span className="text-lg leading-none">{trendIcons[trend]}</span>
+          <span className="capitalize">{subtitle}</span> */}
         </div>
       </div>
 
