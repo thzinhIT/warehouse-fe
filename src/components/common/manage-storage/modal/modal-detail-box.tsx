@@ -43,10 +43,6 @@ export function DialogDetailBox({
     queryFn: () => GetDetailBoxById(id),
     enabled: open && !!id,
   });
-  useEffect(() => {
-    console.log("dataaaaa", data);
-  });
-
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="w-[500px]">
