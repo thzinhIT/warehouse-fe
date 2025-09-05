@@ -120,7 +120,6 @@ export class ErrorProductService {
         requestBody
       );
 
-      console.log("API Response:", response.data);
       return response.data;
     } catch (error) {
       console.error("Error searching error SKUs:", error);

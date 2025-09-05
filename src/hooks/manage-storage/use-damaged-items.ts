@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   DamagedItemsService,
   DamagedItem,
+  TransferItemRequest,
 } from "@/lib/networking/services/damaged-items.service";
 
 // Query key
@@ -18,6 +19,21 @@ export const useDamagedItems = (enabled: boolean = true) => {
     retry: 2,
     staleTime: 5 * 60 * 1000, // 5 minutes
     gcTime: 10 * 60 * 1000, // 10 minutes
+  });
+};
+
+// Hook to mark item as damaged
+export const useMarkDamagedItem = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (barcode: string) =>
+      DamagedItemsService.markItemAsDamaged(barcode),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: DAMAGED_ITEMS_QUERY_KEY,
+      });
+    },
   });
 };
 
@@ -43,6 +59,21 @@ export const useUpdateDamagedItem = () => {
   return useMutation({
     mutationFn: ({ barcode, note }: { barcode: string; note: string }) =>
       DamagedItemsService.updateDamagedItem(barcode, note),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: DAMAGED_ITEMS_QUERY_KEY,
+      });
+    },
+  });
+};
+
+// Hook to transfer damaged items
+export const useTransferDamagedItems = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (items: TransferItemRequest[]) =>
+      DamagedItemsService.transferDamagedItems(items),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: DAMAGED_ITEMS_QUERY_KEY,

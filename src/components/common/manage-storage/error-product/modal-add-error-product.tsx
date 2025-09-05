@@ -22,6 +22,8 @@ import {
   useDamagedItems,
   useDeleteDamagedItem,
   useUpdateDamagedItem,
+  useMarkDamagedItem,
+  useTransferDamagedItems,
 } from "@/hooks/manage-storage/use-damaged-items";
 import toast from "react-hot-toast";
 
@@ -57,6 +59,12 @@ export function ModalAddErrorProduct({
 
   // Update note mutation
   const updateNoteMutation = useUpdateDamagedItem();
+
+  // Mark item as damaged mutation
+  const markMutation = useMarkDamagedItem();
+
+  // Transfer damaged items mutation
+  const transferMutation = useTransferDamagedItems();
 
   // Trigger API call when modal opens
   useEffect(() => {
@@ -95,23 +103,42 @@ export function ModalAddErrorProduct({
     }
   }, [damagedItemsResponse]);
 
-  // Handle search functionality
-  const handleSearch = () => {
+  // Handle search functionality - now calls mark API to add item
+  const handleSearch = async () => {
     if (!searchTerm.trim()) {
-      setFilteredItems(errorItems);
+      toast.error("Vui lòng nhập mã barcode");
       return;
     }
 
-    const filtered = errorItems.filter((item) =>
-      item.itemCode.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredItems(filtered);
-  };
+    try {
+      // Call API to mark item as damaged
+      await markMutation.mutateAsync(searchTerm.trim());
 
-  // Handle add filtered item to display (if you want to add specific items)
-  const handleAddItem = (item: ErrorItem) => {
-    // This could be used to add specific items to a "selected" list
-    toast.success(`Đã thêm item ${item.itemCode}`);
+      toast.success(`Đã thêm sản phẩm ${searchTerm} vào danh sách lỗi`);
+
+      // Clear search term after successful add
+      setSearchTerm("");
+
+      // The data will be automatically refreshed due to React Query invalidation
+    } catch (error: unknown) {
+      // Handle specific error messages from backend
+      if (error && typeof error === "object" && "response" in error) {
+        const axiosError = error as {
+          response?: {
+            data?: {
+              message?: string;
+            };
+          };
+        };
+        if (axiosError.response?.data?.message) {
+          toast.error(axiosError.response.data.message);
+        } else {
+          toast.error("Có lỗi khi thêm sản phẩm lỗi");
+        }
+      } else {
+        toast.error("Có lỗi khi thêm sản phẩm lỗi");
+      }
+    }
   };
 
   // Handle delete item (call API to delete)
@@ -124,8 +151,6 @@ export function ModalAddErrorProduct({
         return;
       }
 
-      console.log("🗑️ Deleting item:", itemToDelete.itemCode);
-
       // Call API to delete the item
       await deleteMutation.mutateAsync(itemToDelete.itemCode);
 
@@ -135,8 +160,8 @@ export function ModalAddErrorProduct({
       // But we can also remove it from local state immediately for better UX
       setFilteredItems((prev) => prev.filter((item) => item.id !== itemId));
       setErrorItems((prev) => prev.filter((item) => item.id !== itemId));
-    } catch (error) {
-      console.error("❌ Delete error:", error);
+    } catch (error: unknown) {
+      console.error("Delete error:", error);
       toast.error("Có lỗi khi xóa item");
     }
   };
@@ -157,19 +182,11 @@ export function ModalAddErrorProduct({
       // Find the item to get its barcode
       const item = filteredItems.find((i) => i.id === itemId);
       if (!item) {
-        console.error("Item not found for update:", itemId);
         return;
       }
 
       // Only update if note has changed and is not empty
       if (note.trim() !== "") {
-        console.log(
-          "📝 Updating note for item:",
-          item.itemCode,
-          "with note:",
-          note
-        );
-
         await updateNoteMutation.mutateAsync({
           barcode: item.itemCode,
           note: note.trim(),
@@ -177,26 +194,56 @@ export function ModalAddErrorProduct({
 
         toast.success(`Đã cập nhật ghi chú cho ${item.itemCode}`);
       }
-    } catch (error) {
-      console.error("❌ Update note error:", error);
+    } catch (error: unknown) {
+      console.error("Update note error:", error);
       toast.error("Có lỗi khi cập nhật ghi chú");
     }
   };
 
-  // Handle form submission
+  // Handle form submission - Transfer all damaged items
   const handleSubmit = async () => {
+    if (filteredItems.length === 0) {
+      toast.error("Không có item nào để chuyển");
+      return;
+    }
+
     try {
-      // TODO: Replace with actual API call to create error products
+      // Prepare transfer request data
+      const transferData = filteredItems.map((item) => ({
+        barcode: item.itemCode,
+        note: item.note || "", // Use note or empty string if no note
+      }));
+
+      // Call transfer API
+      await transferMutation.mutateAsync(transferData);
+
+      toast.success("Chuyển các sản phẩm lỗi thành công!");
 
       // Reset form and close modal
       setFilteredItems([]);
+      setErrorItems([]);
       setSearchTerm("");
       setOpen(false);
+    } catch (error: unknown) {
+      console.error("Transfer error:", error);
 
-      toast.success("Thêm sản phẩm lỗi thành công!");
-    } catch (error) {
-      console.error("Submit error:", error);
-      toast.error("Có lỗi xảy ra khi thêm sản phẩm lỗi");
+      // Handle specific error messages from backend
+      if (error && typeof error === "object" && "response" in error) {
+        const axiosError = error as {
+          response?: {
+            data?: {
+              message?: string;
+            };
+          };
+        };
+        if (axiosError.response?.data?.message) {
+          toast.error(axiosError.response.data.message);
+        } else {
+          toast.error("Có lỗi xảy ra khi chuyển sản phẩm lỗi");
+        }
+      } else {
+        toast.error("Có lỗi xảy ra khi chuyển sản phẩm lỗi");
+      }
     }
   };
 
@@ -232,7 +279,7 @@ export function ModalAddErrorProduct({
             <div className="flex gap-2">
               <Input
                 id="search-item"
-                placeholder="Search"
+                placeholder="Nhập mã barcode để thêm vào danh sách lỗi"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onKeyPress={handleKeyPress}
@@ -240,10 +287,10 @@ export function ModalAddErrorProduct({
               />
               <Button
                 onClick={handleSearch}
-                disabled={isLoadingDamagedItems || !searchTerm.trim()}
+                disabled={markMutation.isPending || !searchTerm.trim()}
                 className="px-4"
               >
-                {isLoadingDamagedItems ? (
+                {markMutation.isPending ? (
                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
                 ) : (
                   "Thêm"
@@ -346,10 +393,17 @@ export function ModalAddErrorProduct({
           </Button>
           <Button
             onClick={handleSubmit}
-            disabled={filteredItems.length === 0}
+            disabled={filteredItems.length === 0 || transferMutation.isPending}
             className="flex-1 bg-blue-600 hover:bg-blue-700"
           >
-            Chuyển
+            {transferMutation.isPending ? (
+              <div className="flex items-center">
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
+                Đang chuyển...
+              </div>
+            ) : (
+              "Chuyển"
+            )}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -168,7 +168,6 @@ const ErrorProductManagementPage = () => {
   };
 
   const handleViewDetail = (product: ErrorProduct) => {
-    console.log("View detail for error product:", product);
     if (product.id) {
       setSelectedProductId(product.id);
       setIsDetailModalOpen(true);
@@ -388,10 +387,7 @@ const ErrorProductManagementPage = () => {
       />
 
       {/* Add Error Product Modal */}
-      <ModalAddErrorProduct
-        open={isAddModalOpen}
-        setOpen={setIsAddModalOpen}
-      />
+      <ModalAddErrorProduct open={isAddModalOpen} setOpen={setIsAddModalOpen} />
     </div>
   );
 };

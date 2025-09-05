@@ -97,7 +97,6 @@ export async function GetAllShelves() {
     if (res?.data?.code === 200) return res?.data?.data;
     return Promise.reject(new Error("errors get shelves"));
   } catch (error) {
-    console.log(error);
     return Promise.reject(new Error("errors get shelves"));
   }
 }
@@ -115,7 +114,6 @@ export async function GetBinById(idShelve?: number) {
     if (res?.data?.code === 200) return res?.data?.data;
     return Promise.reject(new Error("errors get bin by ID"));
   } catch (error) {
-    console.log(error);
     return Promise.reject(new Error("errors get bin by ID"));
   }
 }
