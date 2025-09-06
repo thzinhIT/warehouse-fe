@@ -9,6 +9,7 @@ class StockInKeys {
   static readonly IMPORTWAREHOUSE = "IMPORTWAREHOUSE";
   static readonly DOWNLOADTEMPLATEIMPORTORDER = "DOWNLOADTEMPLATEIMPORTORDER";
   static readonly HISTORY_IMPORT_ORDER_BY_ID = "HISTORY_IMPORT_ORDER_BY_ID";
+  static readonly CREATE_IMPORT_ORDER = "CREATE_IMPORT_ORDER";
 }
 
 export default StockInKeys;

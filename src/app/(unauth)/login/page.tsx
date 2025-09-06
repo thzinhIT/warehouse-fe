@@ -2,17 +2,9 @@
 
 import type React from "react";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
-import {
-  Package,
-  Mail,
-  Lock,
-  Eye,
-  EyeOff,
-  ArrowRight,
-  User,
-} from "lucide-react";
+import { Package, Lock, Eye, EyeOff, ArrowRight, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -121,7 +113,7 @@ export default function WarehouseLoginPage() {
                     <Input
                       id="username"
                       type="text"
-                      placeholder="Thành vinh làm login..."
+                      placeholder="User123"
                       className="pl-10 h-12 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
                       required
                       name="username"

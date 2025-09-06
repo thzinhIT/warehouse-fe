@@ -26,6 +26,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { usePathname, useRouter } from "next/navigation";
 
 export function NavUser({
   user,
@@ -37,6 +38,12 @@ export function NavUser({
   };
 }) {
   const { isMobile } = useSidebar();
+  const router = useRouter();
+  const handleLogOut = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("refreshToken");
+    router.push("/login");
+  };
 
   return (
     <SidebarMenu>
@@ -76,7 +83,7 @@ export function NavUser({
                 </div>
               </div>
             </DropdownMenuLabel>
-            <DropdownMenuSeparator />
+            {/* <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <Sparkles />
@@ -98,9 +105,9 @@ export function NavUser({
                 Notifications
               </DropdownMenuItem>
             </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <LogOut />
+            <DropdownMenuSeparator /> */}
+            <DropdownMenuItem onClick={handleLogOut}>
+              <LogOut className="text-red-600" />
               Log out
             </DropdownMenuItem>
           </DropdownMenuContent>

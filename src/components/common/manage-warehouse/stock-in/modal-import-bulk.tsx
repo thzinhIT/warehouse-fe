@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { FileDown, FileUp, PenBox, Trash2 } from "lucide-react";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { MdQrCodeScanner } from "react-icons/md";
 
 import { Checkbox } from "@/components/ui/checkbox";
@@ -31,6 +31,7 @@ import { TDataImportOrderTemporary } from "@/lib/networking/client/manage-wareho
 import { cn } from "@/lib/utils";
 import Loading from "../../loading";
 import { EmptyData } from "../../empty-data";
+import { ModalBarcode } from "./modal-barcode";
 
 export function ModalImportBulk({
   open,
@@ -40,7 +41,6 @@ export function ModalImportBulk({
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const fileRef = useRef<HTMLInputElement>(null);
-  const [openAlter, setOpenAlert] = useState(false);
   const [openModalUpdate, setOpenModalUpdate] = useState(false);
   const [itemUpdate, setItemUpdate] = useState<TDataImportOrderTemporary>();
   const [id, setId] = useState<number>();
@@ -49,9 +49,7 @@ export function ModalImportBulk({
   const {
     data,
     onUpload,
-    isMutating,
     isPending,
-    isOpenModalImport,
     isOpenModalDelete,
     isPendingDelete,
     setIsOpenModalDelete,
@@ -59,7 +57,8 @@ export function ModalImportBulk({
     onDeleteTemporary,
     onUpdateTemporary,
     onImportWarehouse,
-    setIsOpenModalImport,
+    openCode,
+    setOpenCode,
   } = useTemporary(setOpenModalUpdate);
   const handleOnChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -99,9 +98,12 @@ export function ModalImportBulk({
               <div>
                 <div className="flex gap-3 justify-end ">
                   <div>
-                    <Button className="  flex items-center bg-blue-600 hover:bg-blue-600 cursor-pointer text-white  mb-3">
+                    <Button
+                      className="  flex items-center bg-blue-600 hover:bg-blue-600 cursor-pointer text-white  mb-3"
+                      onClick={() => setOpenCode(true)}
+                    >
                       <MdQrCodeScanner size={20} />
-                      <span>Quét mã code </span>
+                      <span>Quét mã </span>
                     </Button>
                   </div>
                   <div>
@@ -288,6 +290,7 @@ export function ModalImportBulk({
           onUpdateTemporary={onUpdateTemporary}
         />
       )}
+      {openCode && <ModalBarcode open={openCode} setOpen={setOpenCode} />}
     </React.Fragment>
   );
 }

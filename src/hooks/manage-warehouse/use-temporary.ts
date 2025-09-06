@@ -6,13 +6,10 @@ import {
   getTemporaryImportOrder,
   ImportWarehouse,
   TBodyUpdateImportOrderTemporary,
-  TDataImportOrderTemporary,
-  TResponseImportOrderTemporary,
   UpdateTemporaryById,
   uploadFileExcel,
 } from "@/lib/networking/client/manage-warehouse/service";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { flattenBy } from "@tanstack/react-table";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
@@ -21,6 +18,7 @@ const useTemporary = (
 ) => {
   const [isOpenModalImport, setIsOpenModalImport] = useState(false);
   const [isOpenModalDelete, setIsOpenModalDelete] = useState(false);
+  const [openCode, setOpenCode] = useState(false);
   const queryClient = useQueryClient();
   const {
     data,
@@ -84,7 +82,10 @@ const useTemporary = (
     isMutating,
     isPendingDelete,
     isPending,
+    isPendingTemporary,
     PendingDownload,
+    openCode,
+    setOpenCode,
     setIsOpenModalImport,
     setIsOpenModalDelete,
     onUpload,
