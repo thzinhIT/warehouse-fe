@@ -13,54 +13,59 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { CirclePlus, FileSpreadsheet, RotateCcw, Search } from "lucide-react";
-import { getProductColumns } from "@/components/common/manage-storage/product/product-columns";
+import { getErrorProductColumns } from "@/components/common/manage-storage/error-product/error-product-columns";
 import {
-  useProducts,
-  useProductSearchMutation,
-} from "@/hooks/manage-storage/use-products";
-import { ProductSearchFilters, Product } from "@/lib/types/product.types";
+  useErrorProducts,
+  useErrorProductSearchMutation,
+} from "@/hooks/manage-storage/use-error-products";
+import {
+  ErrorProductSearchFilters,
+  ErrorProduct,
+} from "@/lib/types/error-product.types";
 import { LoadingPage } from "@/components/common/loading-page";
 import toast from "react-hot-toast";
-import { ModalProductDetail } from "@/components/common/manage-storage/product/modal-product-detail";
+import { ModalErrorProductDetail } from "@/components/common/manage-storage/error-product/modal-error-product-detail";
+import { ModalAddErrorProduct } from "@/components/common/manage-storage/error-product/modal-add-error-product";
 
-const ProductManagementPage = () => {
-  const [searchFilters, setSearchFilters] = useState<ProductSearchFilters>({
-    skuCode: "",
-    size: "",
-    color: "",
-    type: "",
-    minVolume: "",
-    maxVolume: "",
-  });
+const ErrorProductManagementPage = () => {
+  const [searchFilters, setSearchFilters] = useState<ErrorProductSearchFilters>(
+    {
+      skuCode: "",
+      size: "",
+      color: "",
+      type: "",
+      minVolume: "",
+      maxVolume: "",
+    }
+  );
 
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 20;
   const [isSearchMode, setIsSearchMode] = useState(false);
-  const [searchResults, setSearchResults] = useState<Product[]>([]);
+  const [searchResults, setSearchResults] = useState<ErrorProduct[]>([]);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState<number | null>(
     null
   );
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
-  // Fetch all products (default view)
+  // Fetch all error products (default view)
   const {
     data: productsResponse,
     isLoading: isLoadingProducts,
     isError: isProductsError,
     error: productsError,
     refetch: refetchProducts,
-  } = useProducts({}, currentPage, pageSize);
+  } = useErrorProducts({}, currentPage, pageSize);
 
   // Search mutation
-  const searchMutation = useProductSearchMutation();
+  const searchMutation = useErrorProductSearchMutation();
 
   // Determine which data to use
   const products = isSearchMode ? searchResults : productsResponse?.data || [];
   const isLoading = isSearchMode ? searchMutation.isPending : isLoadingProducts;
   const isError = isSearchMode ? searchMutation.isError : isProductsError;
   const error = isSearchMode ? searchMutation.error : productsError;
-
-  // Debug logging
 
   // For display purposes
   const totalItems = products.length;
@@ -97,10 +102,10 @@ const ProductManagementPage = () => {
       setSearchResults(result.data || []);
 
       if (result.data && result.data.length > 0) {
-        toast.success(`Tìm thấy ${result.data.length} sản phẩm`);
+        toast.success(`Tìm thấy ${result.data.length} sản phẩm lỗi`);
       } else {
         toast.success(
-          "Không tìm thấy sản phẩm nào phù hợp với tiêu chí tìm kiếm"
+          "Không tìm thấy sản phẩm lỗi nào phù hợp với tiêu chí tìm kiếm"
         );
       }
     } catch (err: unknown) {
@@ -159,13 +164,10 @@ const ProductManagementPage = () => {
   };
 
   const handleAddProduct = () => {
-    // TODO: Implement add product functionality
-    toast.success("Chức năng thêm sản phẩm sẽ được triển khai sớm!");
-    // TODO: Navigate to add product page or open modal
-    toast.success("Chức năng thêm sản phẩm sẽ được triển khai sớm!");
+    setIsAddModalOpen(true);
   };
 
-  const handleViewDetail = (product: Product) => {
+  const handleViewDetail = (product: ErrorProduct) => {
     if (product.id) {
       setSelectedProductId(product.id);
       setIsDetailModalOpen(true);
@@ -174,7 +176,7 @@ const ProductManagementPage = () => {
     }
   };
 
-  const columns = getProductColumns({ onView: handleViewDetail });
+  const columns = getErrorProductColumns({ onView: handleViewDetail });
 
   // Show loading spinner
   if (isLoading) {
@@ -185,11 +187,11 @@ const ProductManagementPage = () => {
   if (isError) {
     return (
       <div className="min-h-screen p-6 space-y-6 overflow-y-auto">
-        <SidebarHeader title="Quản lý sản phẩm" />
+        <SidebarHeader title="Quản lý sản phẩm lỗi" />
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
             <p className="text-red-500 text-lg mb-4">
-              Có lỗi xảy ra khi tải dữ liệu sản phẩm
+              Có lỗi xảy ra khi tải dữ liệu sản phẩm lỗi
             </p>
             <p className="text-gray-600 mb-4">
               {error instanceof Error ? error.message : "Lỗi không xác định"}
@@ -206,13 +208,15 @@ const ProductManagementPage = () => {
 
   return (
     <div className="min-h-screen p-6 space-y-6 overflow-y-auto">
-      <SidebarHeader title="Quản lý sản phẩm" />
+      <SidebarHeader title="Quản lý sản phẩm lỗi" />
 
       <div className="flex justify-between items-center mt-2">
         <div className="flex items-center gap-3">
-          {/* <h1 className="text-lg font-bold text-black">Danh sách sản phẩm</h1> */}
+          {/* <h1 className="text-lg font-bold text-black">
+            Danh sách sản phẩm lỗi
+          </h1> */}
           {isSearchMode && (
-            <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+            <span className="text-sm bg-red-100 text-red-800 px-2 py-1 rounded-full">
               Kết quả tìm kiếm
             </span>
           )}
@@ -230,7 +234,7 @@ const ProductManagementPage = () => {
             onClick={handleAddProduct}
           >
             <CirclePlus size={20} />
-            <span>Thêm sản phẩm</span>
+            <span>Thêm sản phẩm lỗi</span>
           </Button>
         </div>
       </div>
@@ -238,7 +242,7 @@ const ProductManagementPage = () => {
       {/* Search Section */}
       <div className="mt-4">
         <div className="space-y-4">
-          {/* <h2 className="text-base font-semibold">Tìm kiếm sản phẩm</h2> */}
+          {/* <h2 className="text-base font-semibold">Tìm kiếm sản phẩm lỗi</h2> */}
           <div className="grid gap-4 grid-cols-3">
             <div className="grid gap-2">
               <Label htmlFor="sku">Mã SKU</Label>
@@ -356,16 +360,18 @@ const ProductManagementPage = () => {
         {/* Pagination info */}
         {products.length > 0 && (
           <div className="mt-4 text-sm text-gray-600 text-center">
-            Hiển thị {products.length} sản phẩm trên trang {currentPage} /{" "}
+            Hiển thị {products.length} sản phẩm lỗi trên trang {currentPage} /{" "}
             {totalPages}
-            {totalItems > 0 && ` (Tổng cộng: ${totalItems} sản phẩm)`}
+            {totalItems > 0 && ` (Tổng cộng: ${totalItems} sản phẩm lỗi)`}
           </div>
         )}
 
         {/* Empty state */}
         {!isLoading && products.length === 0 && (
           <div className="text-center py-8">
-            <p className="text-gray-500 text-lg mb-2">Không có sản phẩm nào</p>
+            <p className="text-gray-500 text-lg mb-2">
+              Không có sản phẩm lỗi nào
+            </p>
             <p className="text-gray-400">
               Vui lòng thử lại với các tiêu chí tìm kiếm khác
             </p>
@@ -373,14 +379,17 @@ const ProductManagementPage = () => {
         )}
       </div>
 
-      {/* Product Detail Modal */}
-      <ModalProductDetail
+      {/* Error Product Detail Modal */}
+      <ModalErrorProductDetail
         open={isDetailModalOpen}
         setOpen={setIsDetailModalOpen}
         productId={selectedProductId}
       />
+
+      {/* Add Error Product Modal */}
+      <ModalAddErrorProduct open={isAddModalOpen} setOpen={setIsAddModalOpen} />
     </div>
   );
 };
 
-export default ProductManagementPage;
+export default ErrorProductManagementPage;

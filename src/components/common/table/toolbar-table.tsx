@@ -68,7 +68,6 @@ export default function TableToolbar() {
           setStartDate(parsedDate);
         }
       } catch (error) {
-        console.log(error);
       }
     }
   };
@@ -85,7 +84,6 @@ export default function TableToolbar() {
           setEndDate(parsedDate);
         }
       } catch (error) {
-        console.log(error);
       }
     }
   };
@@ -104,19 +102,9 @@ export default function TableToolbar() {
     }
   };
 
-  const handleSearch = () => {
-    console.log("Tìm kiếm với:", {
-      searchCode,
-      startDate,
-      endDate,
-      filter1,
-      filter2,
-    });
-  };
+  const handleSearch = () => {};
 
-  const handleAdvancedFilter = () => {
-    console.log("Mở bộ lọc nâng cao");
-  };
+  const handleAdvancedFilter = () => {};
 
   const handleReset = () => {
     setSearchCode("");

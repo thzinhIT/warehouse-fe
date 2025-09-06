@@ -75,6 +75,7 @@ const DashboardClient = () => {
     storageChartDonutFn,
   ]);
 
+
   return (
     <div className="px-2 overflow-auto h-full">
       <h3 className="font-medium text-lg px-2">Báo cáo tổng kết </h3>

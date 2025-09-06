@@ -12,7 +12,6 @@ import {
   getSortedRowModel,
   PaginationState,
   SortingState,
-  Table,
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table";
@@ -42,26 +41,19 @@ const SizeSchema = "20";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-
-  renderToolbar?: ({
-    table,
-    onResetPagination,
-  }: Readonly<{
-    table: Table<TData>;
-    onResetPagination?: () => void;
-  }>) => React.JSX.Element;
   pageCount?: number;
   total?: number;
   page?: number;
   size?: number;
   className?: string;
+  showToolbar?: boolean; // Add this prop to control toolbar visibility
 }
 
 export function DataTable<TData, TValue>({
   className,
-  renderToolbar,
   data,
   columns,
+  showToolbar = false, // Default to false so it won't show unless explicitly requested
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -75,7 +67,6 @@ export function DataTable<TData, TValue>({
 
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
   const [pagination, setPagination] = React.useState<PaginationState>({
     pageIndex: Number(pageNumber) - 1,
     pageSize: Number(SizeSchema),
@@ -92,10 +83,6 @@ export function DataTable<TData, TValue>({
       setPageNumber((pagination.pageIndex + 1).toString());
     }
   }, [pagination.pageIndex, setPageNumber, isFirstLoad]);
-
-  const onResetPagination = () => {
-    setPagination((pre) => ({ ...pre, pageIndex: 0 }));
-  };
 
   const table = useReactTable({
     data,
@@ -125,7 +112,7 @@ export function DataTable<TData, TValue>({
         className
       )}
     >
-      <TableToolbar />
+      {showToolbar && <TableToolbar />}
       <div className="scrollbar h-full overflow-auto rounded-lg border bg-background">
         <DataTableBody columns={columns} table={table} />
       </div>

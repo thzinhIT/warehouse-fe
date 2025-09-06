@@ -3,7 +3,13 @@ import { TAllExportOrderDetails } from "@/lib/networking/client/manage-warehouse
 import { ColumnDef } from "@tanstack/react-table";
 import { Eye } from "lucide-react";
 
-const getColumnsExportOrder = (): ColumnDef<TAllExportOrderDetails>[] => [
+type propsCol = {
+  handleOnClickDetail?: (data: TAllExportOrderDetails) => void;
+};
+
+const getColumnsExportOrder = ({
+  handleOnClickDetail,
+}: propsCol = {}): ColumnDef<TAllExportOrderDetails>[] => [
   {
     id: "select",
     header: ({ table }) => (
@@ -81,10 +87,16 @@ const getColumnsExportOrder = (): ColumnDef<TAllExportOrderDetails>[] => [
   {
     id: "actions",
     enableHiding: false,
-    cell: () => {
+    cell: ({ row }) => {
       return (
         <div className="flex items-center justify-center">
-          <Eye size={16} className="cursor-pointer hover:text-blue-600" />
+          <Eye
+            size={16}
+            className={`cursor-pointer hover:text-blue-600 ${
+              !handleOnClickDetail ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            onClick={() => handleOnClickDetail?.(row.original)}
+          />
         </div>
       );
     },

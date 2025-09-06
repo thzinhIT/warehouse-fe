@@ -10,7 +10,12 @@ import {
   PieChart,
 } from "lucide-react";
 
-import { MdDashboard, MdWarehouse, MdLocalShipping } from "react-icons/md";
+import {
+  MdDashboard,
+  MdWarehouse,
+  MdLocalShipping,
+  MdWarning,
+} from "react-icons/md";
 import { IoSave } from "react-icons/io5";
 import { FaUserEdit } from "react-icons/fa";
 import { FcSettings } from "react-icons/fc";
@@ -34,7 +39,14 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import Dashboard from "@/app/(auth)/(dashboard)/page";
+import { Icons } from "@/components/common/icons";
+import { RiLuggageCartFill, RiStopLargeLine } from "react-icons/ri";
+import { RxDownload, RxUpload } from "react-icons/rx";
+import { GrHistory } from "react-icons/gr";
+import { LiaOpencart } from "react-icons/lia";
 
+// This is sample data.
 const data = {
   user: {
     name: "shadcn",
@@ -87,16 +99,16 @@ const data = {
     {
       title: "stock-out-management",
       url: "/manage-export",
-      icon: <MdLocalShipping className="text-green-600" size={18} />,
+      icon: <LiaOpencart />,
       items: [
         {
           title: "stock-out",
           url: "/manage-export/stock-out",
-          icon: <GiBoxUnpacking className="text-purple-600" />,
+          icon: <RxUpload />,
         },
         {
           title: "stock-out-history",
-          url: "#",
+          url: "/manage-export/history",
           icon: <GoClockFill className="text-amber-800" />,
         },
       ],
@@ -118,8 +130,8 @@ const data = {
         },
         {
           title: "defective-product-management",
-          url: "#",
-          icon: <FaExclamationTriangle className="text-yellow-400" />,
+          url: "/manage-storage/error-product",
+          icon: <MdWarning />,
         },
       ],
     },
