@@ -184,7 +184,7 @@ const ProductManagementPage = () => {
   // Show error message
   if (isError) {
     return (
-      <div className="h-full flex flex-col">
+      <div className="min-h-screen p-6 space-y-6 overflow-y-auto">
         <SidebarHeader title="Quản lý sản phẩm" />
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
@@ -205,12 +205,12 @@ const ProductManagementPage = () => {
   }
 
   return (
-    <div className="h-full flex flex-col">
+    <div className="min-h-screen p-6 space-y-6 overflow-y-auto">
       <SidebarHeader title="Quản lý sản phẩm" />
 
-      <div className="flex justify-between items-center px-2 mt-2">
+      <div className="flex justify-between items-center mt-2">
         <div className="flex items-center gap-3">
-          <h1 className="text-lg font-bold text-black">Danh sách sản phẩm</h1>
+          {/* <h1 className="text-lg font-bold text-black">Danh sách sản phẩm</h1> */}
           {isSearchMode && (
             <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
               Kết quả tìm kiếm
@@ -236,9 +236,9 @@ const ProductManagementPage = () => {
       </div>
 
       {/* Search Section */}
-      <div className="px-2 mt-4">
+      <div className="mt-4">
         <div className="space-y-4">
-          <h2 className="text-base font-semibold">Tìm kiếm sản phẩm</h2>
+          {/* <h2 className="text-base font-semibold">Tìm kiếm sản phẩm</h2> */}
           <div className="grid gap-4 grid-cols-3">
             <div className="grid gap-2">
               <Label htmlFor="sku">Mã SKU</Label>
@@ -350,7 +350,7 @@ const ProductManagementPage = () => {
       </div>
 
       {/* Table Section */}
-      <div className="flex-1 px-2 mt-4">
+      <div className="flex-1 mt-4">
         <DataTable columns={columns} data={products} showToolbar={false} />
 
         {/* Pagination info */}

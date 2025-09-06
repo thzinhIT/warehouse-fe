@@ -79,13 +79,23 @@ export default function ModalEditEmployee({
   const handleSubmit = async () => {
     if (!currentEmployee) return;
 
+    // Validate required fields
+    if (
+      !formData.email.trim() ||
+      !formData.username.trim() ||
+      !formData.fullName.trim()
+    ) {
+      toast.error("Vui lòng điền đầy đủ thông tin!");
+      return;
+    }
+
     try {
       await updateEmployeeMutation.mutateAsync({
         userId: currentEmployee.userId,
-        employee: {
-          email: formData.email,
-          username: formData.username,
-          fullName: formData.fullName,
+        request: {
+          email: formData.email.trim(),
+          username: formData.username.trim(),
+          fullName: formData.fullName.trim(),
           role: formData.role,
         },
       });

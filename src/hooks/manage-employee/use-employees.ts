@@ -1,8 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   EmployeeService,
-  Employee,
   UserCreateRequest,
+  UserUpdateRequest,
 } from "@/lib/networking/services/employee.service";
 
 // Query key
@@ -70,11 +70,11 @@ export const useUpdateEmployee = () => {
   return useMutation({
     mutationFn: ({
       userId,
-      employee,
+      request,
     }: {
       userId: number;
-      employee: Partial<Employee>;
-    }) => EmployeeService.updateEmployee(userId, employee),
+      request: UserUpdateRequest;
+    }) => EmployeeService.updateEmployee(userId, request),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: EMPLOYEES_QUERY_KEY,

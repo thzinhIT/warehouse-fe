@@ -35,11 +35,11 @@ const ExportHistoryPage = () => {
   };
 
   return (
-    <div className="h-full flex flex-col">
+    <div className="min-h-screen p-6 space-y-6 overflow-y-auto">
       <SidebarHeader title="Lịch sử xuất kho" />
 
-      <div className="flex justify-between items-center px-2 mt-2">
-        <h1 className="text-lg font-bold text-black">Lịch sử xuất kho</h1>
+      <div className="flex justify-between items-center mt-2">
+        {/* <h1 className="text-lg font-bold text-black">Lịch sử xuất kho</h1> */}
         <div className="flex gap-2">
           <Button
             className="cursor-pointer bg-blue-600 hover:bg-blue-700 flex items-center"
@@ -62,7 +62,7 @@ const ExportHistoryPage = () => {
         </div>
       </div>
 
-      <div className="px-2 mt-4">
+      <div className="mt-4">
         <ExportHistorySearch
           onSearch={handleSearch}
           onClear={handleClearSearch}
@@ -72,7 +72,7 @@ const ExportHistoryPage = () => {
         />
       </div>
 
-      <div className="flex-1 px-2">
+      <div className="flex-1">
         {isPending ? (
           <div className="flex items-center justify-center h-64">
             <div className="text-lg">Đang tải dữ liệu...</div>

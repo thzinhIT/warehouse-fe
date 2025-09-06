@@ -82,15 +82,16 @@ const StockOutPage = () => {
 
   const handleManualExportConfirm = (selectedItems: TManualExportItem[]) => {
     // TODO: Call your API to process the manual export
+    console.log("Manual export selected items:", selectedItems);
     setOpenManualExport(false);
   };
 
   return (
-    <div className="h-full flex flex-col">
+    <div className="min-h-screen p-6 space-y-6 overflow-y-auto">
       <SidebarHeader title="Xuất kho" />
 
-      <div className="flex justify-between items-center px-2 mt-2">
-        <h1 className="text-lg font-bold text-black">Dữ liệu xuất kho</h1>
+      <div className="flex justify-between items-center mt-2">
+        {/* <h1 className="text-lg font-bold text-black">Dữ liệu xuất kho</h1> */}
         <div className="flex gap-2">
           <Button
             className="cursor-pointer bg-blue-600 hover:bg-blue-700 flex items-center"
@@ -114,7 +115,7 @@ const StockOutPage = () => {
       </div>
 
       {/* Search Component */}
-      <div className="px-2 mt-4">
+      <div className="mt-4">
         <ExportOrderSearch
           onSearch={handleSearch}
           onClear={handleClearSearch}
@@ -125,7 +126,7 @@ const StockOutPage = () => {
       </div>
 
       {/* 4 Export Action Buttons */}
-      <div className="px-2 mb-4">
+      <div className="mb-4">
         <div className="flex gap-3 justify-start">
           <Button
             className="cursor-pointer bg-orange-500 hover:bg-orange-600 flex items-center gap-2 text-white"
@@ -158,7 +159,7 @@ const StockOutPage = () => {
         </div>
       </div>
 
-      <div className="flex-1 px-2">
+      <div className="flex-1">
         {isPending ? (
           <div className="flex items-center justify-center h-64">
             <div className="text-lg">Đang tải dữ liệu...</div>

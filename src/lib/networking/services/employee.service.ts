@@ -34,6 +34,14 @@ export interface UserCreateRequest {
   isActive: boolean;
 }
 
+// Update user request interface - matches your backend DTO
+export interface UserUpdateRequest {
+  email: string;
+  username: string;
+  fullName: string;
+  role: string;
+}
+
 // Lock/unlock request interface
 export interface UserLockRequest {
   isActive: boolean;
@@ -131,18 +139,21 @@ export class EmployeeService {
     }
   }
 
-  // Update employee
+  // Update employee with specific DTO structure
   static async updateEmployee(
     userId: number,
-    employee: Partial<Employee>
+    request: UserUpdateRequest
   ): Promise<{ code: number; message: string; data: Employee }> {
     try {
+      console.log("🔄 Updating employee:", { userId, request });
+
       const response = await api.put<{
         code: number;
         message: string;
         data: Employee;
-      }>(`${this.BASE_URL}/update/${userId}`, employee);
+      }>(`${this.BASE_URL}/update/${userId}`, request);
 
+      console.log("✅ Employee updated successfully:", response.data);
       return response.data;
     } catch (error: unknown) {
       console.error("❌ Update employee error:", error);

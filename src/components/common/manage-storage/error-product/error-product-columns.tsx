@@ -105,7 +105,7 @@ export const getErrorProductColumns = (
     },
     {
       id: "actions",
-      header: "Thao tác",
+      header: "Xem chi tiết",
       cell: ({ row }) => (
         <div className="flex items-center justify-center gap-2">
           <Button
