@@ -46,7 +46,13 @@ export function ChartBarMultiple({
         <CardTitle>Lưu trữ & tồn kho</CardTitle>
       </CardHeader>
       <CardContent>
-        {data && !!data?.length ? (
+        {isPending && (
+          <div className="max-h-[250px] min-h-[250px]">
+            <LoadingNormal />
+          </div>
+        )}
+
+        {data && !!data?.length && !isPending ? (
           <ChartContainer
             config={chartConfig}
             className=" mx-auto  w-full max-h-[250px] min-h-[250px]"

@@ -1,9 +1,11 @@
 const ApiEndPoint = {
   API: "api",
   LOGIN: "/auth",
+  LOG_OUT: "auth/logout",
   REFRESHTOKEN: "/auth/refresh-token",
   SENDCODEEMAIL: "/user/forgot-password",
   NEWPASSWORD: "user/reset-password",
+  CREATE_IMPORT_ORDER: "api/manage-import-orders/create",
   ALLIMPORTORDER: "/api/manage-import-orders/getallImportOrder",
   ALLHISTORYIMPORTORDER: "/api/manage-import-orders/allDetails/merged-sku",
   ALLDETAILIMPORTORDER: "/api/manage-import-orders/allDetails",
@@ -36,6 +38,7 @@ const ApiEndPoint = {
   STORAGE_CHART: "api/dashboard/3.3-storage-shelf-chart",
   ERROR_CHART: "api/dashboard/4.2-trend",
   STORAGE_DONUT: "api/dashboard/3.2-storage-donut",
+  KPI_DASHBOARD: "api/dashboard/Full4KPI",
 };
 
 export default ApiEndPoint;

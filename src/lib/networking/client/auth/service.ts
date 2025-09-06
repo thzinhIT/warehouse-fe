@@ -29,6 +29,11 @@ type TPayLoadLogin = {
   passWord?: string;
 };
 
+export type TPayLoadLogout = {
+  token: string;
+  refreshToken: string;
+};
+
 export async function Login({ userName, passWord }: TPayLoadLogin) {
   try {
     if (!userName || !passWord) {
@@ -55,6 +60,31 @@ export async function Login({ userName, passWord }: TPayLoadLogin) {
     return Promise.reject(new Error("Error: Login error"));
   } catch (e) {
     console.log("Login error:", e);
+    return Promise.reject(e);
+  }
+}
+export async function Logout() {
+  const token = localStorage.getItem("token");
+  const refreshToken = localStorage.getItem("refreshToken");
+
+  try {
+    if (!token && !refreshToken) {
+      return Promise.reject(new Error("Error: log out error"));
+    }
+    const res = await publicApi.post<IAuthResponse>(`${ApiEndPoint.LOG_OUT}`, {
+      token,
+      refreshToken,
+    });
+
+    if (res?.data?.code === 200) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("refreshToken");
+      return res.data;
+    }
+
+    return Promise.reject(new Error("Error: LOG out error"));
+  } catch (e) {
+    console.log("LOG out error:", e);
     return Promise.reject(e);
   }
 }

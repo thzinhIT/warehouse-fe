@@ -29,7 +29,7 @@ export function useLogin() {
     setToken(data?.data?.token);
     setAccessToken(data?.data?.refreshToken);
     document.cookie = `token=${data?.data?.token}; path=/; max-age=${
-      60 * 60 * 24 * 7
+      60 * 60 * 24 * 30
     }; secure; samesite=strict`;
     localStorage.setItem("token", data?.data?.token || "");
     localStorage.setItem("refreshToken", data?.data?.refreshToken || "");

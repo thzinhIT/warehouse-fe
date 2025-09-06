@@ -1,6 +1,7 @@
 import { api } from "../../axious";
 import ApiEndPoint from "../../api";
 import toast from "react-hot-toast";
+import { TruncateMessage } from "@/lib/utils/message";
 
 export type TDataImportOrder = {
   id: number;
@@ -91,6 +92,42 @@ export type TBodyUpdateImportOrderTemporary = {
   quantity: number;
   source?: string;
   note?: string;
+};
+export type TPayloadCreateImportOrder = {
+  source: string;
+  note: string;
+  details: {
+    skuCode: string;
+    quantity: number;
+  }[];
+};
+
+export type TDetailImportOrder = {
+  id: number;
+  skuCode: string;
+  skuName: string;
+  size: string;
+  color: string;
+  type: string;
+  unitVolume: number;
+  quantity: number;
+};
+
+type TImportData = {
+  id: number;
+  importCode: string;
+  source: string;
+  status: string;
+  createdBy: string;
+  createdAt: string;
+  note: string;
+  details: TDetailImportOrder[];
+};
+
+type TApiResponseCreateImportOrder = {
+  code: number;
+  message: string;
+  data: TImportData;
 };
 
 export async function getAllDetailImportOrder() {
@@ -230,6 +267,34 @@ export async function UpdateTemporaryById(
   } catch (error) {
     console.log("Error Update data temporary:", error);
     return Promise.reject(error);
+  }
+}
+export async function CreateImportOrder(body: TPayloadCreateImportOrder) {
+  try {
+    console.log("111111");
+    const res = await api.post<TApiResponseCreateImportOrder>(
+      `${ApiEndPoint.CREATE_IMPORT_ORDER}`,
+      body
+    );
+
+    if (res?.data?.code === 200) {
+      toast.success("Create import successfully");
+      return res.data?.data;
+    }
+    const errorMessage = res?.data?.message || "Error create data import order";
+    toast.error(errorMessage);
+
+    return Promise.reject(new Error(errorMessage));
+  } catch (error: unknown) {
+    let errorMessage = "Error create data import order";
+    if (typeof error === "object" && error !== null && "response" in error) {
+      const err = error as { response?: { data?: { message?: string } } };
+      errorMessage = err.response?.data?.message || errorMessage;
+    }
+    toast.error(TruncateMessage(errorMessage, 70));
+
+    console.log("Error create data import order", errorMessage);
+    return Promise.reject(new Error(errorMessage));
   }
 }
 

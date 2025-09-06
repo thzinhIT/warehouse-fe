@@ -63,7 +63,7 @@ export function ChartPieLabel({
   return (
     <Card className="flex flex-col h-full">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Tỉ lệ chứa</CardTitle>
+        <CardTitle>Kho hàng</CardTitle>
         <CardDescription className="hidden">
           January - June 2024
         </CardDescription>
