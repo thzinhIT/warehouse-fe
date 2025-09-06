@@ -776,7 +776,7 @@ export async function exportWithRoute(request: TMoveToQueueRequest) {
     const errorMessage = "Error exporting items with route";
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
-  } catch (error: any) {
+  } catch (error) {
     if (error.response) {
       toast.error(
         `API Error: ${error.response.status} - ${
