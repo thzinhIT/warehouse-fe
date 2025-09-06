@@ -103,7 +103,7 @@ export class DamagedItemsService {
           response?: {
             status?: number;
             statusText?: string;
-            data?: any;
+            data?: unknown;
           };
           config?: {
             url?: string;
