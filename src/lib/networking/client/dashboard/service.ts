@@ -1,80 +1,138 @@
-import { api } from "../../axious";
+import toast from "react-hot-toast";
 import ApiEndPoint from "../../api";
-import {
-  ImportChartRequest,
-  ImportChartResponse,
-  ExportChartRequest,
-  ExportChartResponse,
-  SummaryChartRequest,
-  SummaryChartResponse,
-  SkuTypeRatioChartResponse,
-  OptimizationIndexRequest,
-  OptimizationIndexResponse,
-  StorageStatusRequest,
-  StorageStatusResponse,
-} from "../../../types/dashboard.types";
+import { api } from "../../axious";
 
-export const dashboardApi = {
-  // WMS-04: Import Chart
-  getImportChart: async (
-    request: ImportChartRequest
-  ): Promise<ImportChartResponse[]> => {
-    const response = await api.post(ApiEndPoint.IMPORT_CHART, request);
-    return response.data.data; // ✅ unwrap ApiResponse
-  },
+export type TBodyImportChart = {
+  warehouseId: 1;
+  startDate: string;
+  endDate: string;
+};
+export type TDataImportChart = {
+  importDate: string;
+  totalItems: number;
+  totalOrders: number;
+};
+export type TDataExportChart = {
+  date: string;
+  manualQuantity: number;
+  haravanQuantity: number;
+};
 
-  // WMS-05: Export Chart
-  getExportChart: async (
-    request: ExportChartRequest
-  ): Promise<ExportChartResponse[]> => {
-    const response = await api.post(ApiEndPoint.EXPORT_CHART, request);
-    return response.data.data;
-  },
+type TImportChartImportResponse = {
+  code: number;
+  message: string;
+  data: TDataImportChart[];
+};
+type TChartExportResponse = {
+  code: number;
+  message: string;
+  data: TDataExportChart[];
+};
 
-  // WMS-06: Summary Chart
-  getSummaryChart: async (
-    request: SummaryChartRequest
-  ): Promise<SummaryChartResponse[]> => {
-    const response = await api.post(ApiEndPoint.SUMMARY_CHART, request);
-    return response.data.data;
-  },
+export interface TDataChartStorage {
+  shelfName: string;
+  totalCapacity: number;
+  usedCapacity: number;
+  usedPercentage: number;
+}
 
-  // WMS-07: SKU Type Ratio Chart
-  getSkuTypeRatio: async (): Promise<SkuTypeRatioChartResponse[]> => {
-    const response = await api.get(ApiEndPoint.SKU_TYPE_RATIO);
-    return response.data.data;
-  },
+export interface TChartStorageResponse {
+  code: number;
+  message: string;
+  data: TDataChartStorage[];
+}
+export type TDataChartError = {
+  date: string;
+  damaged: number;
+  returned: number;
+};
 
-  // WMS-09: Optimization Index
-  getOptimizationIndex: async (
-    request: OptimizationIndexRequest
-  ): Promise<OptimizationIndexResponse[]> => {
-    const response = await api.post(ApiEndPoint.OPTIMIZATION_INDEX, request);
-    return response.data.data;
-  },
+export type TChartErrorResponse = {
+  code: number;
+  message: string;
+  data: TDataChartError[];
+};
 
-  // WMS-10: Storage Status
-  getStorageStatus: async (
-    request: StorageStatusRequest
-  ): Promise<StorageStatusResponse> => {
-    const response = await api.post(ApiEndPoint.STORAGE_STATUS, request);
-    return response.data.data;
-  },
+export type TDonutChartData = {
+  totalCapacity: number;
+  usedCapacity: number;
+  usedPercentage: number;
+  freePercentage: number;
+};
 
-  // WMS-12: Export warehouse report PDF
-  exportWarehouseReportPdf: async (
-    request: StorageStatusRequest
-  ): Promise<Blob> => {
-    const response = await api.post(
-      ApiEndPoint.WAREHOUSE_SUMMARY_PDF,
-      request,
+type TDonutChartResponse = {
+  code: number;
+  message: string;
+  data: TDonutChartData;
+};
+
+export async function DataChartImport(body: TBodyImportChart) {
+  try {
+    const res = await api.post<TImportChartImportResponse>(
+      `${ApiEndPoint.CHART_IMPORT}`,
+      body
+    );
+    if (res?.data?.code === 200) return res?.data?.data;
+    return Promise.reject(new Error("errors get import chart"));
+  } catch (error) {
+    console.error(error);
+    return Promise.reject(error);
+  }
+}
+
+export async function DataChartExport(body: TBodyImportChart) {
+  try {
+    const res = await api.post<TChartExportResponse>(
+      `${ApiEndPoint.CHART_EXPORT}`,
+      body
+    );
+    if (res?.data?.code === 200) return res?.data?.data;
+    return Promise.reject(new Error("errors get export chart"));
+  } catch (error) {
+    console.error(error);
+    return Promise.reject(error);
+  }
+}
+
+export async function DataChartStorage() {
+  try {
+    const res = await api.post<TChartStorageResponse>(
+      `${ApiEndPoint.STORAGE_CHART}`,
+      { warehouseId: 1 }
+    );
+    if (res?.data?.code === 200) return res?.data?.data;
+    return Promise.reject(new Error("errors get storage chart"));
+  } catch (error) {
+    console.error(error);
+    return Promise.reject(error);
+  }
+}
+
+export async function DataChartError(body: TBodyImportChart) {
+  try {
+    const res = await api.post<TChartErrorResponse>(
+      `${ApiEndPoint.ERROR_CHART}`,
+      body
+    );
+    if (res?.data?.code === 200) return res?.data?.data;
+    return Promise.reject(new Error("errors get error chart"));
+  } catch (error) {
+    console.error(error);
+    return Promise.reject(error);
+  }
+}
+export async function DataChartDonutStorage() {
+  try {
+    const res = await api.post<TDonutChartResponse>(
+      `${ApiEndPoint.STORAGE_DONUT}`,
       {
-        responseType: "blob",
-        headers: {
-          Accept: "application/pdf",
-        },
+        warehouseId: 1,
       }
     );
-    return response.data; // this one is fine
-  },
-};
+    if (res?.data?.code === 200) return res?.data?.data;
+    return Promise.reject(new Error("errors get storage chart"));
+  } catch (error) {
+    console.error(error);
+    return Promise.reject(error);
+  }
+}

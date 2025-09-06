@@ -1,137 +1,125 @@
 "use client";
 
-import React, { useEffect } from "react";
-import ChartPieInteractive from "./chart-pie-interactive";
-import { ChartBarStacked } from "./chart-bar-stacked";
-import WeatherWidget from "@/components/widgets/weather-widget";
-import { useTranslations } from "next-intl";
-import { useDashboardData } from "@/hooks/dashboard/useDashboardData";
-import SensorDataWidget from "./sensor-widget";
+import React, { useEffect, useMemo, useState } from "react";
+import { ElegantCard } from "./card-report";
+import { FaFileInvoice } from "react-icons/fa";
+import { FaFileArrowDown } from "react-icons/fa6";
+
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ChartAreaImport } from "./area-chart-import";
+import useChartDashboard from "@/hooks/dashboard/useDashboardData";
+import { format, subDays } from "date-fns";
+import { ChartAreaExport } from "./area-chart-export";
+import { TBodyImportChart } from "@/lib/networking/client/dashboard/service";
+import { ChartBarMultiple } from "./bar-chart-storage";
+import { ChartLineMultiple } from "./line-chart-error";
+import { ChartPieLabel } from "./pie-chart-percent";
+import IoTDashboard from "./iot-dashboard";
+import ListCardReport from "./list-card-report";
+
 const DashboardClient = () => {
-  const t = useTranslations("dashboard.charts");
+  const [startDate, setStartDate] = useState<string>(
+    format(new Date(), "yyyy-MM-dd")
+  );
 
+  const endDate = useMemo(() => format(new Date(), "yyyy-MM-dd"), []);
+  const body: TBodyImportChart = useMemo(
+    () => ({ warehouseId: 1, startDate, endDate }),
+    [startDate, endDate]
+  );
   const {
-    // Data formatting functions
-    formatImportDataForPieChart,
-    formatExportDataForPieChart,
-    formatSkuTypeRatioForPieChart,
-    formatSummaryDataForBarChart,
+    importChart,
+    importChartFn,
+    exportChart,
+    exportChartFn,
+    storageChart,
+    storageChartFn,
+    storageDonutChart,
+    storageChartDonutFn,
+    errorChart,
+    errorChartFn,
+    isPending,
+  } = useChartDashboard();
 
-    // Loading states
-    isLoadingImportChart,
-    isLoadingExportChart,
-    isLoadingSkuTypeRatio,
-    isLoadingSummaryChart,
+  const handleChangeTab = (value: string) => {
+    switch (value) {
+      case "today":
+        setStartDate(format(new Date(), "yyyy-MM-dd"));
+        break;
+      case "lastWeek":
+        setStartDate(format(subDays(new Date(), 7), "yyyy-MM-dd"));
 
-    // Error states
-    importChartError,
-    exportChartError,
-    skuTypeRatioError,
-    summaryChartError,
+        break;
+      case "lastMouth":
+        setStartDate(format(subDays(new Date(), 30), "yyyy-MM-dd"));
 
-    // Fetch functions
-    fetchImportChart,
-    fetchExportChart,
-    fetchSkuTypeRatio,
-    fetchSummaryChart,
+        break;
 
-    // Raw data
-    storageStatusData,
-    fetchStorageStatus,
-  } = useDashboardData();
+      default:
+        break;
+    }
+  };
 
-  // Initialize data on component mount
   useEffect(() => {
-    const initializeData = async () => {
-      // Set a broader date range to ensure we get some data
-      const endDate = new Date().toISOString().split("T")[0]; // Today
-      const startDate = new Date(2024, 0, 1).toISOString().split("T")[0]; // January 1, 2024
-
-      try {
-        // Fetch all dashboard data - try without warehouse ID first
-        await Promise.all([
-          fetchImportChart({ startDate, endDate }), // No warehouse ID
-          fetchExportChart({ startDate, endDate }), // No warehouse ID
-          fetchSkuTypeRatio(),
-          fetchSummaryChart({ startDate, endDate, type: "daily" }),
-          fetchStorageStatus({}), // No warehouse ID
-        ]);
-      } catch (error) {}
-    };
-
-    initializeData();
+    importChartFn(body);
+    exportChartFn(body);
+    storageChartFn();
+    storageChartDonutFn();
+    errorChartFn(body);
   }, [
-    fetchImportChart,
-    fetchExportChart,
-    fetchSkuTypeRatio,
-    fetchSummaryChart,
-    fetchStorageStatus,
+    body,
+    importChartFn,
+    exportChartFn,
+    storageChartFn,
+    errorChartFn,
+    storageChartDonutFn,
   ]);
 
-  // Get formatted data for charts
-  const importData = formatImportDataForPieChart();
-  const exportData = formatExportDataForPieChart();
-  const skuTypeRatioData = formatSkuTypeRatioForPieChart();
-  const summaryData = formatSummaryDataForBarChart();
-
-  // Fallback data if no API data is available
-  const fallbackWarehouseData = [
-    { month: "january", desktop: 186, fill: "hsl(0, 70%, 50%)" },
-    { month: "february", desktop: 305, fill: "hsl(72, 70%, 50%)" },
-    { month: "march", desktop: 237, fill: "hsl(144, 70%, 50%)" },
-    { month: "april", desktop: 173, fill: "hsl(216, 70%, 50%)" },
-    { month: "may", desktop: 209, fill: "hsl(288, 70%, 50%)" },
-  ];
 
   return (
-    <div className="h-full p-4 overflow-auto">
-      {/* Top row with 3 pie charts and weather/sensor widgets */}
-      <div className="grid grid-cols-12 gap-3 mb-5">
-        <div className="col-span-3">
-          <ChartPieInteractive
-            data={importData.length > 0 ? importData : fallbackWarehouseData}
-            title={t("import-chart.title")}
-            description={t("import-chart.description")}
-            isLoading={isLoadingImportChart}
-            error={importChartError}
-          />
-        </div>
-        <div className="col-span-3">
-          <ChartPieInteractive
-            data={exportData.length > 0 ? exportData : fallbackWarehouseData}
-            title={t("export-chart.title")}
-            description={t("export-chart.description")}
-            isLoading={isLoadingExportChart}
-            error={exportChartError}
-          />
-        </div>
-        <div className="col-span-3">
-          <ChartPieInteractive
-            data={
-              skuTypeRatioData.length > 0
-                ? skuTypeRatioData
-                : fallbackWarehouseData
-            }
-            title={t("sku-type-ratio.title")}
-            description={t("sku-type-ratio.description")}
-            isLoading={isLoadingSkuTypeRatio}
-            error={skuTypeRatioError}
-          />
-        </div>
-        <div className="col-span-3 space-y-3">
-          <WeatherWidget compact className="h-fit" />
-          <SensorDataWidget />
+    <div className="px-2 overflow-auto h-full">
+      <h3 className="font-medium text-lg px-2">Báo cáo tổng kết </h3>
+      <Tabs
+        defaultValue="today"
+        className="w-[500px] mb-3"
+        onValueChange={handleChangeTab}
+      >
+        <TabsList>
+          <TabsTrigger value="today">Hôm nay</TabsTrigger>
+          <TabsTrigger value="lastWeek">7 ngày</TabsTrigger>
+          <TabsTrigger value="lastMouth">30 ngày</TabsTrigger>
+        </TabsList>
+      </Tabs>
+
+      <div className="grid grid-cols-12 mb-3">
+        <ListCardReport />
+        <div className="col-span-4">
+          <IoTDashboard />
         </div>
       </div>
 
-      {/* Bottom row with bar chart full width */}
-      <div className="grid grid-cols-12 gap-3">
-        <div className="col-span-12">
-          <ChartBarStacked
-            data={summaryData.length > 0 ? summaryData : undefined}
-            isLoading={isLoadingSummaryChart}
-            error={summaryChartError}
-          />
+      {/* chart nè vinh */}
+
+      <div className="flex flex-col gap-2 pb-2">
+        <div className=" grid  grid-cols-3 gap-3  ">
+          <div className="col-span-2">
+            <ChartBarMultiple data={storageChart ?? []} isPending={isPending} />
+          </div>
+          <div className="col-span-1">
+            <ChartPieLabel data={storageDonutChart} isPending={isPending} />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-3 gap-2">
+          <div className="col-span-1">
+            <ChartAreaImport data={importChart ?? []} isPending={isPending} />
+          </div>
+          <div className="col-span-1">
+            <ChartAreaExport data={exportChart ?? []} isPending={isPending} />
+          </div>
+          <div className="col-span-1">
+            <ChartLineMultiple data={errorChart ?? []} isPending={isPending} />
+          </div>
         </div>
       </div>
     </div>

@@ -1,15 +1,15 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import DashboardClient from "./components/dashboard-client";
 import SidebarHeader from "@/components/layout/nav/sidebar-header";
-import { useAppContext } from "@/app/app-context";
-import { redirect } from "next/navigation";
 
 const Dashboard = () => {
   return (
-    <div className="h-full">
+    <div className="h-full flex flex-col  ">
       <SidebarHeader title="Bảng điều khiển" />
-      <DashboardClient />
+      <div className="overflow-auto flex-1">
+        <DashboardClient />
+      </div>
     </div>
   );
 };
