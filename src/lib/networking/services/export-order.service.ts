@@ -23,13 +23,11 @@ export class ExportOrderService {
   // Get latest export information
   static async getLatestExport(): Promise<ExportInfoResponse | null> {
     try {
-      console.log("🔍 Fetching latest export info");
 
       const response = await api.get<ExportInfoResponse>(
         `${this.BASE_URL}/export/latest`
       );
 
-      console.log("✅ Latest export response:", response.data);
       return response.data;
     } catch (error: unknown) {
       console.error("❌ Get latest export error:", error);
@@ -41,7 +39,6 @@ export class ExportOrderService {
   // Update export note
   static async updateExportNote(exportCode: string, note: string): Promise<void> {
     try {
-      console.log("🔄 Updating export note:", { exportCode, note });
 
       await api.put(
         `${this.BASE_URL}/export/update-note`,
@@ -54,7 +51,6 @@ export class ExportOrderService {
         }
       );
 
-      console.log("✅ Note updated successfully");
     } catch (error: unknown) {
       console.error("❌ Update note error:", error);
       throw error;

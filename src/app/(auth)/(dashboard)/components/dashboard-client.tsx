@@ -82,7 +82,6 @@ const DashboardClient = () => {
     { month: "april", desktop: 173, fill: "hsl(216, 70%, 50%)" },
     { month: "may", desktop: 209, fill: "hsl(288, 70%, 50%)" },
   ];
-  console.log(`importData`);
 
   return (
     <div className="h-full p-4 overflow-auto">

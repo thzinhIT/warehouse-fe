@@ -68,7 +68,6 @@ export default function TableToolbar() {
           setStartDate(parsedDate);
         }
       } catch (error) {
-        console.log(error);
       }
     }
   };
@@ -85,7 +84,6 @@ export default function TableToolbar() {
           setEndDate(parsedDate);
         }
       } catch (error) {
-        console.log(error);
       }
     }
   };

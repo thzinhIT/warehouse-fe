@@ -145,15 +145,12 @@ export class EmployeeService {
     request: UserUpdateRequest
   ): Promise<{ code: number; message: string; data: Employee }> {
     try {
-      console.log("🔄 Updating employee:", { userId, request });
-
       const response = await api.put<{
         code: number;
         message: string;
         data: Employee;
       }>(`${this.BASE_URL}/update/${userId}`, request);
 
-      console.log("✅ Employee updated successfully:", response.data);
       return response.data;
     } catch (error: unknown) {
       console.error("❌ Update employee error:", error);
