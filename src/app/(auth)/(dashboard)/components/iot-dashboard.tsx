@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Droplets, Wind, Clock, AlertTriangle } from "lucide-react";
+import { useState } from "react";
+import { Droplets, Wind, AlertTriangle } from "lucide-react";
 import { GiDustCloud } from "react-icons/gi";
 
 interface SensorData {

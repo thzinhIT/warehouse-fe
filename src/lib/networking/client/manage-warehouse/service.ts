@@ -279,16 +279,8 @@ export async function CreateImportOrder(body: TPayloadCreateImportOrder) {
     toast.error(errorMessage);
 
     return Promise.reject(new Error(errorMessage));
-  } catch (error: unknown) {
-    let errorMessage = "Error create data import order";
-    if (typeof error === "object" && error !== null && "response" in error) {
-      const err = error as { response?: { data?: { message?: string } } };
-      errorMessage = err.response?.data?.message || errorMessage;
-    }
-    toast.error(TruncateMessage(errorMessage, 70));
-
-    console.log("Error create data import order", errorMessage);
-    return Promise.reject(new Error(errorMessage));
+  } catch (error) {
+    return Promise.reject(error);
   }
 }
 
@@ -482,7 +474,9 @@ export async function getAllExportOrderDetails() {
       res?.data?.error || "Error fetching export order details";
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
-  } catch (error) {}
+  } catch (error) {
+    return Promise.reject(error);
+  }
 }
 
 export async function getExportOrderDetailById(detailId: number) {
@@ -497,7 +491,9 @@ export async function getExportOrderDetailById(detailId: number) {
       res?.data?.error || "Error fetching export order detail";
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
-  } catch (error) {}
+  } catch (error) {
+    return Promise.reject(error);
+  }
 }
 
 export async function getExportOrderBoard() {
@@ -512,8 +508,9 @@ export async function getExportOrderBoard() {
       res?.data?.error || "Error fetching export order board details";
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
+  } catch (error) {
     return Promise.reject(error);
-  } catch (error) {}
+  }
 }
 
 export async function searchExportOrders(
@@ -566,18 +563,7 @@ export async function searchExportOrdersFull(
       res?.data?.error || "Error searching export orders full";
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
-  } catch (error: any) {
-    if (error.response) {
-      toast.error(
-        `API Error: ${error.response.status} - ${
-          error.response.data?.message || "Unknown error"
-        }`
-      );
-    } else if (error.request) {
-      toast.error("No response from server. Please check your connection.");
-    } else {
-      toast.error("Request setup error: " + error.message);
-    }
+  } catch (error) {
     return Promise.reject(error);
   }
 }
@@ -612,18 +598,7 @@ export async function searchExportOrdersBoard(
       res?.data?.error || "Error searching export orders board";
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
-  } catch (error: any) {
-    if (error.response) {
-      toast.error(
-        `API Error: ${error.response.status} - ${
-          error.response.data?.message || "Unknown error"
-        }`
-      );
-    } else if (error.request) {
-      toast.error("No response from server. Please check your connection.");
-    } else {
-      toast.error("Request setup error: " + error.message);
-    }
+  } catch (error) {
     return Promise.reject(error);
   }
 }
@@ -701,19 +676,7 @@ export async function moveItemsToQueue(request: TMoveToQueueRequest) {
     const errorMessage = "Error moving items to queue";
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
-  } catch (error: any) {
-    if (error.response) {
-      toast.error(
-        `API Error: ${error.response.status} - ${
-          error.response.data?.message || "Unknown error"
-        }`
-      );
-    } else if (error.request) {
-      toast.error("No response from server. Please check your connection.");
-    } else {
-      toast.error("Request setup error: " + error.message);
-    }
-
+  } catch (error) {
     return Promise.reject(error);
   }
 }
@@ -733,19 +696,7 @@ export async function moveItemsBackFromQueue(request: TMoveToQueueRequest) {
     const errorMessage = "Error moving items back from queue";
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
-  } catch (error: any) {
-    if (error.response) {
-      toast.error(
-        `API Error: ${error.response.status} - ${
-          error.response.data?.message || "Unknown error"
-        }`
-      );
-    } else if (error.request) {
-      toast.error("No response from server. Please check your connection.");
-    } else {
-      toast.error("Request setup error: " + error.message);
-    }
-
+  } catch (error) {
     return Promise.reject(error);
   }
 }
@@ -777,18 +728,6 @@ export async function exportWithRoute(request: TMoveToQueueRequest) {
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
   } catch (error) {
-    if (error.response) {
-      toast.error(
-        `API Error: ${error.response.status} - ${
-          error.response.data?.message || "Unknown error"
-        }`
-      );
-    } else if (error.request) {
-      toast.error("No response from server. Please check your connection.");
-    } else {
-      toast.error("Request setup error: " + error.message);
-    }
-
     return Promise.reject(error);
   }
 }
@@ -806,19 +745,7 @@ export async function getSkuStatusForExport() {
     const errorMessage = "No data received from SKU status API";
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
-  } catch (error: any) {
-    if (error.response) {
-      toast.error(
-        `API Error: ${error.response.status} - ${
-          error.response.data?.message || "Unknown error"
-        }`
-      );
-    } else if (error.request) {
-      toast.error("No response from server. Please check your connection.");
-    } else {
-      toast.error("Request setup error: " + error.message);
-    }
-
+  } catch (error) {
     return Promise.reject(error);
   }
 }

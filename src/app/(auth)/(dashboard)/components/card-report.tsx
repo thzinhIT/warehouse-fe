@@ -10,7 +10,7 @@ type TCardReportProps = {
   grow?: number;
 };
 const CardReport = (props: TCardReportProps) => {
-  const { title, icon, value, className, grow } = props;
+  const { title, icon, value, className } = props;
   return (
     <div className={cn("border rounded-md ", className)}>
       <div className="flex items-center justify-between px-2 border-b">
@@ -42,22 +42,8 @@ export function ElegantCard({
   icon,
   title,
   value,
-  trend = "neutral",
-  subtitle = "Growth",
   isPending,
 }: ElegantCardProps) {
-  const trendColors = {
-    up: "text-emerald-600 bg-emerald-50",
-    down: "text-rose-600 bg-rose-50",
-    neutral: "text-slate-600 bg-slate-50",
-  };
-
-  const trendIcons = {
-    up: "↗",
-    down: "↘",
-    neutral: "→",
-  };
-
   return (
     <div
       className={cn(

@@ -1,9 +1,6 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
-import { ElegantCard } from "./card-report";
-import { FaFileInvoice } from "react-icons/fa";
-import { FaFileArrowDown } from "react-icons/fa6";
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ChartAreaImport } from "./area-chart-import";
@@ -83,7 +80,6 @@ const DashboardClient = () => {
     storageChartDonutFn,
     KpiDashboard,
   ]);
-
 
   return (
     <div className="px-2 overflow-auto h-full">

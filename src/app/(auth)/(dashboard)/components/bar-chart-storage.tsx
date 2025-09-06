@@ -14,7 +14,6 @@ import {
 import EmptyDataChart from "./empty-data-chart";
 import { TDataChartStorage } from "@/lib/networking/client/dashboard/service";
 import { LoadingNormal } from "@/components/common/loading-page";
-import { Divide } from "lucide-react";
 
 export const description = "A stacked bar chart with a legend";
 const chartConfig = {

@@ -32,7 +32,7 @@ const mockProducts = [
   {
     id: 2,
     sku: "66",
-    skuCode: "66", 
+    skuCode: "66",
     itemCount: 6,
     name: "Sản phẩm B",
     size: "L",
@@ -56,7 +56,7 @@ const mockProducts = [
     sku: "27",
     skuCode: "27",
     itemCount: 24,
-    name: "Sản phẩm D", 
+    name: "Sản phẩm D",
     size: "XL",
     color: "Đen",
     type: "Quần",
@@ -105,42 +105,52 @@ const ProductManagementPage = () => {
     type: "",
     unitVolume: [100, 300],
   });
-  
+
   const [filteredData, setFilteredData] = useState(mockProducts);
   const [isSearching, setIsSearching] = useState(false);
 
   const handleSearch = () => {
     setIsSearching(true);
-    
+
     // Simulate API call
     setTimeout(() => {
       let filtered = mockProducts;
-      
+
       if (searchFilters.sku) {
-        filtered = filtered.filter(product => 
-          product.sku.toLowerCase().includes(searchFilters.sku.toLowerCase()) ||
-          product.name.toLowerCase().includes(searchFilters.sku.toLowerCase())
+        filtered = filtered.filter(
+          (product) =>
+            product.sku
+              .toLowerCase()
+              .includes(searchFilters.sku.toLowerCase()) ||
+            product.name.toLowerCase().includes(searchFilters.sku.toLowerCase())
         );
       }
-      
+
       if (searchFilters.size && searchFilters.size !== "all") {
-        filtered = filtered.filter(product => product.size === searchFilters.size);
+        filtered = filtered.filter(
+          (product) => product.size === searchFilters.size
+        );
       }
-      
+
       if (searchFilters.color && searchFilters.color !== "all") {
-        filtered = filtered.filter(product => product.color === searchFilters.color);
+        filtered = filtered.filter(
+          (product) => product.color === searchFilters.color
+        );
       }
-      
+
       if (searchFilters.type && searchFilters.type !== "all") {
-        filtered = filtered.filter(product => product.type === searchFilters.type);
+        filtered = filtered.filter(
+          (product) => product.type === searchFilters.type
+        );
       }
-      
+
       // Filter by unit volume range
-      filtered = filtered.filter(product => 
-        product.unitVolume >= searchFilters.unitVolume[0] && 
-        product.unitVolume <= searchFilters.unitVolume[1]
+      filtered = filtered.filter(
+        (product) =>
+          product.unitVolume >= searchFilters.unitVolume[0] &&
+          product.unitVolume <= searchFilters.unitVolume[1]
       );
-      
+
       setFilteredData(filtered);
       setIsSearching(false);
     }, 500);
@@ -174,12 +184,14 @@ const ProductManagementPage = () => {
   return (
     <div className="h-full flex flex-col">
       <SidebarHeader title="Quản lý sản phẩm" />
-      
+
       <div className="flex-1 p-4 space-y-6">
         {/* Search Filters Card */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg font-semibold">Bộ lọc tìm kiếm</CardTitle>
+            <CardTitle className="text-lg font-semibold">
+              Bộ lọc tìm kiếm
+            </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -191,8 +203,11 @@ const ProductManagementPage = () => {
                   id="sku"
                   placeholder="Nhập mã SKU..."
                   value={searchFilters.sku}
-                  onChange={(e) => 
-                    setSearchFilters(prev => ({ ...prev, sku: e.target.value }))
+                  onChange={(e) =>
+                    setSearchFilters((prev) => ({
+                      ...prev,
+                      sku: e.target.value,
+                    }))
                   }
                 />
               </div>
@@ -203,8 +218,8 @@ const ProductManagementPage = () => {
                 </Label>
                 <Select
                   value={searchFilters.size}
-                  onValueChange={(value) => 
-                    setSearchFilters(prev => ({ ...prev, size: value }))
+                  onValueChange={(value) =>
+                    setSearchFilters((prev) => ({ ...prev, size: value }))
                   }
                 >
                   <SelectTrigger>
@@ -226,8 +241,8 @@ const ProductManagementPage = () => {
                 </Label>
                 <Select
                   value={searchFilters.color}
-                  onValueChange={(value) => 
-                    setSearchFilters(prev => ({ ...prev, color: value }))
+                  onValueChange={(value) =>
+                    setSearchFilters((prev) => ({ ...prev, color: value }))
                   }
                 >
                   <SelectTrigger>
@@ -251,8 +266,8 @@ const ProductManagementPage = () => {
                 </Label>
                 <Select
                   value={searchFilters.type}
-                  onValueChange={(value) => 
-                    setSearchFilters(prev => ({ ...prev, type: value }))
+                  onValueChange={(value) =>
+                    setSearchFilters((prev) => ({ ...prev, type: value }))
                   }
                 >
                   <SelectTrigger>
@@ -270,7 +285,8 @@ const ProductManagementPage = () => {
             {/* Unit Volume Range */}
             <div className="grid gap-3 col-span-full">
               <Label className="text-sm font-medium">
-                Unit volume: {searchFilters.unitVolume[0]} - {searchFilters.unitVolume[1]}
+                Unit volume: {searchFilters.unitVolume[0]} -{" "}
+                {searchFilters.unitVolume[1]}
               </Label>
               <div className="flex gap-4 items-center px-2">
                 <div className="flex flex-col gap-1">
@@ -282,9 +298,9 @@ const ProductManagementPage = () => {
                     value={searchFilters.unitVolume[0]}
                     onChange={(e) => {
                       const newValue = Number(e.target.value);
-                      setSearchFilters(prev => ({ 
-                        ...prev, 
-                        unitVolume: [newValue, prev.unitVolume[1]]
+                      setSearchFilters((prev) => ({
+                        ...prev,
+                        unitVolume: [newValue, prev.unitVolume[1]],
                       }));
                     }}
                     className="w-24"
@@ -300,9 +316,9 @@ const ProductManagementPage = () => {
                     value={searchFilters.unitVolume[1]}
                     onChange={(e) => {
                       const newValue = Number(e.target.value);
-                      setSearchFilters(prev => ({ 
-                        ...prev, 
-                        unitVolume: [prev.unitVolume[0], newValue]
+                      setSearchFilters((prev) => ({
+                        ...prev,
+                        unitVolume: [prev.unitVolume[0], newValue],
                       }));
                     }}
                     className="w-24"
@@ -313,7 +329,7 @@ const ProductManagementPage = () => {
 
             {/* Action Buttons */}
             <div className="flex gap-2 pt-4">
-              <Button 
+              <Button
                 onClick={handleSearch}
                 disabled={isSearching}
                 className="bg-blue-600 hover:bg-blue-700"
@@ -325,8 +341,8 @@ const ProductManagementPage = () => {
                 )}
                 Tìm kiếm
               </Button>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 onClick={handleClearSearch}
                 className="border-gray-300"
               >
@@ -345,23 +361,23 @@ const ProductManagementPage = () => {
                 Danh sách sản phẩm ({filteredData.length})
               </CardTitle>
               <div className="flex gap-2">
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   onClick={handleExportExcel}
                   className="border-gray-300"
                 >
                   <FileDown className="w-4 h-4 mr-2" />
                   Xuất danh sách
                 </Button>
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   onClick={handleRefresh}
                   className="border-gray-300"
                 >
                   <RefreshCw className="w-4 h-4 mr-2" />
                   Làm mới
                 </Button>
-                <Button 
+                <Button
                   onClick={handleAddProduct}
                   className="bg-green-600 hover:bg-green-700"
                 >
@@ -372,8 +388,8 @@ const ProductManagementPage = () => {
             </div>
           </CardHeader>
           <CardContent>
-            <DataTable 
-              columns={columns} 
+            <DataTable
+              columns={columns}
               data={filteredData}
               showToolbar={false}
             />
