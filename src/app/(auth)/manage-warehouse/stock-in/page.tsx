@@ -3,12 +3,13 @@ import getColumsImportOrder from "@/components/common/manage-warehouse/stock-in/
 import { ModalImportBulk } from "@/components/common/manage-warehouse/stock-in/modal-import-bulk";
 import { ModalImportOnline } from "@/components/common/manage-warehouse/stock-in/modal-import-online";
 import { ModalUpdateImportOrder } from "@/components/common/manage-warehouse/stock-in/modal-update-order-import";
+import TableToolbarImport from "@/components/common/manage-warehouse/stock-in/tool-bar";
 import { DataTable } from "@/components/common/table/data-table";
 import SidebarHeader from "@/components/layout/nav/sidebar-header";
 import { Button } from "@/components/ui/button";
 import { useStockIn } from "@/hooks/manage-warehouse/use-stock-in";
 import { CirclePlus, FilePlus } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const StockIn = () => {
   const [open, setOpen] = useState(false);
@@ -23,11 +24,16 @@ const StockIn = () => {
     openOnline,
     setOpenOnline,
     isPendingCreateImportOrder,
+    searchImport,
   } = useStockIn();
   const columns = useMemo(
     () => getColumsImportOrder({ handleOnClickDetail }),
     [handleOnClickDetail]
   );
+
+  useEffect(() => {
+    console.log("data", data);
+  }, [data]);
 
   return (
     <div className="flex flex-col h-full">
@@ -56,6 +62,9 @@ const StockIn = () => {
             <span> Thêm trực tiếp</span>
           </Button>
         </div>
+      </div>
+      <div className="px-2">
+        <TableToolbarImport searchImport={searchImport} />
       </div>
       <div className=" flex-1 min-h-0">
         <DataTable columns={columns} data={data ?? []} />{" "}
