@@ -4,7 +4,7 @@ import type React from "react";
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Package, Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
+import { Package, Lock, Eye, EyeOff, ArrowRight, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -19,6 +19,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useTranslations } from "next-intl";
 import RightPanel from "../components/right-panel";
 import Link from "next/link";
+import { useLogin } from "@/hooks/Auth/use-auth";
+import { useAppContext } from "@/app/app-context";
 const dataDescription = [
   {
     number: "10K+",
@@ -39,23 +41,25 @@ const dataDescription = [
 ];
 
 export default function WarehouseLoginPage() {
+  const { token } = useAppContext();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const tAuth = useTranslations();
+  const { login, isPending } = useLogin();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
+    setIsLoading(isPending);
 
-    // Lấy dữ liệu form
     const formData = new FormData(e.target as HTMLFormElement);
     const loginData = {
-      email: formData.get("email"),
-      password: formData.get("password"),
-      remember: formData.get("remember"),
+      userName: formData.get("username")?.toString(),
+      passWord: formData.get("password")?.toString(),
     };
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    setIsLoading(false);
+
+    login({ userName: loginData.userName, passWord: loginData.passWord });
+
+    setIsLoading(isPending);
   };
 
   return (
@@ -95,24 +99,24 @@ export default function WarehouseLoginPage() {
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
+                  transition={{ delay: 0.4 }}
                   className="space-y-2"
                 >
                   <Label
-                    htmlFor="email"
+                    htmlFor="username"
                     className="text-sm font-medium text-gray-700"
                   >
-                    Email
+                    Tên người dùng
                   </Label>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                    <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                     <Input
-                      id="email"
-                      type="email"
-                      placeholder="your@email.com"
+                      id="username"
+                      type="text"
+                      placeholder="User123"
                       className="pl-10 h-12 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
                       required
-                      name="email"
+                      name="username"
                     />
                   </div>
                 </motion.div>

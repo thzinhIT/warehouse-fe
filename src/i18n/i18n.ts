@@ -1,13 +1,20 @@
 import { cookies } from "next/headers";
 import { getRequestConfig } from "next-intl/server";
 
-export default getRequestConfig(async () => {
-  // Provide a static locale, fetch a user setting,
-  const cookieStore = cookies();
+// Define supported locales
+export const locales = ["en", "vi"] as const;
+export type Locale = (typeof locales)[number];
 
+export default getRequestConfig(async () => {
+  // Get locale from cookie or use default
+  const cookieStore = cookies();
   const preferredLanguage = (await cookieStore).get("preferredLanguage");
 
-  const locale = preferredLanguage?.value ?? "vi";
+  // Validate and fallback to default locale
+  const requestedLocale = preferredLanguage?.value;
+  const locale = locales.includes(requestedLocale as Locale)
+    ? (requestedLocale as Locale)
+    : "vi";
 
   return {
     locale,

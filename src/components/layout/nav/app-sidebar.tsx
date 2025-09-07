@@ -3,32 +3,35 @@
 import * as React from "react";
 import {
   AudioWaveform,
-  BookOpen,
-  Bot,
   Command,
   Frame,
   GalleryVerticalEnd,
-  icons,
   Map,
   PieChart,
-  Settings2,
-  SquareTerminal,
 } from "lucide-react";
+
 import {
-  MdArchive,
-  MdCalendarToday,
-  MdShoppingCart,
+  MdDashboard,
+  MdWarehouse,
+  MdLocalShipping,
   MdWarning,
-  MdTrendingUp,
-  MdSettings,
-  MdStorage,
-  MdDescription,
 } from "react-icons/md";
+import { IoSave } from "react-icons/io5";
+import { FaUserEdit } from "react-icons/fa";
+import { FcSettings } from "react-icons/fc";
+import { HiArchiveBoxArrowDown } from "react-icons/hi2";
+import { GoClockFill } from "react-icons/go";
+import { GiBoxUnpacking } from "react-icons/gi";
+import { BiCabinet } from "react-icons/bi";
+import { FaBoxOpen } from "react-icons/fa";
+import { FaExclamationTriangle } from "react-icons/fa";
+import { MdNoteAlt } from "react-icons/md";
 
 import { NavMain } from "@/components/layout/nav/nav-main";
 import { NavProjects } from "@/components/layout/nav/nav-projects";
 import { NavUser } from "@/components/layout/nav/nav-user";
 import { TeamSwitcher } from "@/components/layout/nav/team-switcher";
+import { LanguageSwitcher } from "@/components/common/language-switcher";
 import {
   Sidebar,
   SidebarContent,
@@ -38,7 +41,7 @@ import {
 } from "@/components/ui/sidebar";
 import Dashboard from "@/app/(auth)/(dashboard)/page";
 import { Icons } from "@/components/common/icons";
-import { RiLuggageCartFill } from "react-icons/ri";
+import { RiLuggageCartFill, RiStopLargeLine } from "react-icons/ri";
 import { RxDownload, RxUpload } from "react-icons/rx";
 import { GrHistory } from "react-icons/gr";
 import { LiaOpencart } from "react-icons/lia";
@@ -48,7 +51,7 @@ const data = {
   user: {
     name: "shadcn",
     email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
+    avatar: "/logo-warehouse.jpg",
   },
   teams: [
     {
@@ -67,179 +70,90 @@ const data = {
       plan: "Free",
     },
   ],
-  // navMain: [
-  //   {
-  //     title: "Playground",
-  //     url: "#",
-  //     icon: SquareTerminal,
-  //     isActive: true,
-  //     items: [
-  //       {
-  //         title: "History",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Starred",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Settings",
-  //         url: "#",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     title: "Models",
-  //     url: "#",
-  //     icon: Bot,
-  //     items: [
-  //       {
-  //         title: "Genesis",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Explorer",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Quantum",
-  //         url: "#",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     title: "Documentation",
-  //     url: "#",
-  //     icon: BookOpen,
-  //     items: [
-  //       {
-  //         title: "Introduction",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Get Started",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Tutorials",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Changelog",
-  //         url: "#",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     title: "Settings",
-  //     url: "#",
-  //     icon: Settings2,
-  //     items: [
-  //       {
-  //         title: "General",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Team",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Billing",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Limits",
-  //         url: "#",
-  //       },
-  //     ],
-  //   },
-  // ],
+
   navMain: [
     {
-      title: "Dashboard",
+      title: "dashboard",
       url: "/",
-      icon: <Icons.Dashboard />,
+      icon: <MdDashboard className="text-blue-500 " size={18} />,
+
       isActive: true,
     },
     {
-      title: "Quản lý kho hàng",
+      title: "warehouse-management",
       url: "/manage-warehouse",
-      icon: <RiLuggageCartFill />,
+      icon: <MdWarehouse className="text-red-400" size={18} />,
       items: [
         {
-          title: "Nhập kho",
+          title: "stock-in",
           url: "/manage-warehouse/stock-in",
-          icon: <RxDownload />,
+          icon: <HiArchiveBoxArrowDown className="text-yellow-500" />,
         },
         {
-          title: "Lịch sử nhập kho",
-          url: "/#",
-          icon: <GrHistory />,
+          title: "stock-in-history",
+          url: "/manage-warehouse/history",
+          icon: <GoClockFill className="text-amber-800" />,
         },
       ],
     },
     {
-      title: "Quản lý xuất kho",
-      url: "#",
+      title: "stock-out-management",
+      url: "/manage-export",
       icon: <LiaOpencart />,
       items: [
         {
-          title: "Xuất kho",
-          url: "#",
+          title: "stock-out",
+          url: "/manage-export/stock-out",
           icon: <RxUpload />,
         },
         {
-          title: "Lịch sử xuất kho",
-          url: "#",
-          icon: <GrHistory />,
+          title: "stock-out-history",
+          url: "/manage-export/history",
+          icon: <GoClockFill className="text-amber-800" />,
         },
       ],
     },
     {
-      title: "Quản lý lưu trữ",
-      url: "#",
-      icon: <MdArchive />,
+      title: "storage-management",
+      url: "/manage-storage",
+      icon: <IoSave className="text-amber-800" size={18} />,
       items: [
         {
-          title: "Quản lý kế hoạch",
-          url: "#",
-          icon: <MdCalendarToday />,
+          title: "shelves-management",
+          url: "/manage-storage/shelves",
+          icon: <BiCabinet className="text-orange-500" />,
         },
         {
-          title: "Quản lý sản phẩm",
-          url: "#",
-          icon: <MdShoppingCart />,
+          title: "product-management",
+          url: "/manage-storage/product",
+          icon: <FaBoxOpen className="text-amber-500" />,
         },
         {
-          title: "Quản lý sản phẩm lỗi",
-          url: "#",
+          title: "defective-product-management",
+          url: "/manage-storage/error-product",
           icon: <MdWarning />,
         },
       ],
     },
     {
-      title: "Quản lý lao động",
-      url: "#",
-      icon: <MdTrendingUp />,
+      title: "employee-management",
+      url: "/manage-employee",
+      icon: <FaUserEdit className="text-cyan-600" size={18} />,
     },
     {
-      title: "Cài đặt hệ thống",
+      title: "system-settings",
       url: "#",
-      icon: <MdSettings />,
+      icon: <FcSettings size={18} />,
       items: [
         {
-          title: "Cấu hình lưu trữ",
+          title: "system-logs",
           url: "#",
-          icon: <MdStorage />,
-        },
-        {
-          title: "Nhật ký hệ thống",
-          url: "#",
-          icon: <MdDescription />,
+          icon: <MdNoteAlt className="text-red-600" />,
         },
       ],
     },
   ],
+
   projects: [
     {
       name: "Design Engineering",
@@ -267,9 +181,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent className="scrollbar overflow-auto">
         <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+        {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
       <SidebarFooter>
+        {/* <div className="flex items-center justify-between p-2">
+          <LanguageSwitcher />
+        </div> */}
         <NavUser user={data.user} />
       </SidebarFooter>
       <SidebarRail />

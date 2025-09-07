@@ -11,7 +11,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { FileText } from "lucide-react";
 import { EmptyData } from "../empty-data";
 
 interface DataTableProps<TData, TValue> {
@@ -35,7 +34,7 @@ export function DataTableBody<TData, TValue>({
       )}
     >
       <TableHeader>
-        {table.getHeaderGroups().map((headerGroup, index) => (
+        {table?.getHeaderGroups()?.map((headerGroup, index) => (
           <TableRow
             key={`headerGroup-${headerGroup.id}-${index}`}
             className={"dark:border-b-default-600 "}
@@ -45,7 +44,7 @@ export function DataTableBody<TData, TValue>({
                 <TableHead
                   key={`header-${header.id}-${index}`}
                   className={cn(
-                    "last:border-r-0, h-8 border-b border-r bg-background px-2",
+                    "last:border-r-0 h-8 border-b border-r bg-background px-2",
                     header?.column?.columnDef?.meta?.headerClassName,
                     isSticky ? "sticky top-0 z-20" : ""
                   )}

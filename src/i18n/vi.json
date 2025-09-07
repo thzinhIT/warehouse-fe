@@ -3,6 +3,119 @@
     "table": {
       "table-empty-message": "Bảng hiện tại đang trống. Dữ liệu sẽ xuất hiện ở đây khi có thông tin mới."
     },
-    "empty-data": "Không có dữ liệu"
+    "empty-data": "Không có dữ liệu",
+    "language": {
+      "switch": "Chuyển đổi ngôn ngữ",
+      "english": "Tiếng Anh",
+      "vietnamese": "Tiếng Việt"
+    }
+  },
+  "navigation": {
+    "dashboard": "Bảng điều khiển",
+    "warehouse-management": "Quản lý nhập kho",
+    "stock-in": "Nhập kho",
+    "stock-in-history": "Lịch sử nhập kho",
+    "stock-out-management": "Quản lý xuất kho",
+    "stock-out": "Xuất kho",
+    "stock-out-history": "Lịch sử xuất kho",
+    "storage-management": "Quản lý lưu trữ",
+    "shelves-management": "Quản lý kệ hàng",
+    "product-management": "Quản lý sản phẩm",
+    "defective-product-management": "Quản lý sản phẩm lỗi",
+    "employee-management": "Quản lý nhân viên",
+    "system-settings": "Cài đặt hệ thống",
+    "storage-configuration": "Cấu hình lưu trữ",
+    "system-logs": "Nhật ký hệ thống"
+  },
+  "dashboard": {
+    "charts": {
+      "pie-chart-interactive": "Biểu đồ tròn - Tương tác",
+      "bar-chart-stacked": "Biểu đồ cột - Xếp chồng + Chú thích",
+      "no-data-available": "Không có dữ liệu",
+      "no-data-message": "Chúng tôi không thể tìm thấy dữ liệu khách truy cập cho khoảng thời gian đã chọn. Hãy thử điều chỉnh phạm vi ngày hoặc kiểm tra lại sau.",
+      "warehouse-storage": {
+        "title": "Lưu trữ kho hàng",
+        "description": "Công suất lưu trữ hàng tháng",
+        "january": "Tháng 1",
+        "february": "Tháng 2",
+        "march": "Tháng 3",
+        "april": "Tháng 4",
+        "may": "Tháng 5"
+      },
+      "inventory-category": {
+        "title": "Tồn kho theo danh mục",
+        "description": "Phân phối sản phẩm",
+        "electronics": "Điện tử",
+        "clothing": "Quần áo",
+        "furniture": "Nội thất",
+        "books": "Sách",
+        "toys": "Đồ chơi"
+      },
+      "order-status": {
+        "title": "Trạng thái đơn hàng",
+        "description": "Theo dõi đơn hàng hiện tại",
+        "completed": "Hoàn thành",
+        "pending": "Đang chờ",
+        "shipped": "Đã giao",
+        "returned": "Đã trả",
+        "cancelled": "Đã hủy"
+      },
+      "import-chart": {
+        "title": "Biểu đồ nhập kho",
+        "description": "Tổng quan hoạt động nhập kho"
+      },
+      "export-chart": {
+        "title": "Biểu đồ xuất kho",
+        "description": "Tổng quan hoạt động xuất kho"
+      },
+      "sku-type-ratio": {
+        "title": "Tỉ lệ loại SKU",
+        "description": "Phân bố loại sản phẩm"
+      },
+      "summary-chart": {
+        "title": "Tổng kết nhập - xuất kho",
+        "description": "Hoạt động tổng thể của kho"
+      },
+      "bar-chart-title": "Sử dụng Desktop & Mobile"
+    },
+    "sidebar": {
+      "platform": "Thống kê",
+      "projects": "Dự án"
+    }
+  },
+  "weather": {
+    "title": "Thời tiết hôm nay",
+    "loading": "Đang tải dữ liệu thời tiết...",
+    "retry": "Thử lại",
+    "noData": "Không có dữ liệu thời tiết",
+    "feelsLike": "Cảm giác như",
+    "humidity": "Độ ẩm",
+    "wind": "Gió",
+    "visibility": "Tầm nhìn",
+    "pressure": "Áp suất",
+    "sunrise": "Bình minh",
+    "sunset": "Hoàng hôn",
+    "airQuality": {
+      "title": "Chất lượng không khí",
+      "good": "Tốt",
+      "fair": "Ổn",
+      "moderate": "Trung bình",
+      "poor": "Kém",
+      "verypoor": "Rất kém",
+      "unknown": "Không rõ",
+      "pm25": "PM2.5",
+      "pm10": "PM10",
+      "aqi": "Chỉ số AQI"
+    },
+    "errorLoading": "Không thể tải dữ liệu thời tiết"
+  },
+
+  "sensor": {
+    "title": "Dữ liệu cảm biến",
+    "humidity": "Độ ẩm",
+    "dust": "Bụi",
+    "normal": "Bình thường",
+    "good": "Tốt",
+    "live": "Trực tiếp"
   }
 }
