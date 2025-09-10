@@ -203,7 +203,6 @@ export default function ManageEmployeePage() {
 
   // Handle bulk action
   const handleBulkAction = () => {
-    console.log("Bulk action for employees:", selectedEmployees);
     toast.success(`Export ${selectedEmployees.length} employees`);
   };
 

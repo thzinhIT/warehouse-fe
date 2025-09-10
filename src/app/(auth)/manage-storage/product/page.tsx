@@ -12,7 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CirclePlus, FileSpreadsheet, RotateCcw, Search } from "lucide-react";
+import { CirclePlus, RotateCcw, Search } from "lucide-react";
 import { getProductColumns } from "@/components/common/manage-storage/product/product-columns";
 import {
   useProducts,
@@ -59,8 +59,6 @@ const ProductManagementPage = () => {
   const isLoading = isSearchMode ? searchMutation.isPending : isLoadingProducts;
   const isError = isSearchMode ? searchMutation.isError : isProductsError;
   const error = isSearchMode ? searchMutation.error : productsError;
-
-  // Debug logging
 
   // For display purposes
   const totalItems = products.length;
@@ -153,11 +151,6 @@ const ProductManagementPage = () => {
     }
   };
 
-  const handleExportExcel = () => {
-    // TODO: Implement Excel export functionality
-    toast.success("Chức năng xuất Excel sẽ được triển khai sớm!");
-  };
-
   const handleAddProduct = () => {
     // TODO: Implement add product functionality
     toast.success("Chức năng thêm sản phẩm sẽ được triển khai sớm!");
@@ -166,8 +159,11 @@ const ProductManagementPage = () => {
   };
 
   const handleViewDetail = (product: Product) => {
-    if (product.id) {
-      setSelectedProductId(product.id);
+    // Use skuId as the ID since that's what the API returns
+    const productId = product.skuId || product.id;
+
+    if (productId) {
+      setSelectedProductId(productId);
       setIsDetailModalOpen(true);
     } else {
       toast.error("Không thể xem chi tiết: Không có ID sản phẩm");
@@ -218,20 +214,13 @@ const ProductManagementPage = () => {
           )}
         </div>
         <div className="flex gap-2">
-          <Button
-            className="cursor-pointer bg-green-600 hover:bg-green-700 flex items-center"
-            onClick={handleExportExcel}
-          >
-            <FileSpreadsheet size={20} />
-            <span>Xuất Excel</span>
-          </Button>
-          <Button
+          {/* <Button
             className="cursor-pointer bg-blue-600 hover:bg-blue-700 flex items-center"
             onClick={handleAddProduct}
           >
             <CirclePlus size={20} />
-            <span>Thêm sản phẩm</span>
-          </Button>
+            <span> Thêm sản phẩm</span>
+          </Button> */}
         </div>
       </div>
 
@@ -239,7 +228,7 @@ const ProductManagementPage = () => {
       <div className="mt-4">
         <div className="space-y-4">
           {/* <h2 className="text-base font-semibold">Tìm kiếm sản phẩm</h2> */}
-          <div className="grid gap-4 grid-cols-3">
+          <div className="grid gap-4 grid-cols-6">
             <div className="grid gap-2">
               <Label htmlFor="sku">Mã SKU</Label>
               <Input
@@ -384,3 +373,5 @@ const ProductManagementPage = () => {
 };
 
 export default ProductManagementPage;
+
+// Checking the current button structure in product page

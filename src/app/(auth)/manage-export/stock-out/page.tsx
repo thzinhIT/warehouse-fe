@@ -90,8 +90,21 @@ const StockOutPage = () => {
     <div className="min-h-screen p-6 space-y-6 overflow-y-auto">
       <SidebarHeader title="Xuất kho" />
 
-      <div className="flex justify-between items-center mt-2">
-        {/* <h1 className="text-lg font-bold text-black">Dữ liệu xuất kho</h1> */}
+      {/* Top action buttons */}
+      <div className="flex justify-between items-center">
+        <div className="flex gap-2">
+          <Button
+            className="cursor-pointer bg-indigo-600 hover:bg-indigo-700 flex items-center gap-2 text-white"
+            onClick={handleManualExport}
+          >
+            <Hand size={18} />
+            <span>Xuất thủ công</span>
+          </Button>
+        </div>
+      </div>
+
+      {/* Temporarily hidden buttons */}
+      {/* <div className="flex justify-between items-center mt-2">
         <div className="flex gap-2">
           <Button
             className="cursor-pointer bg-blue-600 hover:bg-blue-700 flex items-center"
@@ -112,7 +125,7 @@ const StockOutPage = () => {
             <span>Thêm trực tiếp</span>
           </Button>
         </div>
-      </div>
+      </div> */}
 
       {/* Search Component */}
       <div className="mt-4">
@@ -125,8 +138,8 @@ const StockOutPage = () => {
         />
       </div>
 
-      {/* 4 Export Action Buttons */}
-      <div className="mb-4">
+      {/* Other Export Action Buttons - Temporarily Hidden */}
+      {/* <div className="mb-4">
         <div className="flex gap-3 justify-start">
           <Button
             className="cursor-pointer bg-orange-500 hover:bg-orange-600 flex items-center gap-2 text-white"
@@ -157,7 +170,7 @@ const StockOutPage = () => {
             <span>Xuất thủ công</span>
           </Button>
         </div>
-      </div>
+      </div> */}
 
       <div className="flex-1">
         {isPending ? (

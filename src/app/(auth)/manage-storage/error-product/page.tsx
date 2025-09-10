@@ -212,23 +212,6 @@ const ErrorProductManagementPage = () => {
 
       <div className="flex justify-between items-center mt-2">
         <div className="flex items-center gap-3">
-          {/* <h1 className="text-lg font-bold text-black">
-            Danh sách sản phẩm lỗi
-          </h1> */}
-          {isSearchMode && (
-            <span className="text-sm bg-red-100 text-red-800 px-2 py-1 rounded-full">
-              Kết quả tìm kiếm
-            </span>
-          )}
-        </div>
-        <div className="flex gap-2">
-          <Button
-            className="cursor-pointer bg-green-600 hover:bg-green-700 flex items-center"
-            onClick={handleExportExcel}
-          >
-            <FileSpreadsheet size={20} />
-            <span>Xuất Excel</span>
-          </Button>
           <Button
             className="cursor-pointer bg-blue-600 hover:bg-blue-700 flex items-center"
             onClick={handleAddProduct}
@@ -236,6 +219,20 @@ const ErrorProductManagementPage = () => {
             <CirclePlus size={20} />
             <span>Thêm sản phẩm lỗi</span>
           </Button>
+          {isSearchMode && (
+            <span className="text-sm bg-red-100 text-red-800 px-2 py-1 rounded-full">
+              Kết quả tìm kiếm
+            </span>
+          )}
+        </div>
+        <div className="flex gap-2">
+          {/* <Button
+            className="cursor-pointer bg-green-600 hover:bg-green-700 flex items-center"
+            onClick={handleExportExcel}
+          >
+            <FileSpreadsheet size={20} />
+            <span>                      Xuất Excel</span>
+          </Button> */}
         </div>
       </div>
 
@@ -243,7 +240,7 @@ const ErrorProductManagementPage = () => {
       <div className="mt-4">
         <div className="space-y-4">
           {/* <h2 className="text-base font-semibold">Tìm kiếm sản phẩm lỗi</h2> */}
-          <div className="grid gap-4 grid-cols-3">
+          <div className="grid gap-4 grid-cols-6">
             <div className="grid gap-2">
               <Label htmlFor="sku">Mã SKU</Label>
               <Input

@@ -440,15 +440,36 @@ export async function getExportOrderBoard() {
     const res = await api.get<TExportOrderBoardResponse>(
       `${ApiEndPoint.EXPORTORDERBOARDDETAILS}`
     );
+
     if (res?.data?.code === 200) {
       return res.data?.data;
     }
+
     const errorMessage =
       res?.data?.error || "Error fetching export order board details";
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      if (error.response) {
+        toast.error(
+          `API Error: ${error.response.status} - ${
+            error.response.data?.message || "Unknown error"
+          }`
+        );
+      } else if (error.request) {
+        toast.error("No response from server. Please check your connection.");
+      } else {
+        toast.error("Request setup error: " + error.message);
+      }
+    } else if (error instanceof Error) {
+      toast.error("Unexpected error: " + error.message);
+    } else {
+      toast.error("An unknown error occurred.");
+    }
+
     return Promise.reject(error);
-  } catch (error) {}
+  }
 }
 
 export async function searchExportOrders(
@@ -494,25 +515,34 @@ export async function searchExportOrdersFull(
       `${ApiEndPoint.SEARCHEXPORTORDERSFULL}`,
       searchParams
     );
+
     if (res?.data?.code === 200) {
       return res.data?.data;
     }
+
     const errorMessage =
       res?.data?.error || "Error searching export orders full";
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
-  } catch (error: any) {
-    if (error.response) {
-      toast.error(
-        `API Error: ${error.response.status} - ${
-          error.response.data?.message || "Unknown error"
-        }`
-      );
-    } else if (error.request) {
-      toast.error("No response from server. Please check your connection.");
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      if (error.response) {
+        toast.error(
+          `API Error: ${error.response.status} - ${
+            error.response.data?.message || "Unknown error"
+          }`
+        );
+      } else if (error.request) {
+        toast.error("No response from server. Please check your connection.");
+      } else {
+        toast.error("Request setup error: " + error.message);
+      }
+    } else if (error instanceof Error) {
+      toast.error("Unexpected error: " + error.message);
     } else {
-      toast.error("Request setup error: " + error.message);
+      toast.error("An unknown error occurred.");
     }
+
     return Promise.reject(error);
   }
 }
@@ -532,6 +562,8 @@ export type TSearchExportOrderBoardResponse = {
   error?: string;
 };
 
+import { AxiosError } from "axios";
+
 export async function searchExportOrdersBoard(
   searchParams: TSearchExportOrder2Request
 ) {
@@ -540,25 +572,34 @@ export async function searchExportOrdersBoard(
       `${ApiEndPoint.SEARCHEXPORTORDERSBOARD}`,
       searchParams
     );
+
     if (res?.data?.code === 200) {
       return res.data?.data;
     }
+
     const errorMessage =
       res?.data?.error || "Error searching export orders board";
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
-  } catch (error: any) {
-    if (error.response) {
-      toast.error(
-        `API Error: ${error.response.status} - ${
-          error.response.data?.message || "Unknown error"
-        }`
-      );
-    } else if (error.request) {
-      toast.error("No response from server. Please check your connection.");
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      if (error.response) {
+        toast.error(
+          `API Error: ${error.response.status} - ${
+            error.response.data?.message || "Unknown error"
+          }`
+        );
+      } else if (error.request) {
+        toast.error("No response from server. Please check your connection.");
+      } else {
+        toast.error("Request setup error: " + error.message);
+      }
+    } else if (error instanceof Error) {
+      toast.error("Unexpected error: " + error.message);
     } else {
-      toast.error("Request setup error: " + error.message);
+      toast.error("An unknown error occurred.");
     }
+
     return Promise.reject(error);
   }
 }
@@ -636,17 +677,22 @@ export async function moveItemsToQueue(request: TMoveToQueueRequest) {
     const errorMessage = "Error moving items to queue";
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
-  } catch (error: any) {
-    if (error.response) {
+  } catch (error: unknown) {
+    if (error && typeof error === "object" && "response" in error) {
+      const err = error as {
+        response?: { status: number; data?: { message?: string } };
+      };
       toast.error(
-        `API Error: ${error.response.status} - ${
-          error.response.data?.message || "Unknown error"
+        `API Error: ${err.response?.status} - ${
+          err.response?.data?.message || "Unknown error"
         }`
       );
-    } else if (error.request) {
+    } else if (error && typeof error === "object" && "request" in error) {
       toast.error("No response from server. Please check your connection.");
-    } else {
+    } else if (error instanceof Error) {
       toast.error("Request setup error: " + error.message);
+    } else {
+      toast.error("An unknown error occurred.");
     }
 
     return Promise.reject(error);
@@ -668,17 +714,22 @@ export async function moveItemsBackFromQueue(request: TMoveToQueueRequest) {
     const errorMessage = "Error moving items back from queue";
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
-  } catch (error: any) {
-    if (error.response) {
+  } catch (error: unknown) {
+    if (error && typeof error === "object" && "response" in error) {
+      const err = error as {
+        response?: { status: number; data?: { message?: string } };
+      };
       toast.error(
-        `API Error: ${error.response.status} - ${
-          error.response.data?.message || "Unknown error"
+        `API Error: ${err.response?.status} - ${
+          err.response?.data?.message || "Unknown error"
         }`
       );
-    } else if (error.request) {
+    } else if (error && typeof error === "object" && "request" in error) {
       toast.error("No response from server. Please check your connection.");
-    } else {
+    } else if (error instanceof Error) {
       toast.error("Request setup error: " + error.message);
+    } else {
+      toast.error("An unknown error occurred.");
     }
 
     return Promise.reject(error);
@@ -711,17 +762,22 @@ export async function exportWithRoute(request: TMoveToQueueRequest) {
     const errorMessage = "Error exporting items with route";
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
-  } catch (error: any) {
-    if (error.response) {
+  } catch (error: unknown) {
+    if (error && typeof error === "object" && "response" in error) {
+      const err = error as {
+        response?: { status: number; data?: { message?: string } };
+      };
       toast.error(
-        `API Error: ${error.response.status} - ${
-          error.response.data?.message || "Unknown error"
+        `API Error: ${err.response?.status} - ${
+          err.response?.data?.message || "Unknown error"
         }`
       );
-    } else if (error.request) {
+    } else if (error && typeof error === "object" && "request" in error) {
       toast.error("No response from server. Please check your connection.");
-    } else {
+    } else if (error instanceof Error) {
       toast.error("Request setup error: " + error.message);
+    } else {
+      toast.error("An unknown error occurred.");
     }
 
     return Promise.reject(error);
@@ -741,22 +797,24 @@ export async function getSkuStatusForExport() {
     const errorMessage = "No data received from SKU status API";
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
-  } catch (error: any) {
-    if (error.response) {
+  } catch (error: unknown) {
+    if (error && typeof error === "object" && "response" in error) {
+      const err = error as {
+        response?: { status: number; data?: { message?: string } };
+      };
       toast.error(
-        `API Error: ${error.response.status} - ${
-          error.response.data?.message || "Unknown error"
+        `API Error: ${err.response?.status} - ${
+          err.response?.data?.message || "Unknown error"
         }`
       );
-    } else if (error.request) {
+    } else if (error && typeof error === "object" && "request" in error) {
       toast.error("No response from server. Please check your connection.");
-    } else {
+    } else if (error instanceof Error) {
       toast.error("Request setup error: " + error.message);
+    } else {
+      toast.error("An unknown error occurred.");
     }
 
     return Promise.reject(error);
   }
 }
-
-// --- END: MANUAL EXPORT TYPES & FUNCTIONS ---
-// --- END: EXPORT ORDER TYPES & FUNCTIONS ---

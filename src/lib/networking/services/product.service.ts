@@ -47,7 +47,7 @@ export class ProductService {
    */
   static async getSkuById(id: number): Promise<ProductDetailApiResponse> {
     try {
-      const response = await api.get(`${ApiEndPoint.GET_SKU_BY_ID}/${id}`);
+      const response = await api.get(`/api/skus/getById/${id}`);
       return response.data;
     } catch (error) {
       console.error("Error fetching SKU by ID:", error);

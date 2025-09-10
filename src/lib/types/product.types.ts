@@ -1,8 +1,9 @@
 // Product/SKU related types
 export interface Product {
-  id: number; // Required for detail view
-  sku?: string; // Keep as optional for backward compatibility
-  skuCode: string; // This is what the API returns
+  skuId: number;
+  id?: number;
+  sku?: string;
+  skuCode: string;
   itemCount: number;
   name: string;
   size: string;
