@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Dialog,
   DialogClose,
@@ -25,7 +25,14 @@ import { formatDDMMYY } from "@/lib/regex/format-date-time";
 import { EStatusOrder } from "@/lib/types/enum/stock-in.enum";
 import { BrowserMultiFormatReader } from "@zxing/browser";
 import { BarcodeFormat, DecodeHintType } from "@zxing/library";
-import { Camera, Scan, Upload } from "lucide-react";
+import {
+  AlertCircle,
+  Badge,
+  Camera,
+  CheckCircle,
+  Scan,
+  Upload,
+} from "lucide-react";
 import Image from "next/image";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
@@ -51,12 +58,22 @@ export function ModalBarcode({
   const fileRef = useRef<HTMLInputElement>(null);
   const [result, setResult] = useState<string>("");
   const imgRef = useRef<HTMLImageElement | null>(null);
+  const [previewImage, setPreviewImage] = useState<string>("");
+  const [fileName, setFileName] = useState<string>("");
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     if (!e.target.files || e.target.files.length === 0) return;
     const file = e.target.files[0];
     const reader = new FileReader();
+    if (file) {
+      setFileName(file.name);
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const imageUrl = e.target?.result as string;
+        setPreviewImage(imageUrl);
+      };
+    }
 
     reader.onload = () => {
       if (imgRef.current) {
@@ -146,7 +163,7 @@ export function ModalBarcode({
               </div>
             </div>
 
-            <div className="space-y-4 py-1">
+            {/* <div className="space-y-4 py-1">
               <div className="min-h-screen bg-gradient-to-br  dark:from-slate-900 dark:to-slate-800">
                 <div className="container mx-auto px-4 py-8">
                   <div className="max-w-2xl mx-auto">
@@ -228,7 +245,120 @@ export function ModalBarcode({
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
+
+            <Card className="bg-background border-none shadow-none ">
+              <CardHeader className=" px-0">
+                <CardTitle className="text-lg font-semibold flex items-center gap-2">
+                  Quét mã barcode
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6 px-0">
+                {/* Scanning Actions */}
+                <div className="flex flex-wrap gap-3">
+                  <Button
+                    type="button"
+                    className="flex items-center gap-2 bg-primary hover:bg-primary/90 cursor-not-allowed"
+                    disabled={true}
+                  >
+                    <Camera className="w-4 h-4" />
+                    Quét camera
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="flex items-center gap-2 border-2 hover:bg-accent/5 bg-background cursor-pointer"
+                    onClick={() => fileRef?.current?.click()}
+                  >
+                    <Upload className="w-4 h-4" />
+                    Upload file
+                  </Button>
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    ref={fileRef}
+                    onChange={handleFileChange}
+                  />
+                  <img
+                    ref={imgRef}
+                    src="/placeholder.svg"
+                    alt="ảnh code"
+                    className="hidden"
+                    width={20}
+                    height={20}
+                  />
+                </div>
+
+                {previewImage && (
+                  <Card className="bg-muted/30 border-dashed">
+                    <CardHeader className="pb-3">
+                      <CardTitle className="text-sm font-medium flex items-center gap-2">
+                        <Upload className="w-4 h-4" />
+                        File Preview
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-3">
+                      <div className="flex items-center gap-3">
+                        <div className="relative w-20 h-20 rounded-lg overflow-hidden border bg-background">
+                          <img
+                            src={previewImage || "/placeholder.svg"}
+                            alt="Preview"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-sm font-medium text-foreground">
+                            {fileName}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            File đã được tải lên thành công
+                          </p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+
+                <div className="space-y-3">
+                  <Label className="text-sm font-medium flex items-center gap-1">
+                    Kết quả quét
+                    <span className="text-destructive">*</span>
+                  </Label>
+
+                  {result ? (
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-2 text-sm text-primary">
+                        <CheckCircle className="w-4 h-4" />
+                        <span>Mã barcode đã được quét thành công</span>
+                      </div>
+                      <Input
+                        value={result}
+                        placeholder="Nhập hoặc chỉnh sửa mã barcode"
+                        className="font-mono text-lg bg-background border-2 border-primary/20 focus:border-primary"
+                        disabled={true}
+                      />
+                    </div>
+                  ) : (
+                    <div className="min-h-[100px] border-2 border-dashed border-border rounded-xl p-6 bg-muted/30 flex items-center justify-center">
+                      <div className="text-center space-y-3">
+                        <div className="inline-flex items-center justify-center w-12 h-12 bg-muted rounded-full">
+                          <AlertCircle className="w-6 h-6 text-muted-foreground" />
+                        </div>
+                        <div className="space-y-1">
+                          <p className="font-medium text-muted-foreground">
+                            Chưa có mã barcode
+                          </p>
+                          <p className="text-sm text-muted-foreground">
+                            Vui lòng quét camera hoặc upload file để tiếp tục
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
           </div>
 
           <DialogFooter className="pt-2">
