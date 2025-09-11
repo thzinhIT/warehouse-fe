@@ -58,20 +58,20 @@ export class ProductService {
   /**
    * Get a single SKU/Product by SKU Code (if you have this endpoint)
    */
-  static async getSkuBySkuCode(
-    skuCode: string
-  ): Promise<ProductDetailApiResponse> {
-    try {
-      // Use the new endpoint that accepts skuCode
-      const response = await api.get(
-        `${ApiEndPoint.GET_SKU_BY_SKU_CODE}/${skuCode}`
-      );
-      return response.data;
-    } catch (error) {
-      console.error("Error fetching SKU by SkuCode:", error);
-      throw error;
-    }
-  }
+  // static async getSkuBySkuCode(
+  //   skuCode: string
+  // ): Promise<ProductDetailApiResponse> {
+  //   try {
+  //     // Use the new endpoint that accepts skuCode
+  //     const response = await api.get(
+  //       `${ApiEndPoint.GET_SKU_BY_SKU_CODE}/${skuCode}`
+  //     );
+  //     return response.data;
+  //   } catch (error) {
+  //     console.error("Error fetching SKU by SkuCode:", error);
+  //     throw error;
+  //   }
+  // }
   /**
    * Search SKUs with advanced filtering
    */

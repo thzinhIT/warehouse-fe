@@ -1,9 +1,6 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
-import { ElegantCard } from "./card-report";
-import { FaFileInvoice } from "react-icons/fa";
-import { FaFileArrowDown } from "react-icons/fa6";
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ChartAreaImport } from "./area-chart-import";
@@ -38,7 +35,14 @@ const DashboardClient = () => {
     storageChartDonutFn,
     errorChart,
     errorChartFn,
-    isPending,
+    kipData,
+    KpiDashboard,
+    kipPending,
+    exportChartPending,
+    importChartPending,
+    storagePending,
+    storageDonutPending,
+    errorChartPending,
   } = useChartDashboard();
 
   const handleChangeTab = (value: string) => {
@@ -66,6 +70,7 @@ const DashboardClient = () => {
     storageChartFn();
     storageChartDonutFn();
     errorChartFn(body);
+    KpiDashboard(body);
   }, [
     body,
     importChartFn,
@@ -73,8 +78,8 @@ const DashboardClient = () => {
     storageChartFn,
     errorChartFn,
     storageChartDonutFn,
+    KpiDashboard,
   ]);
-
 
   return (
     <div className="px-2 overflow-auto h-full">
@@ -92,7 +97,7 @@ const DashboardClient = () => {
       </Tabs>
 
       <div className="grid grid-cols-12 mb-3">
-        <ListCardReport />
+        <ListCardReport data={kipData} isPending={kipPending} />
         <div className="col-span-4">
           <IoTDashboard />
         </div>
@@ -103,22 +108,37 @@ const DashboardClient = () => {
       <div className="flex flex-col gap-2 pb-2">
         <div className=" grid  grid-cols-3 gap-3  ">
           <div className="col-span-2">
-            <ChartBarMultiple data={storageChart ?? []} isPending={isPending} />
+            <ChartBarMultiple
+              data={storageChart ?? []}
+              isPending={storagePending}
+            />
           </div>
           <div className="col-span-1">
-            <ChartPieLabel data={storageDonutChart} isPending={isPending} />
+            <ChartPieLabel
+              data={storageDonutChart}
+              isPending={storageDonutPending}
+            />
           </div>
         </div>
 
         <div className="grid grid-cols-3 gap-2">
           <div className="col-span-1">
-            <ChartAreaImport data={importChart ?? []} isPending={isPending} />
+            <ChartAreaImport
+              data={importChart ?? []}
+              isPending={importChartPending}
+            />
           </div>
           <div className="col-span-1">
-            <ChartAreaExport data={exportChart ?? []} isPending={isPending} />
+            <ChartAreaExport
+              data={exportChart ?? []}
+              isPending={exportChartPending}
+            />
           </div>
           <div className="col-span-1">
-            <ChartLineMultiple data={errorChart ?? []} isPending={isPending} />
+            <ChartLineMultiple
+              data={errorChart ?? []}
+              isPending={errorChartPending}
+            />
           </div>
         </div>
       </div>

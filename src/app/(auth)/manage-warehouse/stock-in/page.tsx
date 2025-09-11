@@ -12,7 +12,6 @@ import { useMemo, useState } from "react";
 
 const StockIn = () => {
   const [open, setOpen] = useState(false);
-  const [openOnline, setOpenOnline] = useState(false);
   const {
     data,
     isPending,
@@ -20,6 +19,10 @@ const StockIn = () => {
     handleOnClickDetail,
     isOpenDetail,
     setIsOpenDetail,
+    mutate,
+    openOnline,
+    setOpenOnline,
+    isPendingCreateImportOrder,
   } = useStockIn();
   const columns = useMemo(
     () => getColumsImportOrder({ handleOnClickDetail }),
@@ -58,7 +61,14 @@ const StockIn = () => {
         <DataTable columns={columns} data={data ?? []} />{" "}
       </div>
       {open && <ModalImportBulk open={open} setOpen={setOpen} />}
-      <ModalImportOnline open={openOnline} setOpen={setOpenOnline} />
+      {openOnline && (
+        <ModalImportOnline
+          open={openOnline}
+          setOpen={setOpenOnline}
+          mutate={mutate}
+          isPending={isPendingCreateImportOrder}
+        />
+      )}
       {isOpenDetail && (
         <ModalUpdateImportOrder
           open={isOpenDetail}

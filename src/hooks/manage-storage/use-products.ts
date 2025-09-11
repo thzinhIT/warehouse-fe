@@ -49,14 +49,14 @@ export const useProduct = (id: number) => {
 /**
  * Hook to fetch a single product/SKU by SKU Code
  */
-export const useProductBySkuCode = (skuCode: string | null) => {
-  return useQuery({
-    queryKey: [...productQueryKeys.details(), "bySkuCode", skuCode],
-    queryFn: () => ProductService.getSkuBySkuCode(skuCode!),
-    enabled: !!skuCode,
-    staleTime: 5 * 60 * 1000, // 5 minutes
-  });
-};
+// export const useProductBySkuCode = (skuCode: string | null) => {
+//   return useQuery({
+//     queryKey: [...productQueryKeys.details(), "bySkuCode", skuCode],
+//     queryFn: () => ProductService.getSkuBySkuCode(skuCode!),
+//     enabled: !!skuCode,
+//     staleTime: 5 * 60 * 1000, // 5 minutes
+//   });
+// };
 
 /**
  * Hook to search products/SKUs using mutation for better control

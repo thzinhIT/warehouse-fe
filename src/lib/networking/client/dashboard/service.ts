@@ -66,6 +66,43 @@ type TDonutChartResponse = {
   data: TDonutChartData;
 };
 
+export interface ImportKpis {
+  totalImportOrders: number;
+  totalItemsImported: number;
+  itemsFromFactory: number;
+  itemsFromReturn: number;
+}
+
+export interface ExportKpis {
+  totalConfirmedOrders: number;
+  totalConfirmedQuantity: number;
+}
+
+export interface StorageKpis {
+  totalShelves: number;
+  totalBins: number;
+  totalBoxes: number;
+}
+
+export interface QualityKpis {
+  totalDamaged: number;
+  damagedPercentage: number;
+  totalReturned: number;
+}
+
+export interface DataKpi {
+  importKpis: ImportKpis;
+  exportKpis: ExportKpis;
+  storageKpis: StorageKpis;
+  qualityKpis: QualityKpis;
+}
+
+export interface KpiDashboardResponse {
+  code: number;
+  message: string;
+  data: DataKpi;
+}
+
 export async function DataChartImport(body: TBodyImportChart) {
   try {
     const res = await api.post<TImportChartImportResponse>(
@@ -73,6 +110,8 @@ export async function DataChartImport(body: TBodyImportChart) {
       body
     );
     if (res?.data?.code === 200) return res?.data?.data;
+    toast.error("errors get import chart");
+
     return Promise.reject(new Error("errors get import chart"));
   } catch (error) {
     console.error(error);
@@ -87,6 +126,8 @@ export async function DataChartExport(body: TBodyImportChart) {
       body
     );
     if (res?.data?.code === 200) return res?.data?.data;
+    toast.error("errors get export chart");
+
     return Promise.reject(new Error("errors get export chart"));
   } catch (error) {
     console.error(error);
@@ -101,6 +142,8 @@ export async function DataChartStorage() {
       { warehouseId: 1 }
     );
     if (res?.data?.code === 200) return res?.data?.data;
+    toast.error("errors get storage chart");
+
     return Promise.reject(new Error("errors get storage chart"));
   } catch (error) {
     console.error(error);
@@ -115,6 +158,8 @@ export async function DataChartError(body: TBodyImportChart) {
       body
     );
     if (res?.data?.code === 200) return res?.data?.data;
+    toast.error("errors get error chart");
+
     return Promise.reject(new Error("errors get error chart"));
   } catch (error) {
     console.error(error);
@@ -130,7 +175,24 @@ export async function DataChartDonutStorage() {
       }
     );
     if (res?.data?.code === 200) return res?.data?.data;
+    toast.error("errors get storage chart");
+
     return Promise.reject(new Error("errors get storage chart"));
+  } catch (error) {
+    console.error(error);
+    return Promise.reject(error);
+  }
+}
+
+export async function DataKpiDashboard(body: TBodyImportChart) {
+  try {
+    const res = await api.post<KpiDashboardResponse>(
+      `${ApiEndPoint.KPI_DASHBOARD}`,
+      body
+    );
+    if (res?.data?.code === 200) return res?.data?.data;
+    toast.error("errors get kip dashboard");
+    return Promise.reject(new Error("errors get kip dashboard"));
   } catch (error) {
     console.error(error);
     return Promise.reject(error);

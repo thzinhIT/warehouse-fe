@@ -1,9 +1,11 @@
 const ApiEndPoint = {
   API: "api",
   LOGIN: "/auth",
+  LOG_OUT: "auth/logout",
   REFRESHTOKEN: "/auth/refresh-token",
   SENDCODEEMAIL: "/user/forgot-password",
   NEWPASSWORD: "user/reset-password",
+  CREATE_IMPORT_ORDER: "api/manage-import-orders/create",
   ALLIMPORTORDER: "/api/manage-import-orders/getallImportOrder",
   ALLHISTORYIMPORTORDER: "/api/manage-import-orders/allDetails/merged-sku",
   ALLDETAILIMPORTORDER: "/api/manage-import-orders/allDetails",
@@ -43,8 +45,7 @@ const ApiEndPoint = {
   CHART_IMPORT: "api/dashboard/1.2-import-chart",
   CHART_EXPORT: "api/dashboard/2.2-export-chart",
   STORAGE_CHART: "api/dashboard/3.3-storage-shelf-chart",
-  ERROR_CHART: "api/dashboard/4.2-trend",
-  STORAGE_DONUT: "api/dashboard/3.2-storage-donut",
+  KPI_DASHBOARD: "api/dashboard/Full4KPI",
   // Product/SKU endpoints
   GET_ALL_SKUS: "/api/skus",
   SEARCH_SKUS: "/api/skus/search",
@@ -53,6 +54,8 @@ const ApiEndPoint = {
   GET_ALL_ERROR_SKUS: "/api/skus/damaged",
   SEARCH_ERROR_SKUS: "/api/skus/damaged/search",
   GET_ERROR_SKU_BY_ID: "/api/skus/damaged",
+  ERROR_CHART: "api/dashboard/4.2-trend",
+  STORAGE_DONUT: "api/dashboard/3.2-storage-donut",
 };
 
 export default ApiEndPoint;

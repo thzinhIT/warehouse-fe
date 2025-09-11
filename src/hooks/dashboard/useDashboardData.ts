@@ -7,6 +7,8 @@ import {
   DataChartExport,
   DataChartImport,
   DataChartStorage,
+  DataKpi,
+  DataKpiDashboard,
   TDataChartError,
   TDataChartStorage,
   TDataExportChart,
@@ -14,8 +16,7 @@ import {
   TDonutChartData,
 } from "@/lib/networking/client/dashboard/service";
 import { useMutation } from "@tanstack/react-query";
-import { format } from "date-fns";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 const useChartDashboard = () => {
   const [importChart, setImportChart] = useState<TDataImportChart[]>();
@@ -23,6 +24,7 @@ const useChartDashboard = () => {
   const [storageChart, setStorageChart] = useState<TDataChartStorage[]>();
   const [errorChart, setErrorChart] = useState<TDataChartError[]>();
   const [storageDonutChart, setStorageDonutChart] = useState<TDonutChartData>();
+  const [kipData, setKpiData] = useState<DataKpi>();
   const { mutate: importChartFn, isPending: importChartPending } = useMutation({
     mutationKey: [ChartDashboardKey.IMPORT_CHART],
     mutationFn: DataChartImport,
@@ -61,6 +63,13 @@ const useChartDashboard = () => {
       setErrorChart(data);
     },
   });
+  const { mutate: KpiDashboard, isPending: kipPending } = useMutation({
+    mutationKey: [ChartDashboardKey.KPI_DASHBOARD],
+    mutationFn: DataKpiDashboard,
+    onSuccess: (data) => {
+      setKpiData(data);
+    },
+  });
 
   return {
     importChartFn,
@@ -73,12 +82,14 @@ const useChartDashboard = () => {
     storageChartDonutFn,
     errorChart,
     errorChartFn,
-    isPending:
-      exportChartPending &&
-      importChartPending &&
-      storagePending &&
-      storageDonutPending &&
-      errorChartPending,
+    kipData,
+    KpiDashboard,
+    kipPending,
+    exportChartPending,
+    importChartPending,
+    storagePending,
+    storageDonutPending,
+    errorChartPending,
   };
 };
 

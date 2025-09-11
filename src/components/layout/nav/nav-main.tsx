@@ -63,7 +63,7 @@ export function NavMain({
 
                     <div
                       className={cn(
-                        "w-full p-1 pl-2 hover:bg-secondary flex items-center gap-2 text-sm rounded-md font-semibold",
+                        "w-full p-1 pl-2 hover:bg-secondary flex items-center gap-2 text-sm rounded-md font-medium",
                         isActive && "bg-muted"
                       )}
                       onClick={() => {
@@ -75,7 +75,7 @@ export function NavMain({
                       <span
                         className={cn(
                           "truncate",
-                          isActive && "bg-muted text-primary"
+                          isActive && "bg-muted text-primary/100"
                         )}
                       >
                         {t(item.title)}

@@ -63,14 +63,14 @@ export function ChartLineMultiple({
                 type="monotone"
                 stroke="var(--color-damaged)"
                 strokeWidth={2}
-                dot={false}
+                dot={true}
               />
               <Line
                 dataKey="returned"
                 type="monotone"
                 stroke="var(--color-returned)"
                 strokeWidth={2}
-                dot={false}
+                dot={true}
               />
             </LineChart>
           </ChartContainer>

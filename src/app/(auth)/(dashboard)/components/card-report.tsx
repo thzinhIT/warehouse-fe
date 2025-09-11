@@ -1,3 +1,4 @@
+import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { ReactNode } from "react";
 
@@ -9,7 +10,7 @@ type TCardReportProps = {
   grow?: number;
 };
 const CardReport = (props: TCardReportProps) => {
-  const { title, icon, value, className, grow } = props;
+  const { title, icon, value, className } = props;
   return (
     <div className={cn("border rounded-md ", className)}>
       <div className="flex items-center justify-between px-2 border-b">
@@ -33,6 +34,7 @@ interface ElegantCardProps {
   readonly value?: string | number;
   readonly trend?: "up" | "down" | "neutral";
   readonly subtitle?: string;
+  readonly isPending?: boolean;
 }
 
 export function ElegantCard({
@@ -40,21 +42,8 @@ export function ElegantCard({
   icon,
   title,
   value,
-  trend = "neutral",
-  subtitle = "Growth",
+  isPending,
 }: ElegantCardProps) {
-  const trendColors = {
-    up: "text-emerald-600 bg-emerald-50",
-    down: "text-rose-600 bg-rose-50",
-    neutral: "text-slate-600 bg-slate-50",
-  };
-
-  const trendIcons = {
-    up: "↗",
-    down: "↘",
-    neutral: "→",
-  };
-
   return (
     <div
       className={cn(
@@ -76,7 +65,11 @@ export function ElegantCard({
             {title}
           </span>
           <span className="text-2xl font-bold text-blue-500 mt-1">
-            {value ?? "--"}
+            {isPending ? (
+              <Skeleton className="w-12 h-5 rounded-full bg-slate-200 animate-pulse" />
+            ) : (
+              value ?? "--"
+            )}
           </span>
         </div>
       </div>

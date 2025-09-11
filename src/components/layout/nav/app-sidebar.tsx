@@ -51,7 +51,7 @@ const data = {
   user: {
     name: "shadcn",
     email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
+    avatar: "/logo-warehouse.jpg",
   },
   teams: [
     {
@@ -181,12 +181,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent className="scrollbar overflow-auto">
         <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+        {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
       <SidebarFooter>
-        <div className="flex items-center justify-between p-2">
+        {/* <div className="flex items-center justify-between p-2">
           <LanguageSwitcher />
-        </div>
+        </div> */}
         <NavUser user={data.user} />
       </SidebarFooter>
       <SidebarRail />
