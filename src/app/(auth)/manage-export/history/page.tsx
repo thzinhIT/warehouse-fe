@@ -16,14 +16,8 @@ const ExportHistoryPage = () => {
   const [open, setOpen] = useState(false);
   const [openExportOrder, setOpenExportOrder] = useState(false);
 
-  const {
-    data,
-    isPending,
-    isSearching,
-    handleSearch,
-    handleClearSearch,
-    handleRefresh,
-  } = useExportHistorySearch();
+  const { data, isPending, isSearching, handleSearch } =
+    useExportHistorySearch();
 
   // Modal state for export order details
   const [isOpenDetail, setIsOpenDetail] = useState(false);
@@ -35,23 +29,21 @@ const ExportHistoryPage = () => {
   };
 
   return (
-    <div className="min-h-screen p-6 space-y-6 overflow-y-auto">
+    <div className="min-h-screen p-6 space-y-3 overflow-y-auto">
       <SidebarHeader title="Lịch sử xuất kho" />
 
       <div className="flex justify-between items-center mt-2">
-        {/* <h1 className="text-lg font-bold text-black">Lịch sử xuất kho</h1> */}
+        <div className="flex items-center gap-3">
+          {/* Left side content can go here */}
+        </div>
         <div className="flex gap-2">
+          {/* Hidden: Nhập hàng loạt button */}
           <Button
-            className="cursor-pointer bg-blue-600 hover:bg-blue-700 flex items-center"
-            onClick={() => {
-              setOpen(true);
+            className="cursor-pointer flex items-center gap-2 text-white"
+            style={{
+              backgroundColor: "color-mix(in oklab, var(--ring) 50%, blue)",
+              borderColor: "color-mix(in oklab, var(--ring) 50%, blue)",
             }}
-          >
-            <FilePlus size={20} />
-            <span>Nhập hàng loạt</span>
-          </Button>
-          <Button
-            className="cursor-pointer bg-orange-500 hover:bg-orange-600 flex items-center"
             onClick={() => {
               setOpenExportOrder(true);
             }}
@@ -62,11 +54,9 @@ const ExportHistoryPage = () => {
         </div>
       </div>
 
-      <div className="mt-4">
+      <div>
         <ExportHistorySearch
           onSearch={handleSearch}
-          onClear={handleClearSearch}
-          onRefresh={handleRefresh}
           isSearching={isSearching}
           isPending={isPending}
         />

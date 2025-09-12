@@ -140,18 +140,6 @@ export default function ManageEmployeePage() {
     }
   };
 
-  // Handle reset filters
-  const handleReset = () => {
-    setSearchEmployeeCode("");
-    setSearchEmployeeName("");
-    setSelectedRole("all");
-    if (employeesData) {
-      setEmployees(
-        Array.isArray(employeesData) ? employeesData : employeesData.data || []
-      );
-    }
-  };
-
   // Handle select all employees
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
@@ -199,11 +187,6 @@ export default function ManageEmployeePage() {
       console.error("Create employee error:", error);
       toast.error("Có lỗi khi tạo nhân viên!");
     }
-  };
-
-  // Handle bulk action
-  const handleBulkAction = () => {
-    toast.success(`Export ${selectedEmployees.length} employees`);
   };
 
   // Handle edit employee
@@ -317,9 +300,24 @@ export default function ManageEmployeePage() {
         <h1 className="text-2xl font-semibold">Quản lý nhân viên</h1>
       </div>
 
+      {/* Header with Add Employee Button */}
+      <div className="flex justify-between items-center">
+        <div></div>
+        <Button
+          onClick={handleAddEmployee}
+          className="text-white px-6"
+          style={{
+            backgroundColor: "color-mix(in oklab, var(--ring) 50%, blue)",
+            borderColor: "color-mix(in oklab, var(--ring) 50%, blue)",
+          }}
+        >
+          Thêm nhân viên
+        </Button>
+      </div>
+
       {/* Search/Filter Section */}
-      <div className="bg-gray-50 p-4 rounded-lg space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className=" p-4 rounded-lg">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
           {/* Employee Code Search */}
           <div className="space-y-2">
             <Label htmlFor="employee-code">Mã Nhân Viên</Label>
@@ -361,28 +359,20 @@ export default function ManageEmployeePage() {
               </SelectContent>
             </Select>
           </div>
-        </div>
 
-        {/* Action Buttons */}
-        <div className="flex gap-2">
-          <Button onClick={handleSearch}>Tìm kiếm</Button>
-          <Button variant="outline" onClick={handleReset}>
-            Làm mới
-          </Button>
-        </div>
-      </div>
-
-      {/* Table Actions */}
-      <div className="flex justify-between items-center">
-        <div className="flex gap-2">
-          <Button onClick={handleAddEmployee}>Thêm nhân viên</Button>
-          <Button
-            variant="outline"
-            onClick={handleBulkAction}
-            disabled={selectedEmployees.length === 0}
-          >
-            Xuất danh sách
-          </Button>
+          {/* Search Button */}
+          <div className="space-y-2">
+            <Button
+              onClick={handleSearch}
+              className="w-full text-white px-6"
+              style={{
+                backgroundColor: "color-mix(in oklab, var(--ring) 50%, blue)",
+                borderColor: "color-mix(in oklab, var(--ring) 50%, blue)",
+              }}
+            >
+              {isSearching ? "Đang tìm..." : "Tìm kiếm"}
+            </Button>
+          </div>
         </div>
       </div>
 

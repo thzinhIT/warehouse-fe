@@ -32,14 +32,8 @@ const StockOutPage = () => {
   const [openOnline, setOpenOnline] = useState(false);
   const [openManualExport, setOpenManualExport] = useState(false);
 
-  const {
-    data,
-    isPending,
-    isSearching,
-    handleSearch,
-    handleClearSearch,
-    handleRefresh,
-  } = useStockOutFullSearch();
+  const { data, isPending, isSearching, handleSearch } =
+    useStockOutFullSearch();
 
   // Modal state for export order details
   const [isOpenDetail, setIsOpenDetail] = useState(false);
@@ -82,19 +76,26 @@ const StockOutPage = () => {
 
   const handleManualExportConfirm = (selectedItems: TManualExportItem[]) => {
     // TODO: Call your API to process the manual export
-    console.log("Manual export selected items:", selectedItems);
     setOpenManualExport(false);
   };
 
   return (
-    <div className="min-h-screen p-6 space-y-6 overflow-y-auto">
+    <div className="min-h-screen p-6 space-y-3 overflow-y-auto">
       <SidebarHeader title="Xuất kho" />
 
       {/* Top action buttons */}
       <div className="flex justify-between items-center">
+        <div className="flex items-center gap-3">
+          {/* Left side content can go here */}
+        </div>
         <div className="flex gap-2">
+          {/* Hidden: Nhập hàng loạt and Đơn đang xuất buttons */}
           <Button
-            className="cursor-pointer bg-indigo-600 hover:bg-indigo-700 flex items-center gap-2 text-white"
+            className="cursor-pointer flex items-center gap-2 text-white"
+            style={{
+              backgroundColor: "color-mix(in oklab, var(--ring) 50%, blue)",
+              borderColor: "color-mix(in oklab, var(--ring) 50%, blue)",
+            }}
             onClick={handleManualExport}
           >
             <Hand size={18} />
@@ -128,11 +129,9 @@ const StockOutPage = () => {
       </div> */}
 
       {/* Search Component */}
-      <div className="mt-4">
+      <div>
         <ExportOrderSearch
           onSearch={handleSearch}
-          onClear={handleClearSearch}
-          onRefresh={handleRefresh}
           isSearching={isSearching}
           isPending={isPending}
         />
