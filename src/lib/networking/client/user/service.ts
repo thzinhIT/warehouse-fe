@@ -19,6 +19,23 @@ export type TUserResponse = {
   message: string;
   data: TUser;
 };
+
+export type TBodyParams = {
+  userId: number;
+  email: string;
+  fullName: string;
+};
+
+export type TUserData = {
+  email: string;
+  fullName: string;
+};
+
+export type TUserProfileResponse = {
+  code: number;
+  message: string;
+  data: TUserData;
+};
 export async function GetUserInfor() {
   try {
     const res = await api.get<TUserResponse>(`${ApiEndPoint.USER}`);
@@ -50,6 +67,30 @@ export async function UpdatePass(body: TUpdatePass) {
       return res.data?.data;
     }
     const errorMessage = res?.data?.message || "Error update pass";
+    toast.error(errorMessage);
+
+    return Promise.reject(new Error(errorMessage));
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
+export async function UpdateProfileUser({ body }: { body: TBodyParams }) {
+  try {
+    if (!body?.userId) {
+      toast.error("Hiện không cập nhật được ");
+      return Promise.reject("No userId provided");
+    }
+    const res = await api.put<TUserProfileResponse>(
+      `${ApiEndPoint.UPDATE_USER_PROFILE}/${body.userId}/update-profile`,
+      { email: body.email, fullName: body.fullName }
+    );
+
+    if (res?.data?.code === 200) {
+      toast.success("Cập nhật thông tin thành công");
+      return res.data?.data;
+    }
+    const errorMessage = res?.data?.message || "Error update profiler user";
     toast.error(errorMessage);
 
     return Promise.reject(new Error(errorMessage));

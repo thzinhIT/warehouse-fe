@@ -13,9 +13,9 @@ const getColumnsLog = (): ColumnDef<TLog>[] => [
     cell: ({ row }) => <div>{row.getValue("userName") ?? "--"}</div>,
   },
   {
-    accessorKey: "targetTable",
+    accessorKey: "action",
     header: () => <div>Hành động</div>,
-    cell: ({ row }) => <div>{row.getValue("targetTable") ?? "--"}</div>,
+    cell: ({ row }) => <div>{row.getValue("action") ?? "--"}</div>,
   },
   {
     accessorKey: "timestamp",

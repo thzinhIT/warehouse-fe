@@ -7,9 +7,10 @@ import {
   NewPassword,
   SendCodeEmail,
 } from "@/lib/networking/client/auth/service";
+import { GetUserInfor } from "@/lib/networking/client/user/service";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 export function useLogin() {
@@ -29,14 +30,20 @@ export function useLogin() {
     setToken(data?.data?.token);
     setAccessToken(data?.data?.refreshToken);
     document.cookie = `token=${data?.data?.token}; path=/; max-age=${
-      60 * 60 * 24 * 30
+      60 * 60 * 24 * 7
     }; secure; samesite=strict`;
     localStorage.setItem("token", data?.data?.token || "");
     localStorage.setItem("refreshToken", data?.data?.refreshToken || "");
     toast.success("Đăng nhập thành công");
     router.push("/");
   };
-  return { login, isPending };
+
+  const { data: userInfo, isPending: isPendingUser } = useQuery({
+    queryKey: ["userInfo"],
+    queryFn: GetUserInfor,
+  });
+
+  return { login, isPending, isPendingUser, userInfo };
 }
 
 export function useForgotPassword() {

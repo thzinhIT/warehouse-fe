@@ -1,20 +1,25 @@
 "use client";
 
-import { TUpdatePass } from "@/components/common/user-infor/update-pass";
 import UserKeys from "@/lib/networking/client/user/endpoint";
-import { GetUserInfor, UpdatePass } from "@/lib/networking/client/user/service";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import toast from "react-hot-toast";
+import { UpdateProfileUser } from "@/lib/networking/client/user/service";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const useUserInfor = () => {
-  const { data, isPending } = useQuery({
-    queryKey: [UserKeys.USER_INFOR],
-    queryFn: GetUserInfor,
-  });
+  const queryClient = useQueryClient();
+
+  const { mutate: updateProfileFn, isPending: updateProfilePending } =
+    useMutation({
+      mutationKey: [UserKeys.UPDATE_USER_PROFILE],
+      mutationFn: UpdateProfileUser,
+      onSuccess: (data) => {
+        if (!data) return;
+        queryClient.invalidateQueries({ queryKey: ["userInfo"] });
+      },
+    });
 
   return {
-    data,
-    isPending,
+    updateProfileFn,
+    updateProfilePending,
   };
 };
 

@@ -6,6 +6,7 @@ const ApiEndPoint = {
   UPDATE_PASS: " /user/updatePass",
   GET_LOG: "api/user-logs/all",
   SEARCH_LOG: "api/user-logs/search",
+  UPDATE_USER_PROFILE: "/user",
   REFRESHTOKEN: "/auth/refresh-token",
   SENDCODEEMAIL: "/user/forgot-password",
   NEWPASSWORD: "user/reset-password",

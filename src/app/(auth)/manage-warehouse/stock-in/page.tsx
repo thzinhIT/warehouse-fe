@@ -31,10 +31,6 @@ const StockIn = () => {
     [handleOnClickDetail]
   );
 
-  useEffect(() => {
-    console.log("data", data);
-  }, [data]);
-
   return (
     <div className="flex flex-col h-full">
       <SidebarHeader title="Nhập kho" />

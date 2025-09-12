@@ -15,16 +15,15 @@ import {
   MdWarehouse,
   MdLocalShipping,
   MdWarning,
+  MdNoteAlt,
 } from "react-icons/md";
 import { IoSave } from "react-icons/io5";
-import { FaUserEdit } from "react-icons/fa";
+import { FaUserEdit, FaBoxOpen } from "react-icons/fa";
 import { FcSettings } from "react-icons/fc";
 import { HiArchiveBoxArrowDown } from "react-icons/hi2";
 import { GoClockFill } from "react-icons/go";
 import { GiBoxUnpacking } from "react-icons/gi";
 import { BiCabinet } from "react-icons/bi";
-import { FaBoxOpen } from "react-icons/fa";
-import { MdNoteAlt } from "react-icons/md";
 
 import { NavMain } from "@/components/layout/nav/nav-main";
 import { NavUser } from "@/components/layout/nav/nav-user";
@@ -170,7 +169,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
-      <SidebarContent className="scrollbar overflow-auto">
+      <SidebarContent className="scrollbar overflow-auto ">
         <NavMain items={data.navMain} />
         {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
