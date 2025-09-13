@@ -306,6 +306,8 @@ export function ModalManualExport({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTitle className="hidden"></DialogTitle>
+
       <DialogContent className="max-w-6xl max-h-[90vh] overflow-hidden">
         <div className="flex gap-4 h-[70vh]">
           {/* Left Table - Available Items */}

@@ -4,6 +4,7 @@ import {
   DeleteTemporaryById,
   DownloadTemplateImportOrder,
   getTemporaryImportOrder,
+  ImportBarcode,
   ImportWarehouse,
   TBodyUpdateImportOrderTemporary,
   UpdateTemporaryById,
@@ -75,6 +76,17 @@ const useTemporary = (
     mutationFn: DownloadTemplateImportOrder,
   });
 
+  const { mutate: ImportBarcodeFn, isPending: PendingImportCode } = useMutation(
+    {
+      mutationKey: [StockInKeys.IMPORT_BARCODE],
+      mutationFn: ImportBarcode,
+      onSuccess: () => {
+        refetch();
+        toast.success("Thêm thành công barCode");
+      },
+    }
+  );
+
   return {
     data,
     isOpenModalImport,
@@ -84,6 +96,7 @@ const useTemporary = (
     isPending,
     isPendingTemporary,
     PendingDownload,
+    PendingImportCode,
     openCode,
     setOpenCode,
     setIsOpenModalImport,
@@ -93,6 +106,7 @@ const useTemporary = (
     onUpdateTemporary,
     onImportWarehouse,
     downloadFile,
+    ImportBarcodeFn,
   };
 };
 export default useTemporary;

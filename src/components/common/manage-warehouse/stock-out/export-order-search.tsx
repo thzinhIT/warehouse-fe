@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useState } from "react";
 
 type SearchParams = {
@@ -13,16 +12,12 @@ type SearchParams = {
 
 type ExportOrderSearchProps = {
   onSearch: (params: SearchParams) => void;
-  onClear: () => void;
-  onRefresh: () => void;
   isSearching: boolean;
   isPending: boolean;
 };
 
 export function ExportOrderSearch({
   onSearch,
-  onClear,
-  onRefresh,
   isSearching,
   isPending,
 }: ExportOrderSearchProps) {
@@ -30,11 +25,6 @@ export function ExportOrderSearch({
 
   const handleSearch = () => {
     onSearch(searchParams);
-  };
-
-  const handleClear = () => {
-    setSearchParams({});
-    onClear();
   };
 
   const handleInputChange = (key: keyof SearchParams, value: string) => {
@@ -45,12 +35,9 @@ export function ExportOrderSearch({
   };
 
   return (
-    <Card className="mb-4">
-      <CardHeader>
-        <CardTitle className="text-lg">Tìm kiếm đơn xuất</CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div className="p-2 rounded-lg mb-2">
+      <div className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
           <div className="space-y-2">
             <Label htmlFor="export-code-search">Mã đơn xuất</Label>
             <Input
@@ -80,34 +67,28 @@ export function ExportOrderSearch({
               onChange={(e) => handleInputChange("startDate", e.target.value)}
             />
           </div>
-        </div>
 
-        <div className="flex gap-2">
-          <Button
-            onClick={handleSearch}
-            disabled={isPending}
-            className="bg-[#8B5CF6] hover:bg-[#7C3AED] text-white px-6"
-          >
-            {isPending ? "Đang tìm..." : "Tìm kiếm"}
-          </Button>
-
-          <Button
-            variant="outline"
-            onClick={handleClear}
-            disabled={isPending}
-            className="px-6"
-          >
-            Làm mới
-          </Button>
+          <div className="space-y-2">
+            <Button
+              onClick={handleSearch}
+              disabled={isPending}
+              className="w-full text-white px-6"
+              style={{
+                backgroundColor: "color-mix(in oklab, var(--ring) 50%, blue)",
+                borderColor: "color-mix(in oklab, var(--ring) 50%, blue)",
+              }}
+            >
+              {isPending ? "Đang tìm..." : "Tìm kiếm"}
+            </Button>
+          </div>
         </div>
 
         {isSearching && (
           <div className="text-sm text-muted-foreground">
-            Hiển thị kết quả tìm kiếm. Nhấn &quot;Làm mới&quot; để xem tất cả dữ
-            liệu.
+            Hiển thị kết quả tìm kiếm.
           </div>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

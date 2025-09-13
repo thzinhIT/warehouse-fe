@@ -2,6 +2,8 @@ import { api } from "../../axious";
 import ApiEndPoint from "../../api";
 import toast from "react-hot-toast";
 import { TruncateMessage } from "@/lib/utils/message";
+import { TImportRequestSearch } from "@/components/common/manage-warehouse/stock-in/tool-bar";
+import { TImportHistoryRequestSearch } from "@/components/common/manage-warehouse/history/tool-bar";
 
 export type TDataImportOrder = {
   id: number;
@@ -128,6 +130,19 @@ type TApiResponseCreateImportOrder = {
   code: number;
   message: string;
   data: TImportData;
+};
+
+export type TImportBarcodeBody = {
+  scannedItems: {
+    barcode: string;
+  }[];
+  source: string;
+  note: string;
+};
+type ApiResponseBarcode = {
+  code: number;
+  message: string;
+  data: string;
 };
 
 export async function getAllDetailImportOrder() {
@@ -265,7 +280,6 @@ export async function UpdateTemporaryById(
 }
 export async function CreateImportOrder(body: TPayloadCreateImportOrder) {
   try {
-    console.log("111111");
     const res = await api.post<TApiResponseCreateImportOrder>(
       `${ApiEndPoint.CREATE_IMPORT_ORDER}`,
       body
@@ -276,6 +290,27 @@ export async function CreateImportOrder(body: TPayloadCreateImportOrder) {
       return res.data?.data;
     }
     const errorMessage = res?.data?.message || "Error create data import order";
+    toast.error(errorMessage);
+
+    return Promise.reject(new Error(errorMessage));
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
+export async function ImportBarcode(body: TImportBarcodeBody) {
+  try {
+    if (!body) return toast.error("Please provide body to import barcode");
+    const res = await api.post<ApiResponseBarcode>(
+      `${ApiEndPoint.IMPORT_BARCODE}`,
+      body
+    );
+
+    if (res?.data?.code === 200) {
+      toast.success(" import  barcode successfully");
+      return res.data?.data;
+    }
+    const errorMessage = res?.data?.message || "Error import barcode";
     toast.error(errorMessage);
 
     return Promise.reject(new Error(errorMessage));
@@ -328,6 +363,55 @@ export async function DownloadTemplateImportOrder() {
     link.remove();
     window.URL.revokeObjectURL(url);
   } catch (error) {
+    return Promise.reject(error);
+  }
+}
+export async function SearchImportWarehouse(body: TImportRequestSearch) {
+  try {
+    const res = await api.post<IGetImportOrder>(
+      `${ApiEndPoint.SEARCH_IMPORT_ORDER}`,
+      body
+    );
+    if (res?.data?.code === 200) {
+      return res.data?.data;
+    }
+    const errorMessage = res?.data?.error || "Error search data import";
+    return Promise.reject(new Error(errorMessage));
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+export async function SearchImportHistory(body: TImportHistoryRequestSearch) {
+  try {
+    const res = await api.post<IGetImportOrder>(
+      `${ApiEndPoint.SEARCH_IMPORT_HISTORY}`,
+      body
+    );
+    if (res?.data?.code === 200) {
+      return res.data?.data;
+    }
+    const errorMessage = res?.data?.error || "Error search data import history";
+    return Promise.reject(new Error(errorMessage));
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
+export async function DownloadReportExcel() {
+  try {
+    const res = await api.get(`${ApiEndPoint.DOWNLOAD_REPORT_EXCEL}`, {
+      responseType: "blob",
+    });
+
+    const url = window.URL.createObjectURL(new Blob([res.data]));
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", "report.xlsx");
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  } catch (error) {
+    console.error("Error downloading file report :", error);
     return Promise.reject(error);
   }
 }
@@ -501,9 +585,11 @@ export async function getExportOrderBoard() {
     const res = await api.get<TExportOrderBoardResponse>(
       `${ApiEndPoint.EXPORTORDERBOARDDETAILS}`
     );
+
     if (res?.data?.code === 200) {
       return res.data?.data;
     }
+
     const errorMessage =
       res?.data?.error || "Error fetching export order board details";
     toast.error(errorMessage);
@@ -556,9 +642,11 @@ export async function searchExportOrdersFull(
       `${ApiEndPoint.SEARCHEXPORTORDERSFULL}`,
       searchParams
     );
+
     if (res?.data?.code === 200) {
       return res.data?.data;
     }
+
     const errorMessage =
       res?.data?.error || "Error searching export orders full";
     toast.error(errorMessage);
@@ -583,6 +671,8 @@ export type TSearchExportOrderBoardResponse = {
   error?: string;
 };
 
+import { AxiosError } from "axios";
+
 export async function searchExportOrdersBoard(
   searchParams: TSearchExportOrder2Request
 ) {
@@ -591,9 +681,11 @@ export async function searchExportOrdersBoard(
       `${ApiEndPoint.SEARCHEXPORTORDERSBOARD}`,
       searchParams
     );
+
     if (res?.data?.code === 200) {
       return res.data?.data;
     }
+
     const errorMessage =
       res?.data?.error || "Error searching export orders board";
     toast.error(errorMessage);
@@ -749,6 +841,3 @@ export async function getSkuStatusForExport() {
     return Promise.reject(error);
   }
 }
-
-// --- END: MANUAL EXPORT TYPES & FUNCTIONS ---
-// --- END: EXPORT ORDER TYPES & FUNCTIONS ---
