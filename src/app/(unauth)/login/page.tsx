@@ -65,7 +65,6 @@ export default function WarehouseLoginPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 flex items-center justify-center p-4">
       <div className="w-full max-w-6xl grid lg:grid-cols-2 gap-8 items-center">
-        {/* Left side - Login Form */}
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
@@ -222,7 +221,6 @@ export default function WarehouseLoginPage() {
           </Card>
         </motion.div>
 
-        {/* Right side - Illustration */}
         <RightPanel
           title="Quản lý kho hàng hiệu quả"
           description="Hệ thống quản lý kho hàng thông minh, theo dõi xuất nhập kho và quản lý hàng tồn kho một cách chính xác."
