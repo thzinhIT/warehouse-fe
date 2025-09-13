@@ -501,9 +501,11 @@ export async function getExportOrderBoard() {
     const res = await api.get<TExportOrderBoardResponse>(
       `${ApiEndPoint.EXPORTORDERBOARDDETAILS}`
     );
+
     if (res?.data?.code === 200) {
       return res.data?.data;
     }
+
     const errorMessage =
       res?.data?.error || "Error fetching export order board details";
     toast.error(errorMessage);
@@ -556,9 +558,11 @@ export async function searchExportOrdersFull(
       `${ApiEndPoint.SEARCHEXPORTORDERSFULL}`,
       searchParams
     );
+
     if (res?.data?.code === 200) {
       return res.data?.data;
     }
+
     const errorMessage =
       res?.data?.error || "Error searching export orders full";
     toast.error(errorMessage);
@@ -583,6 +587,8 @@ export type TSearchExportOrderBoardResponse = {
   error?: string;
 };
 
+import { AxiosError } from "axios";
+
 export async function searchExportOrdersBoard(
   searchParams: TSearchExportOrder2Request
 ) {
@@ -591,9 +597,11 @@ export async function searchExportOrdersBoard(
       `${ApiEndPoint.SEARCHEXPORTORDERSBOARD}`,
       searchParams
     );
+
     if (res?.data?.code === 200) {
       return res.data?.data;
     }
+
     const errorMessage =
       res?.data?.error || "Error searching export orders board";
     toast.error(errorMessage);
@@ -749,6 +757,3 @@ export async function getSkuStatusForExport() {
     return Promise.reject(error);
   }
 }
-
-// --- END: MANUAL EXPORT TYPES & FUNCTIONS ---
-// --- END: EXPORT ORDER TYPES & FUNCTIONS ---

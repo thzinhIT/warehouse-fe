@@ -12,7 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CirclePlus, FileSpreadsheet, RotateCcw, Search } from "lucide-react";
+import { CirclePlus, RotateCcw, Search } from "lucide-react";
 import { getProductColumns } from "@/components/common/manage-storage/product/product-columns";
 import {
   useProducts,
@@ -59,8 +59,6 @@ const ProductManagementPage = () => {
   const isLoading = isSearchMode ? searchMutation.isPending : isLoadingProducts;
   const isError = isSearchMode ? searchMutation.isError : isProductsError;
   const error = isSearchMode ? searchMutation.error : productsError;
-
-  // Debug logging
 
   // For display purposes
   const totalItems = products.length;
@@ -153,11 +151,6 @@ const ProductManagementPage = () => {
     }
   };
 
-  const handleExportExcel = () => {
-    // TODO: Implement Excel export functionality
-    toast.success("Chức năng xuất Excel sẽ được triển khai sớm!");
-  };
-
   const handleAddProduct = () => {
     // TODO: Implement add product functionality
     toast.success("Chức năng thêm sản phẩm sẽ được triển khai sớm!");
@@ -166,8 +159,11 @@ const ProductManagementPage = () => {
   };
 
   const handleViewDetail = (product: Product) => {
-    if (product.id) {
-      setSelectedProductId(product.id);
+    // Use skuId as the ID since that's what the API returns
+    const productId = product.skuId || product.id;
+
+    if (productId) {
+      setSelectedProductId(productId);
       setIsDetailModalOpen(true);
     } else {
       toast.error("Không thể xem chi tiết: Không có ID sản phẩm");
@@ -218,20 +214,13 @@ const ProductManagementPage = () => {
           )}
         </div>
         <div className="flex gap-2">
-          <Button
-            className="cursor-pointer bg-green-600 hover:bg-green-700 flex items-center"
-            onClick={handleExportExcel}
-          >
-            <FileSpreadsheet size={20} />
-            <span>Xuất Excel</span>
-          </Button>
-          <Button
+          {/* <Button
             className="cursor-pointer bg-blue-600 hover:bg-blue-700 flex items-center"
             onClick={handleAddProduct}
           >
             <CirclePlus size={20} />
-            <span>Thêm sản phẩm</span>
-          </Button>
+            <span> Thêm sản phẩm</span>
+          </Button> */}
         </div>
       </div>
 
@@ -239,112 +228,127 @@ const ProductManagementPage = () => {
       <div className="mt-4">
         <div className="space-y-4">
           {/* <h2 className="text-base font-semibold">Tìm kiếm sản phẩm</h2> */}
-          <div className="grid gap-4 grid-cols-3">
-            <div className="grid gap-2">
-              <Label htmlFor="sku">Mã SKU</Label>
-              <Input
-                id="sku"
-                value={searchFilters.skuCode}
-                onChange={(e) =>
-                  setSearchFilters({
-                    ...searchFilters,
-                    skuCode: e.target.value,
-                  })
-                }
-                placeholder="Nhập mã SKU"
-              />
+          <div className="space-y-4">
+            {/* Row 1: Mã SKU, Kích cỡ, Màu sắc, Tìm kiếm */}
+            <div className="grid gap-4 grid-cols-7">
+              <div className="grid gap-2 col-span-2">
+                <Label htmlFor="sku">Mã SKU</Label>
+                <Input
+                  id="sku"
+                  value={searchFilters.skuCode}
+                  onChange={(e) =>
+                    setSearchFilters({
+                      ...searchFilters,
+                      skuCode: e.target.value,
+                    })
+                  }
+                  placeholder="Nhập mã SKU"
+                />
+              </div>
+              <div className="grid gap-2 col-span-2">
+                <Label htmlFor="size">Kích cỡ</Label>
+                <Select
+                  value={searchFilters.size}
+                  onValueChange={(value) =>
+                    setSearchFilters({ ...searchFilters, size: value })
+                  }
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Chọn kích cỡ" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="S">S</SelectItem>
+                    <SelectItem value="M">M</SelectItem>
+                    <SelectItem value="L">L</SelectItem>
+                    <SelectItem value="XL">XL</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="grid gap-2 col-span-2">
+                <Label htmlFor="color">Màu sắc</Label>
+                <Input
+                  id="color"
+                  value={searchFilters.color}
+                  onChange={(e) =>
+                    setSearchFilters({
+                      ...searchFilters,
+                      color: e.target.value,
+                    })
+                  }
+                  placeholder="Nhập màu sắc"
+                />
+              </div>
+              <div className="grid gap-2 col-span-1">
+                <Label>&nbsp;</Label>
+                <Button
+                  onClick={handleSearch}
+                  disabled={isSearching}
+                  className="w-full text-white"
+                  style={{
+                    backgroundColor:
+                      "color-mix(in oklab, var(--ring) 50%, blue)",
+                    borderColor: "color-mix(in oklab, var(--ring) 50%, blue)",
+                  }}
+                >
+                  <Search size={16} className="mr-2" />
+                  {isSearching ? "Đang tìm..." : "Tìm kiếm"}
+                </Button>
+              </div>
             </div>
-            <div className="grid gap-2">
-              <Label htmlFor="size">Kích cỡ</Label>
-              <Select
-                value={searchFilters.size}
-                onValueChange={(value) =>
-                  setSearchFilters({ ...searchFilters, size: value })
-                }
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Chọn kích cỡ" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="S">S</SelectItem>
-                  <SelectItem value="M">M</SelectItem>
-                  <SelectItem value="L">L</SelectItem>
-                  <SelectItem value="XL">XL</SelectItem>
-                </SelectContent>
-              </Select>
+
+            {/* Row 2: Loại sản phẩm, Dung tích từ, Dung tích đến */}
+            <div className="grid gap-4 grid-cols-7">
+              <div className="grid gap-2 col-span-2">
+                <Label htmlFor="type">Loại sản phẩm</Label>
+                <Select
+                  value={searchFilters.type}
+                  onValueChange={(value) =>
+                    setSearchFilters({ ...searchFilters, type: value })
+                  }
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Chọn loại" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Áo">Áo</SelectItem>
+                    <SelectItem value="Quần">Quần</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="grid gap-2 col-span-2">
+                <Label htmlFor="minVolume">Dung tích từ</Label>
+                <Input
+                  id="minVolume"
+                  type="number"
+                  value={searchFilters.minVolume}
+                  onChange={(e) =>
+                    setSearchFilters({
+                      ...searchFilters,
+                      minVolume: e.target.value,
+                    })
+                  }
+                  placeholder="Dung tích tối thiểu"
+                />
+              </div>
+              <div className="grid gap-2 col-span-2">
+                <Label htmlFor="maxVolume">Dung tích đến</Label>
+                <Input
+                  id="maxVolume"
+                  type="number"
+                  value={searchFilters.maxVolume}
+                  onChange={(e) =>
+                    setSearchFilters({
+                      ...searchFilters,
+                      maxVolume: e.target.value,
+                    })
+                  }
+                  placeholder="Dung tích tối đa"
+                />
+              </div>
+              <div className="col-span-1">
+                {/* Empty space to align with search button column */}
+              </div>
             </div>
-            <div className="grid gap-2">
-              <Label htmlFor="color">Màu sắc</Label>
-              <Input
-                id="color"
-                value={searchFilters.color}
-                onChange={(e) =>
-                  setSearchFilters({ ...searchFilters, color: e.target.value })
-                }
-                placeholder="Nhập màu sắc"
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="type">Loại sản phẩm</Label>
-              <Select
-                value={searchFilters.type}
-                onValueChange={(value) =>
-                  setSearchFilters({ ...searchFilters, type: value })
-                }
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Chọn loại" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Áo">Áo</SelectItem>
-                  <SelectItem value="Quần">Quần</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="minVolume">Dung tích từ</Label>
-              <Input
-                id="minVolume"
-                type="number"
-                value={searchFilters.minVolume}
-                onChange={(e) =>
-                  setSearchFilters({
-                    ...searchFilters,
-                    minVolume: e.target.value,
-                  })
-                }
-                placeholder="Dung tích tối thiểu"
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="maxVolume">Dung tích đến</Label>
-              <Input
-                id="maxVolume"
-                type="number"
-                value={searchFilters.maxVolume}
-                onChange={(e) =>
-                  setSearchFilters({
-                    ...searchFilters,
-                    maxVolume: e.target.value,
-                  })
-                }
-                placeholder="Dung tích tối đa"
-              />
-            </div>
-          </div>
-          <div className="flex gap-2">
-            <Button onClick={handleSearch} disabled={isSearching}>
-              <Search size={16} className="mr-2" />
-              {isSearching ? "Đang tìm..." : "Tìm kiếm"}
-            </Button>
-            <Button variant="outline" onClick={handleClearSearch}>
-              <RotateCcw size={16} className="mr-2" />
-              Xóa bộ lọc
-            </Button>
-            <Button variant="outline" onClick={handleRefresh}>
-              <RotateCcw size={16} className="mr-2" />
-              Làm mới
-            </Button>
           </div>
         </div>
       </div>
@@ -384,3 +388,5 @@ const ProductManagementPage = () => {
 };
 
 export default ProductManagementPage;
+
+// Checking the current button structure in product page

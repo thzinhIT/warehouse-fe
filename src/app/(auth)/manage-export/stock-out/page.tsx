@@ -32,14 +32,8 @@ const StockOutPage = () => {
   const [openOnline, setOpenOnline] = useState(false);
   const [openManualExport, setOpenManualExport] = useState(false);
 
-  const {
-    data,
-    isPending,
-    isSearching,
-    handleSearch,
-    handleClearSearch,
-    handleRefresh,
-  } = useStockOutFullSearch();
+  const { data, isPending, isSearching, handleSearch } =
+    useStockOutFullSearch();
 
   // Modal state for export order details
   const [isOpenDetail, setIsOpenDetail] = useState(false);
@@ -82,16 +76,36 @@ const StockOutPage = () => {
 
   const handleManualExportConfirm = (selectedItems: TManualExportItem[]) => {
     // TODO: Call your API to process the manual export
-    console.log("Manual export selected items:", selectedItems);
     setOpenManualExport(false);
   };
 
   return (
-    <div className="min-h-screen p-6 space-y-6 overflow-y-auto">
+    <div className="min-h-screen p-6 space-y-3 overflow-y-auto">
       <SidebarHeader title="Xuất kho" />
 
-      <div className="flex justify-between items-center mt-2">
-        {/* <h1 className="text-lg font-bold text-black">Dữ liệu xuất kho</h1> */}
+      {/* Top action buttons */}
+      <div className="flex justify-between items-center">
+        <div className="flex items-center gap-3">
+          {/* Left side content can go here */}
+        </div>
+        <div className="flex gap-2">
+          {/* Hidden: Nhập hàng loạt and Đơn đang xuất buttons */}
+          <Button
+            className="cursor-pointer flex items-center gap-2 text-white"
+            style={{
+              backgroundColor: "color-mix(in oklab, var(--ring) 50%, blue)",
+              borderColor: "color-mix(in oklab, var(--ring) 50%, blue)",
+            }}
+            onClick={handleManualExport}
+          >
+            <Hand size={18} />
+            <span>Xuất thủ công</span>
+          </Button>
+        </div>
+      </div>
+
+      {/* Temporarily hidden buttons */}
+      {/* <div className="flex justify-between items-center mt-2">
         <div className="flex gap-2">
           <Button
             className="cursor-pointer bg-blue-600 hover:bg-blue-700 flex items-center"
@@ -112,21 +126,19 @@ const StockOutPage = () => {
             <span>Thêm trực tiếp</span>
           </Button>
         </div>
-      </div>
+      </div> */}
 
       {/* Search Component */}
-      <div className="mt-4">
+      <div>
         <ExportOrderSearch
           onSearch={handleSearch}
-          onClear={handleClearSearch}
-          onRefresh={handleRefresh}
           isSearching={isSearching}
           isPending={isPending}
         />
       </div>
 
-      {/* 4 Export Action Buttons */}
-      <div className="mb-4">
+      {/* Other Export Action Buttons - Temporarily Hidden */}
+      {/* <div className="mb-4">
         <div className="flex gap-3 justify-start">
           <Button
             className="cursor-pointer bg-orange-500 hover:bg-orange-600 flex items-center gap-2 text-white"
@@ -157,7 +169,7 @@ const StockOutPage = () => {
             <span>Xuất thủ công</span>
           </Button>
         </div>
-      </div>
+      </div> */}
 
       <div className="flex-1">
         {isPending ? (

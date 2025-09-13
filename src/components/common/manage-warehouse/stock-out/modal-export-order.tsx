@@ -19,8 +19,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { X } from "lucide-react";
-import { useLatestExport, useUpdateExportNote } from "@/hooks/manage-warehouse/use-export-order";
+import {
+  useLatestExport,
+  useUpdateExportNote,
+} from "@/hooks/manage-warehouse/use-export-order";
 import { PickingRouteResponse } from "@/lib/networking/services/export-order.service";
 
 interface ModalExportOrderProps {
@@ -82,7 +84,11 @@ export function ModalExportOrder({ open, setOpen }: ModalExportOrderProps) {
 
   const handleConfirm = async () => {
     // Update note if changed
-    if (hasChangedNote && formData.maDonXuat && formData.ghiChu !== (exportInfo?.note || "")) {
+    if (
+      hasChangedNote &&
+      formData.maDonXuat &&
+      formData.ghiChu !== (exportInfo?.note || "")
+    ) {
       try {
         await updateNoteMutation.mutateAsync({
           exportCode: formData.maDonXuat,
@@ -111,11 +117,7 @@ export function ModalExportOrder({ open, setOpen }: ModalExportOrderProps) {
       return (
         <div className="flex flex-col items-center justify-center h-64 space-y-4">
           <div className="text-lg text-red-600">Lỗi khi tải dữ liệu</div>
-          <Button 
-            onClick={() => refetch()} 
-            variant="outline"
-            size="sm"
-          >
+          <Button onClick={() => refetch()} variant="outline" size="sm">
             Thử lại
           </Button>
         </div>
@@ -176,10 +178,16 @@ export function ModalExportOrder({ open, setOpen }: ModalExportOrderProps) {
               placeholder="Nhập ghi chú (có thể chỉnh sửa)"
               value={formData.ghiChu}
               onChange={(e) => handleInputChange("ghiChu", e.target.value)}
-              className={hasChangedNote ? "border-orange-500 focus:border-orange-600" : ""}
+              className={
+                hasChangedNote
+                  ? "border-orange-500 focus:border-orange-600"
+                  : ""
+              }
             />
             {hasChangedNote && (
-              <p className="text-sm text-orange-600">Ghi chú đã được thay đổi</p>
+              <p className="text-sm text-orange-600">
+                Ghi chú đã được thay đổi
+              </p>
             )}
           </div>
         </div>
@@ -195,28 +203,52 @@ export function ModalExportOrder({ open, setOpen }: ModalExportOrderProps) {
                   <TableHead className="text-center font-medium">STT</TableHead>
                   <TableHead className="text-center font-medium">SKU</TableHead>
                   <TableHead className="text-center font-medium">Box</TableHead>
-                  <TableHead className="text-center font-medium">Shelf</TableHead>
-                  <TableHead className="text-center font-medium">Số lượng cần lấy</TableHead>
-                  <TableHead className="text-center font-medium">Barcodes</TableHead>
+                  <TableHead className="text-center font-medium">
+                    Shelf
+                  </TableHead>
+                  <TableHead className="text-center font-medium">
+                    Số lượng cần lấy
+                  </TableHead>
+                  <TableHead className="text-center font-medium">
+                    Barcodes
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {exportInfo.pickingRoutes && exportInfo.pickingRoutes.length > 0 ? (
-                  exportInfo.pickingRoutes.map((route: PickingRouteResponse, index: number) => (
-                    <TableRow key={index}>
-                      <TableCell className="text-center">{index + 1}</TableCell>
-                      <TableCell className="text-center">{route.skuCode}</TableCell>
-                      <TableCell className="text-center">{route.boxCode}</TableCell>
-                      <TableCell className="text-center">{route.shelfCode || "-"}</TableCell>
-                      <TableCell className="text-center">{route.quantityPicked}</TableCell>
-                      <TableCell className="text-center">
-                        {route.barcodes?.length > 0 ? route.barcodes.join(", ") : "-"}
-                      </TableCell>
-                    </TableRow>
-                  ))
+                {exportInfo.pickingRoutes &&
+                exportInfo.pickingRoutes.length > 0 ? (
+                  exportInfo.pickingRoutes.map(
+                    (route: PickingRouteResponse, index: number) => (
+                      <TableRow key={index}>
+                        <TableCell className="text-center">
+                          {index + 1}
+                        </TableCell>
+                        <TableCell className="text-center">
+                          {route.skuCode}
+                        </TableCell>
+                        <TableCell className="text-center">
+                          {route.boxCode}
+                        </TableCell>
+                        <TableCell className="text-center">
+                          {route.shelfCode || "-"}
+                        </TableCell>
+                        <TableCell className="text-center">
+                          {route.quantityPicked}
+                        </TableCell>
+                        <TableCell className="text-center">
+                          {route.barcodes?.length > 0
+                            ? route.barcodes.join(", ")
+                            : "-"}
+                        </TableCell>
+                      </TableRow>
+                    )
+                  )
                 ) : (
                   <TableRow>
-                    <TableCell colSpan={6} className="text-center py-8 text-gray-500">
+                    <TableCell
+                      colSpan={6}
+                      className="text-center py-8 text-gray-500"
+                    >
                       Không có lộ trình lấy hàng
                     </TableCell>
                   </TableRow>
@@ -232,23 +264,13 @@ export function ModalExportOrder({ open, setOpen }: ModalExportOrderProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="max-w-[900px] max-h-[90vh] overflow-y-auto">
-        <DialogHeader className="flex flex-row items-center justify-between">
+        <DialogHeader>
           <DialogTitle className="text-xl font-bold text-gray-900">
             Đơn đang xuất
           </DialogTitle>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleClose}
-            className="h-6 w-6 p-0"
-          >
-            <X className="h-4 w-4" />
-          </Button>
         </DialogHeader>
 
-        <div className="space-y-6 py-4">
-          {renderContent()}
-        </div>
+        <div className="space-y-6 py-4">{renderContent()}</div>
 
         <DialogFooter className="flex justify-end space-x-2 pt-4 border-t">
           <Button
@@ -264,4 +286,3 @@ export function ModalExportOrder({ open, setOpen }: ModalExportOrderProps) {
     </Dialog>
   );
 }
-
