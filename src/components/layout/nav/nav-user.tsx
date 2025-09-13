@@ -1,16 +1,6 @@
 "use client";
 
-import {
-  BadgeCheck,
-  Bell,
-  ChevronsUpDown,
-  CreditCard,
-  KeyIcon,
-  LogOut,
-  Settings,
-  Sparkles,
-  User2,
-} from "lucide-react";
+import { ChevronsUpDown, LogOut, Settings } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -31,16 +21,8 @@ import {
 import { useRouter } from "next/navigation";
 import { useLogin } from "@/hooks/Auth/use-auth";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { useState, Fragment, useEffect } from "react";
+
+import { useEffect } from "react";
 
 export function NavUser({
   user,
@@ -60,6 +42,11 @@ export function NavUser({
     localStorage.removeItem("userInfo");
     router.push("/login");
   };
+  useEffect(() => {
+    if (typeof window !== "undefined" && userInfo) {
+      localStorage.setItem("userInfo", JSON.stringify(userInfo));
+    }
+  }, [userInfo]);
 
   if (isPendingUser) {
     return (

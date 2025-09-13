@@ -20,6 +20,8 @@ import {
 } from "@/components/ui/sidebar";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
+import { TUser } from "@/lib/networking/client/user/service";
 
 export function NavMain({
   items,
@@ -41,12 +43,33 @@ export function NavMain({
   const t = useTranslations("navigation");
   const tDashboard = useTranslations("dashboard.sidebar");
   const tNav = useTranslations("navigation");
+  const [userInfo, setUserInfo] = useState<TUser>();
+
+  const newItems = items?.filter((i) => {
+    if (
+      userInfo &&
+      userInfo?.role === "staff" &&
+      i.title === "employee-management"
+    ) {
+      return false;
+    }
+    return true;
+  });
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const data = localStorage.getItem("userInfo");
+      if (data) {
+        setUserInfo(JSON.parse(data));
+      }
+    }
+  }, []);
 
   return (
     <SidebarGroup>
       <SidebarGroupLabel>{tDashboard("platform")}</SidebarGroupLabel>
       <SidebarMenu className="space-y-2">
-        {items.map((item) => {
+        {newItems.map((item) => {
           const isActive =
             pathname?.endsWith(item?.url) ||
             (pathname?.startsWith(item?.url) && item?.url !== "/");
