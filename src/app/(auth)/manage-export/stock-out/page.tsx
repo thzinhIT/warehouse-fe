@@ -82,7 +82,6 @@ const StockOutPage = () => {
 
   const handleManualExportConfirm = (selectedItems: TManualExportItem[]) => {
     // TODO: Call your API to process the manual export
-    console.log("Manual export selected items:", selectedItems);
     setOpenManualExport(false);
   };
 

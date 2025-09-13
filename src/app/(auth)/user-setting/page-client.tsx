@@ -10,19 +10,34 @@ import useUserInfor from "@/hooks/user/use-user-infor";
 import { TBodyParams } from "@/lib/networking/client/user/service";
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
 import { formatDate } from "date-fns";
-import { id } from "date-fns/locale";
-import { Camera, Eye, EyeOff, Lock, Save, User } from "lucide-react";
-import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { Eye, EyeOff, Lock, Save, User } from "lucide-react";
+import { useRef, useState } from "react";
+import toast from "react-hot-toast";
 
 const SettingUserClient = () => {
   const { userInfo, isPendingUser } = useLogin();
 
-  const { updateProfileFn, updateProfilePending } = useUserInfor();
+  const {
+    updateProfileFn,
+    updateProfilePending,
+    updatePass,
+    updatePassPending,
+  } = useUserInfor();
 
   const ref = useRef({
     email: "",
     fullName: "",
+  });
+  const [showPasswords, setShowPasswords] = useState({
+    current: false,
+    new: false,
+    confirm: false,
+  });
+
+  const [passwordData, setPasswordData] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
   });
 
   const handleSaveProfile = () => {
@@ -32,6 +47,39 @@ const SettingUserClient = () => {
       fullName: ref.current.fullName,
     };
     updateProfileFn({ body });
+  };
+
+  const handlePasswordChange = (
+    field: keyof typeof passwordData,
+    value: string
+  ) => {
+    setPasswordData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  const handleChangePassword = async () => {
+    if (passwordData.newPassword !== passwordData.confirmPassword) {
+      toast.error("Mật khẩu mới và xác nhận mật khẩu không khớp");
+      return;
+    }
+
+    if (passwordData.newPassword.length < 6) {
+      toast.error("Mật khẩu mới phải có ít nhất 6 ký tự");
+      return;
+    }
+
+    updatePass({
+      newPassword: passwordData.newPassword,
+      oldPassword: passwordData.currentPassword,
+    });
+
+    setPasswordData({
+      currentPassword: "",
+      newPassword: "",
+      confirmPassword: "",
+    });
   };
 
   return (
@@ -199,7 +247,6 @@ const SettingUserClient = () => {
 
         <Separator />
 
-        {/* Password Change Section */}
         <div className="space-y-6">
           <h2 className="text-xl font-semibold flex items-center gap-2">
             <Lock className="w-5 h-5" />
@@ -211,26 +258,26 @@ const SettingUserClient = () => {
               <div className="relative">
                 <Input
                   id="currentPassword"
-                  //   type={showPasswords.current ? "text" : "password"}
-                  //   value={passwordData.currentPassword}
-                  //   onChange={(e) =>
-                  //     handlePasswordChange("currentPassword", e.target.value)
-                  //   }
-                  placeholder="Nhập mật khẩu hiện tại"
+                  value={passwordData.currentPassword}
+                  type={showPasswords.current ? "text" : "password"}
+                  onChange={(e) =>
+                    handlePasswordChange("currentPassword", e.target.value)
+                  }
+                  placeholder="Nhập mật khẩu hiện tại..."
                 />
                 <Button
                   type="button"
                   variant="ghost"
                   size="sm"
                   className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                  //   onClick={() =>
-                  //     setShowPasswords((prev) => ({
-                  //       ...prev,
-                  //       current: !prev.current,
-                  //     }))
-                  //   }
+                  onClick={() =>
+                    setShowPasswords((prev) => ({
+                      ...prev,
+                      current: !prev.current,
+                    }))
+                  }
                 >
-                  {true ? (
+                  {showPasswords.current ? (
                     <EyeOff className="h-4 w-4" />
                   ) : (
                     <Eye className="h-4 w-4" />
@@ -244,32 +291,29 @@ const SettingUserClient = () => {
               <div className="relative">
                 <Input
                   id="newPassword"
-                  //   type={showPasswords.new ? "text" : "password"}
-                  //   value={passwordData.newPassword}
-                  //   onChange={(e) =>
-                  //     handlePasswordChange("newPassword", e.target.value)
-                  //   }
-                  placeholder="Nhập mật khẩu mới"
+                  type={showPasswords.new ? "text" : "password"}
+                  value={passwordData.newPassword}
+                  onChange={(e) =>
+                    handlePasswordChange("newPassword", e.target.value)
+                  }
+                  placeholder="Nhập mật khẩu mới..."
                 />
                 <Button
                   type="button"
                   variant="ghost"
                   size="sm"
                   className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                  //   onClick={() =>
-                  //     setShowPasswords((prev) => ({ ...prev, new: !prev.new }))
-                  //   }
+                  onClick={() =>
+                    setShowPasswords((prev) => ({ ...prev, new: !prev.new }))
+                  }
                 >
-                  {true ? (
+                  {showPasswords.new ? (
                     <EyeOff className="h-4 w-4" />
                   ) : (
                     <Eye className="h-4 w-4" />
                   )}
                 </Button>
               </div>
-              <p className="text-sm text-muted-foreground">
-                Mật khẩu phải có ít nhất 6 ký tự
-              </p>
             </div>
 
             <div className="space-y-2">
@@ -277,26 +321,26 @@ const SettingUserClient = () => {
               <div className="relative">
                 <Input
                   id="confirmPassword"
-                  //   type={showPasswords.confirm ? "text" : "password"}
-                  //   value={passwordData.confirmPassword}
-                  //   onChange={(e) =>
-                  //     handlePasswordChange("confirmPassword", e.target.value)
-                  //   }
-                  placeholder="Nhập lại mật khẩu mới"
+                  type={showPasswords.confirm ? "text" : "password"}
+                  value={passwordData.confirmPassword}
+                  onChange={(e) =>
+                    handlePasswordChange("confirmPassword", e.target.value)
+                  }
+                  placeholder="Nhập lại mật khẩu mới..."
                 />
                 <Button
                   type="button"
                   variant="ghost"
                   size="sm"
                   className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                  //   onClick={() =>
-                  //     setShowPasswords((prev) => ({
-                  //       ...prev,
-                  //       confirm: !prev.confirm,
-                  //     }))
-                  //   }
+                  onClick={() =>
+                    setShowPasswords((prev) => ({
+                      ...prev,
+                      confirm: !prev.confirm,
+                    }))
+                  }
                 >
-                  {true ? (
+                  {showPasswords.confirm ? (
                     <EyeOff className="h-4 w-4" />
                   ) : (
                     <Eye className="h-4 w-4" />
@@ -308,17 +352,17 @@ const SettingUserClient = () => {
 
           <div className="flex justify-end">
             <Button
-              //   onClick={handleChangePassword}
-              //   disabled={
-              //     isPasswordLoading ||
-              //     !passwordData.currentPassword ||
-              //     !passwordData.newPassword ||
-              //     !passwordData.confirmPassword
-              //   }
+              onClick={handleChangePassword}
+              disabled={
+                updatePassPending ||
+                !passwordData.currentPassword ||
+                !passwordData.newPassword ||
+                !passwordData.confirmPassword
+              }
               className="gap-2 px-8"
             >
               <Lock className="w-4 h-4" />
-              {/* {isPasswordLoading ? "Đang cập nhật..." : "Đổi mật khẩu"} */}
+              {updatePassPending ? "Đang cập nhật..." : "Đổi mật khẩu"}
             </Button>
           </div>
         </div>

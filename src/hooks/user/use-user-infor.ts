@@ -1,8 +1,12 @@
 "use client";
 
 import UserKeys from "@/lib/networking/client/user/endpoint";
-import { UpdateProfileUser } from "@/lib/networking/client/user/service";
+import {
+  UpdatePass,
+  UpdateProfileUser,
+} from "@/lib/networking/client/user/service";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 const useUserInfor = () => {
   const queryClient = useQueryClient();
@@ -16,10 +20,19 @@ const useUserInfor = () => {
         queryClient.invalidateQueries({ queryKey: ["userInfo"] });
       },
     });
+  const { mutate: updatePass, isPending: updatePassPending } = useMutation({
+    mutationKey: [UserKeys.UPDATE_PASS],
+    mutationFn: UpdatePass,
+    onSuccess: () => {
+      toast.success("Thay đổi mật khẩu thành công");
+    },
+  });
 
   return {
     updateProfileFn,
     updateProfilePending,
+    updatePassPending,
+    updatePass,
   };
 };
 

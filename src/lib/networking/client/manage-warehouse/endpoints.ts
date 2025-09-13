@@ -13,6 +13,7 @@ class StockInKeys {
   static readonly SEARCH_IMPORT_ORDER = "SEARCH_IMPORT_ORDER";
   static readonly SEARCH_IMPORT_HISTORY = "SEARCH_IMPORT_HISTORY";
   static readonly DOWNLOAD_REPORT_EXCEL = "DOWNLOAD_REPORT_EXCEL";
+  static readonly IMPORT_BARCODE = "IMPORT_BARCODE";
 }
 
 export default StockInKeys;

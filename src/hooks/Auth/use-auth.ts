@@ -10,7 +10,7 @@ import {
 import { GetUserInfor } from "@/lib/networking/client/user/service";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 
 export function useLogin() {
@@ -41,6 +41,7 @@ export function useLogin() {
   const { data: userInfo, isPending: isPendingUser } = useQuery({
     queryKey: ["userInfo"],
     queryFn: GetUserInfor,
+    initialData: null,
   });
 
   return { login, isPending, isPendingUser, userInfo };

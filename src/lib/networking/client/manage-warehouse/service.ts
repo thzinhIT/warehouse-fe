@@ -132,6 +132,19 @@ type TApiResponseCreateImportOrder = {
   data: TImportData;
 };
 
+export type TImportBarcodeBody = {
+  scannedItems: {
+    barcode: string;
+  }[];
+  source: string;
+  note: string;
+};
+type ApiResponseBarcode = {
+  code: number;
+  message: string;
+  data: string;
+};
+
 export async function getAllDetailImportOrder() {
   try {
     const res = await api.get<IGetImportOrder>(
@@ -277,6 +290,27 @@ export async function CreateImportOrder(body: TPayloadCreateImportOrder) {
       return res.data?.data;
     }
     const errorMessage = res?.data?.message || "Error create data import order";
+    toast.error(errorMessage);
+
+    return Promise.reject(new Error(errorMessage));
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
+export async function ImportBarcode(body: TImportBarcodeBody) {
+  try {
+    if (!body) return toast.error("Please provide body to import barcode");
+    const res = await api.post<ApiResponseBarcode>(
+      `${ApiEndPoint.IMPORT_BARCODE}`,
+      body
+    );
+
+    if (res?.data?.code === 200) {
+      toast.success(" import  barcode successfully");
+      return res.data?.data;
+    }
+    const errorMessage = res?.data?.message || "Error import barcode";
     toast.error(errorMessage);
 
     return Promise.reject(new Error(errorMessage));

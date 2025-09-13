@@ -57,6 +57,7 @@ export function NavUser({
   const handleLogOut = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("refreshToken");
+    localStorage.removeItem("userInfo");
     router.push("/login");
   };
 

@@ -12,7 +12,6 @@ const SystemLogClient = () => {
     return getColumnsLog();
   }, []);
 
-  console.log("data", data);
   return (
     <>
       {" "}

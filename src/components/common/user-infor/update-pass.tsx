@@ -4,19 +4,11 @@ import {
   DialogHeader,
   DialogTitle,
   DialogDescription,
-  DialogFooter,
-  DialogClose,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Eye, EyeOff } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import toast from "react-hot-toast";
-import { LoadingBtn } from "../loading-page";
-import { Button } from "@/components/ui/button";
-import { useMutation } from "@tanstack/react-query";
-import UserKeys from "@/lib/networking/client/user/endpoint";
-import { UpdatePass } from "@/lib/networking/client/user/service";
 
 export type TUpdatePass = {
   oldPassword: string;
@@ -33,34 +25,6 @@ export function UpdatePasswordDialog({
   const [showPassword, setShowPassword] = useState(false);
 
   const ref = useRef<TUpdatePass>({ oldPassword: "", newPassword: "" });
-
-  const { mutate: updatePass, isPending: updatePassPending } = useMutation({
-    mutationKey: [UserKeys.UPDATE_PASS],
-    mutationFn: UpdatePass,
-    onSuccess: () => {
-      toast.success("Thay đổi mật khẩu thành công");
-    },
-  });
-
-  const handleUpdatePass = () => {
-    // if (!ref.current.oldPassword || !ref.current.newPassword) {
-    //   toast.error("Vui lòng nhập đầy đủ mật khẩu!");
-    //   return;
-    // }
-    toast.success("Đang cập nhật mật khẩu...");
-    setOpen(false);
-  };
-
-  useEffect(() => {
-    if (!open) {
-      document.body.style.pointerEvents = "auto"; // reset lại
-      console.log("cũng cũng á ", open);
-    }
-  }, [open]);
-
-  useEffect(() => {
-    console.log("open", open);
-  }, [open]);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -116,20 +80,6 @@ export function UpdatePasswordDialog({
             </button>
           </div>
         </div>
-
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button variant="outline">Hủy</Button>
-          </DialogClose>
-          <Button
-            type="button"
-            onClick={handleUpdatePass}
-            disabled={updatePassPending}
-          >
-            {updatePassPending && <LoadingBtn />}
-            Cập nhật
-          </Button>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
