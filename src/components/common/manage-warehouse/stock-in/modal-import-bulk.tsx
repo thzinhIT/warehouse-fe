@@ -59,6 +59,8 @@ export function ModalImportBulk({
     onImportWarehouse,
     openCode,
     setOpenCode,
+    ImportBarcodeFn,
+    PendingImportCode,
   } = useTemporary(setOpenModalUpdate);
   const handleOnChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -290,7 +292,14 @@ export function ModalImportBulk({
           onUpdateTemporary={onUpdateTemporary}
         />
       )}
-      {openCode && <ModalBarcode open={openCode} setOpen={setOpenCode} />}
+      {openCode && (
+        <ModalBarcode
+          open={openCode}
+          setOpen={setOpenCode}
+          ImportBarcodeFn={ImportBarcodeFn}
+          isPending={PendingImportCode}
+        />
+      )}
     </React.Fragment>
   );
 }

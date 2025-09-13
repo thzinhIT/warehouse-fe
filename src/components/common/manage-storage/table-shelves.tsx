@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/table";
 import { useShelves } from "@/hooks/manage-storage/use-shelves";
 import { ChevronRight, Eye } from "lucide-react";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { DialogDetailStorage } from "./modal/modal-detail-shelve-bin";
 import { DialogDetailBox } from "./modal/modal-detail-box";
 import { EmptyData } from "../empty-data";
@@ -36,7 +36,7 @@ const TableShelves = () => {
     setIdBin(idBin === id ? undefined : id);
   };
   const searchParams = useSearchParams();
-  const page = Number(searchParams?.get("page") ?? "0");
+  const page = Number(searchParams?.get("page") ?? "1");
 
   const {
     data,
@@ -52,7 +52,11 @@ const TableShelves = () => {
   const startIndex = (page - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
 
-  const spliceData = data?.slice(startIndex, endIndex) ?? [];
+  const spliceData = useMemo(
+    () => data?.slice(startIndex, endIndex) ?? [],
+    [data, startIndex, endIndex]
+  );
+
   return (
     <>
       <div className="border flex-1 overflow-auto scrollbar bg-background rounded-lg w-full">

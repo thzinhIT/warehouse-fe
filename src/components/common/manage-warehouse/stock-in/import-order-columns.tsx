@@ -1,11 +1,7 @@
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  TDataImportOrder,
-  TDataImportOrderTemporary,
-} from "@/lib/networking/client/manage-warehouse/service";
+import { TDataImportOrderTemporary } from "@/lib/networking/client/manage-warehouse/service";
 import { formatDDMMYY } from "@/lib/regex/format-date-time";
 import { ColumnDef } from "@tanstack/react-table";
-import { de } from "date-fns/locale";
 import { Eye } from "lucide-react";
 
 type propsCol = {

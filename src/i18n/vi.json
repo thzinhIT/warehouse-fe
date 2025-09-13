@@ -11,7 +11,7 @@
     }
   },
   "navigation": {
-    "dashboard": "Bảng điều khiển",
+    "dashboard": "Thống kê",
     "warehouse-management": "Quản lý nhập kho",
     "stock-in": "Nhập kho",
     "stock-in-history": "Lịch sử nhập kho",
@@ -79,7 +79,7 @@
       "bar-chart-title": "Sử dụng Desktop & Mobile"
     },
     "sidebar": {
-      "platform": "Thống kê",
+      "platform": "Bảng điều khiển",
       "projects": "Dự án"
     }
   },

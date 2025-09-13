@@ -49,8 +49,7 @@ export function ExportHistorySearch({
   };
 
   return (
-    <div className=" p-4 rounded-lg mb-4">
-      <h3 className="text-lg font-semibold mb-4">Tìm kiếm lịch sử xuất</h3>
+    <div className=" px-2 py-1 rounded-lg ">
       <div className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
           <div className="space-y-2">
