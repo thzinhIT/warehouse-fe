@@ -15,7 +15,6 @@ const StockInClient = () => {
   const [open, setOpen] = useState(false);
   const {
     data,
-    isPending,
     itemImportOrder,
     handleOnClickDetail,
     isOpenDetail,

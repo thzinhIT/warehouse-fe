@@ -11,7 +11,7 @@ import { TBodyParams } from "@/lib/networking/client/user/service";
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
 import { formatDate } from "date-fns";
 import { Eye, EyeOff, Lock, Save, User } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 
 const SettingUserClient = () => {
@@ -81,6 +81,13 @@ const SettingUserClient = () => {
       confirmPassword: "",
     });
   };
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && userInfo) {
+      console.log("Setting userInfo in localStorage:", userInfo);
+      localStorage.setItem("userInfo", JSON.stringify(userInfo));
+    }
+  }, [userInfo]);
 
   return (
     <div className="w-full mx-auto p-2 space-y-8 overflow-auto">

@@ -98,7 +98,7 @@ const data = {
         },
         {
           title: "stock-out-history",
-          url: "#",
+          url: "/manage-export/history",
           icon: <GoClockFill className="text-amber-800" />,
         },
       ],
