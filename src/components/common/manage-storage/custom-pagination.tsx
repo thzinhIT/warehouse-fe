@@ -60,15 +60,26 @@ const CustomPagination = ({ total }: { total: number }) => {
             variant="outline"
             className="hidden size-8 p-0 lg:flex"
             onClick={PageDoublePrev}
+            disabled={page === 1}
           >
             <span className="sr-only">Go to first page</span>
             <RiArrowLeftDoubleFill className="size-4" />
           </Button>
-          <Button variant="outline" className="size-8 p-0" onClick={PagePrev}>
+          <Button
+            variant="outline"
+            className="size-8 p-0"
+            onClick={PagePrev}
+            disabled={page === 1}
+          >
             <span className="sr-only">Go to previous page</span>
             <RiArrowLeftSLine className="size-4" />
           </Button>
-          <Button variant="outline" className="size-8 p-0" onClick={PageNext}>
+          <Button
+            variant="outline"
+            className="size-8 p-0"
+            onClick={PageNext}
+            disabled={page === totalPage}
+          >
             <span className="sr-only">Go to next page</span>
             <RiArrowRightSLine className="size-4" />
           </Button>
@@ -76,6 +87,7 @@ const CustomPagination = ({ total }: { total: number }) => {
             variant="outline"
             className="hidden size-8 p-0 lg:flex"
             onClick={PageDoubleNext}
+            disabled={page === totalPage}
           >
             <span className="sr-only">Go to last page</span>
             <RiArrowRightDoubleFill className="size-4" />

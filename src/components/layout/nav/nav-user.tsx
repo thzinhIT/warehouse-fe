@@ -5,9 +5,11 @@ import {
   Bell,
   ChevronsUpDown,
   CreditCard,
+  KeyIcon,
   LogOut,
   Settings,
   Sparkles,
+  User2,
 } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -26,7 +28,19 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useLogin } from "@/hooks/Auth/use-auth";
+import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useState, Fragment, useEffect } from "react";
 
 export function NavUser({
   user,
@@ -37,13 +51,33 @@ export function NavUser({
     avatar: string;
   };
 }) {
+  const { isPendingUser, userInfo } = useLogin();
   const { isMobile } = useSidebar();
   const router = useRouter();
   const handleLogOut = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("refreshToken");
+    localStorage.removeItem("userInfo");
     router.push("/login");
   };
+
+  if (isPendingUser) {
+    return (
+      <SidebarMenuButton
+        size="lg"
+        className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+      >
+        <Skeleton className="h-8 w-8 rounded-lg" />
+
+        <div className="grid flex-1 text-left text-sm leading-tight ml-2">
+          <Skeleton className="h-4 w-24 mb-1" />
+          <Skeleton className="h-3 w-36" />
+        </div>
+
+        <Skeleton className="ml-auto size-4 rounded" />
+      </SidebarMenuButton>
+    );
+  }
 
   return (
     <SidebarMenu>
@@ -59,8 +93,12 @@ export function NavUser({
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.name}</span>
-                <span className="truncate text-xs">{user.email}</span>
+                <span className="truncate font-medium">
+                  {userInfo?.fullName ?? "Tên kì cụ kẹo"}
+                </span>
+                <span className="truncate text-xs">
+                  {userInfo?.email ?? "testemail@gamil.com"}
+                </span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -78,34 +116,24 @@ export function NavUser({
                   <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{user.name}</span>
-                  <span className="truncate text-xs">{user.email}</span>
+                  <span className="truncate font-medium">
+                    {" "}
+                    {userInfo?.fullName ?? "Tên kì cụ kẹo"}
+                  </span>
+                  <span className="truncate text-xs">
+                    {userInfo?.email ?? "testemail@gamil.com"}
+                  </span>
                 </div>
               </div>
             </DropdownMenuLabel>
-            {/* <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Sparkles />
-                Upgrade to Pro
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
             <DropdownMenuSeparator />
+
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheck />
-                Account
-              </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => router.push("/user-setting")}>
                 <Settings />
-                Setting
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Bell />
-                Notifications
+                Cài đặt
               </DropdownMenuItem>
             </DropdownMenuGroup>
-            <DropdownMenuSeparator /> */}
             <DropdownMenuItem onClick={handleLogOut}>
               <LogOut className="text-red-600" />
               Log out

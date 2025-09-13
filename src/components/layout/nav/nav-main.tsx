@@ -40,6 +40,7 @@ export function NavMain({
   const pathname = usePathname();
   const t = useTranslations("navigation");
   const tDashboard = useTranslations("dashboard.sidebar");
+  const tNav = useTranslations("navigation");
 
   return (
     <SidebarGroup>
@@ -58,7 +59,10 @@ export function NavMain({
             >
               <SidebarMenuItem>
                 <CollapsibleTrigger asChild>
-                  <SidebarMenuButton tooltip={item.title} className="mt-1">
+                  <SidebarMenuButton
+                    tooltip={tNav(item.title)}
+                    className="mt-1"
+                  >
                     <div>{item.icon && item.icon}</div>
 
                     <div

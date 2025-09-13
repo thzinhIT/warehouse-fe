@@ -46,14 +46,14 @@ interface DataTableProps<TData, TValue> {
   page?: number;
   size?: number;
   className?: string;
-  showToolbar?: boolean; // Add this prop to control toolbar visibility
+  showToolbar?: boolean;
 }
 
 export function DataTable<TData, TValue>({
   className,
   data,
   columns,
-  showToolbar = false, // Default to false so it won't show unless explicitly requested
+  showToolbar = false,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(

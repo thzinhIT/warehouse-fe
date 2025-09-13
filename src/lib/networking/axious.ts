@@ -34,6 +34,7 @@ api.interceptors.response.use(
           { withCredentials: true }
         );
         const newToken = res.data?.data?.token;
+        if (!newToken) return;
 
         localStorage.setItem("token", newToken);
         api.defaults.headers.Authorization = `Bearer ${newToken}`;

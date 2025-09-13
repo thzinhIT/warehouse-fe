@@ -15,23 +15,19 @@ import {
   MdWarehouse,
   MdLocalShipping,
   MdWarning,
+  MdNoteAlt,
 } from "react-icons/md";
 import { IoSave } from "react-icons/io5";
-import { FaUserEdit } from "react-icons/fa";
+import { FaUserEdit, FaBoxOpen } from "react-icons/fa";
 import { FcSettings } from "react-icons/fc";
 import { HiArchiveBoxArrowDown } from "react-icons/hi2";
 import { GoClockFill } from "react-icons/go";
 import { GiBoxUnpacking } from "react-icons/gi";
 import { BiCabinet } from "react-icons/bi";
-import { FaBoxOpen } from "react-icons/fa";
-import { FaExclamationTriangle } from "react-icons/fa";
-import { MdNoteAlt } from "react-icons/md";
 
 import { NavMain } from "@/components/layout/nav/nav-main";
-import { NavProjects } from "@/components/layout/nav/nav-projects";
 import { NavUser } from "@/components/layout/nav/nav-user";
 import { TeamSwitcher } from "@/components/layout/nav/team-switcher";
-import { LanguageSwitcher } from "@/components/common/language-switcher";
 import {
   Sidebar,
   SidebarContent,
@@ -39,12 +35,6 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import Dashboard from "@/app/(auth)/(dashboard)/page";
-import { Icons } from "@/components/common/icons";
-import { RiLuggageCartFill, RiStopLargeLine } from "react-icons/ri";
-import { RxDownload, RxUpload } from "react-icons/rx";
-import { GrHistory } from "react-icons/gr";
-import { LiaOpencart } from "react-icons/lia";
 
 // This is sample data.
 const data = {
@@ -99,16 +89,16 @@ const data = {
     {
       title: "stock-out-management",
       url: "/manage-export",
-      icon: <LiaOpencart />,
+      icon: <MdLocalShipping className="text-green-600" size={18} />,
       items: [
         {
           title: "stock-out",
           url: "/manage-export/stock-out",
-          icon: <RxUpload />,
+          icon: <GiBoxUnpacking className="text-purple-600" />,
         },
         {
           title: "stock-out-history",
-          url: "/manage-export/history",
+          url: "#",
           icon: <GoClockFill className="text-amber-800" />,
         },
       ],
@@ -131,7 +121,7 @@ const data = {
         {
           title: "defective-product-management",
           url: "/manage-storage/error-product",
-          icon: <MdWarning />,
+          icon: <MdWarning className="text-yellow-400" />,
         },
       ],
     },
@@ -142,12 +132,12 @@ const data = {
     },
     {
       title: "system-settings",
-      url: "#",
+      url: "/system-settings",
       icon: <FcSettings size={18} />,
       items: [
         {
           title: "system-logs",
-          url: "#",
+          url: "/system-settings/system-logs",
           icon: <MdNoteAlt className="text-red-600" />,
         },
       ],
@@ -179,7 +169,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
-      <SidebarContent className="scrollbar overflow-auto">
+      <SidebarContent className="scrollbar overflow-auto ">
         <NavMain items={data.navMain} />
         {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>

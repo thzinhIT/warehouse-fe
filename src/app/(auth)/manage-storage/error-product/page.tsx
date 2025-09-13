@@ -207,10 +207,10 @@ const ErrorProductManagementPage = () => {
   }
 
   return (
-    <div className="min-h-screen p-6 space-y-6 overflow-y-auto">
+    <div className="min-h-screen  space-y-6 overflow-y-auto">
       <SidebarHeader title="Quản lý sản phẩm lỗi" />
 
-      <div className="flex justify-between items-center mt-2">
+      <div className="flex justify-between items-center mt-2 p-2">
         <div className="flex items-center gap-3">
           {isSearchMode && (
             <span className="text-sm bg-red-100 text-red-800 px-2 py-1 rounded-full">
@@ -230,7 +230,7 @@ const ErrorProductManagementPage = () => {
       </div>
 
       {/* Search Section */}
-      <div className="mt-4">
+      <div className="mt-4 p-2">
         <div className="space-y-4">
           {/* <h2 className="text-base font-semibold">Tìm kiếm sản phẩm lỗi</h2> */}
           <div className="space-y-4">
