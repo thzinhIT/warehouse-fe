@@ -795,14 +795,26 @@ export async function moveItemsBackFromQueue(request: TMoveToQueueRequest) {
 
 export async function exportWithRoute(request: TMoveToQueueRequest) {
   try {
-    const res = await api.post(`${ApiEndPoint.EXPORTWITHROUTE}`, request, {
-      responseType: "blob",
-    });
+    const res = await api.post(`${ApiEndPoint.EXPORTWITHROUTE}`, request);
 
-    if (res?.status === 200) {
-      const blob = new Blob([res.data], {
+    if (res?.status === 200 && res.data?.excelFileBase64) {
+      // Clean the base64 string (remove any whitespace/newlines)
+      const cleanBase64 = res.data.excelFileBase64.replace(/\s/g, "");
+
+      // Convert base64 to blob
+      const byteCharacters = atob(cleanBase64);
+      const byteNumbers = new Array(byteCharacters.length);
+
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       });
+
+      // Create download link
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
@@ -816,7 +828,8 @@ export async function exportWithRoute(request: TMoveToQueueRequest) {
       return res.data;
     }
 
-    const errorMessage = "Error exporting items with route";
+    const errorMessage =
+      "Error exporting items with route - No Excel data received";
     toast.error(errorMessage);
     return Promise.reject(new Error(errorMessage));
   } catch (error) {
