@@ -49,7 +49,6 @@ export default function WarehouseLoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(isPending);
 
     const formData = new FormData(e.target as HTMLFormElement);
     const loginData = {
@@ -58,8 +57,6 @@ export default function WarehouseLoginPage() {
     };
 
     login({ userName: loginData.userName, passWord: loginData.passWord });
-
-    setIsLoading(isPending);
   };
 
   return (
@@ -183,7 +180,7 @@ export default function WarehouseLoginPage() {
                 >
                   <Button
                     type="submit"
-                    disabled={isLoading}
+                    disabled={isPending}
                     className="w-full h-12 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium rounded-lg transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98]"
                   >
                     {isLoading ? (

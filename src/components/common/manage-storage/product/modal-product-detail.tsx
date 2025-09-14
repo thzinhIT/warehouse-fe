@@ -70,7 +70,7 @@ export function ModalProductDetail({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       {data && (
-        <DialogContent className="w-1/2 max-w-4xl  max-h-[90vh] overflow-auto">
+        <DialogContent className="w-1/2 max-w-4xl  max-h-[90vh] ">
           <DialogHeader>
             <DialogTitle className="text-center font-bold text-xl">
               Chi tiết sản phẩm
@@ -156,11 +156,11 @@ export function ModalProductDetail({
           </div>
 
           {/* Restore the boxes section */}
-          <div className="space-y-4 ">
+          <div className="space-y-4 overflow-hidden ">
             <h1 className="font-semibold">Danh sách Box chứa sản phẩm</h1>
-            <div>
+            <div className="overflow-x-auto  scrollbar min-h-0 max-h-[100px]">
               <Table>
-                <TableHeader>
+                <TableHeader className="sticky top-0 bg-gray-200 z-10">
                   <TableRow className="bg-slate-400 hover:bg-slate-400">
                     <TableCell className="w-1/2 border">Mã Box</TableCell>
                     <TableCell className="border">Số lượng trong Box</TableCell>

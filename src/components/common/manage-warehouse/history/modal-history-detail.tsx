@@ -103,7 +103,7 @@ export function ModalHistoryDetail({
 
               <div className="flex-1 overflow-y-auto max-h-[270px] min-h-0 scrollbar ">
                 <Table className=" ">
-                  <TableHeader>
+                  <TableHeader className="sticky top-0 z-10">
                     <TableRow className="bg-slate-400 hover:bg-slate-400">
                       <TableCell className="w-1/2 border">SKU</TableCell>
                       <TableCell className="border">Số lượng</TableCell>
