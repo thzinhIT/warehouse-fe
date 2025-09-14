@@ -200,23 +200,6 @@ export default function WarehouseLoginPage() {
                   </Button>
                 </motion.div>
               </form>
-
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.7 }}
-                className="text-center"
-              >
-                <p className="text-sm text-gray-600">
-                  Chưa có tài khoản?{" "}
-                  <Link
-                    href="/register"
-                    className="text-blue-600 hover:text-blue-700 font-medium"
-                  >
-                    Đăng ký ngay
-                  </Link>
-                </p>
-              </motion.div>
             </CardContent>
           </Card>
         </motion.div>

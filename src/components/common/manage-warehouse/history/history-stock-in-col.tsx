@@ -39,18 +39,14 @@ const getColumnsHistoryImportOrder = ({
     cell: ({ row }) => <div className="capitalize">{row?.index + 1}</div>,
   },
   {
-    accessorKey: "id",
+    accessorKey: "importCode",
     header: "Mã đơn nhập",
-    cell: ({ row }) => (
-      <div className="lowercase">{row.getValue("id") ?? "--"}</div>
-    ),
+    cell: ({ row }) => <div>{row.getValue("importCode") ?? "--"}</div>,
   },
   {
     accessorKey: "skuCode",
     header: () => <div>Mã SKU</div>,
-    cell: ({ row }) => (
-      <div className="lowercase">{row.getValue("skuCode") ?? "--"}</div>
-    ),
+    cell: ({ row }) => <div>{row.getValue("skuCode") ?? "--"}</div>,
   },
 
   {

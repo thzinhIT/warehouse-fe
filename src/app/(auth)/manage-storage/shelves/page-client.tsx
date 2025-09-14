@@ -53,8 +53,8 @@ const AlertAddBin = ({
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>
-        <AlertDialogCancel>Cancel</AlertDialogCancel>
-        <AlertDialogAction onClick={() => mutate?.()}>Add</AlertDialogAction>
+        <AlertDialogCancel>Đóng</AlertDialogCancel>
+        <AlertDialogAction onClick={() => mutate?.()}>Thêm</AlertDialogAction>
       </AlertDialogFooter>
     </AlertDialogContent>
   </AlertDialog>

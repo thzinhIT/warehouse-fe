@@ -116,15 +116,6 @@ export default function ModalCreateEmployee({
           <DialogTitle className="text-lg font-semibold text-gray-900">
             Tạo nhân viên
           </DialogTitle>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleCancel}
-            disabled={isLoading}
-            className="h-6 w-6 p-0"
-          >
-            <X className="h-4 w-4" />
-          </Button>
         </DialogHeader>
 
         <div className="grid gap-4 py-4">

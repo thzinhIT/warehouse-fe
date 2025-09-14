@@ -307,7 +307,6 @@ export async function ImportBarcode(body: TImportBarcodeBody) {
     );
 
     if (res?.data?.code === 200) {
-      toast.success(" import  barcode successfully");
       return res.data?.data;
     }
     const errorMessage = res?.data?.message || "Error import barcode";

@@ -322,7 +322,7 @@ export function ModalManualExport({
               />
             </div>
 
-            <div className="flex-1 border rounded-lg overflow-hidden">
+            <div className="flex-1 flex-col flex border rounded-lg overflow-hidden">
               {/* Table Header */}
               <div className="bg-gray-50 border-b">
                 <div className="flex items-center px-3 py-2">
@@ -335,7 +335,7 @@ export function ModalManualExport({
               </div>
 
               {/* Table Body */}
-              <div className="overflow-y-auto flex-1">
+              <div className="overflow-y-auto flex-1 min-h-0 scrollbar">
                 {isLoading ? (
                   <div className="flex items-center justify-center h-32">
                     <div className="text-lg">Đang tải dữ liệu...</div>

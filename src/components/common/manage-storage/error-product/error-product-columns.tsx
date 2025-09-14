@@ -98,7 +98,7 @@ export const getErrorProductColumns = (
       header: "Số lượng hỏng",
       cell: ({ row }) => (
         <div className="text-center">
-          {row.getValue("damagedCount") || row.getValue("itemCount") || "--"}
+          {row?.getValue("damagedCount") || "--"}
         </div>
       ),
       size: 120,

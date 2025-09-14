@@ -392,7 +392,11 @@ const ErrorProductManagementPageClient = () => {
       />
 
       {/* Add Error Product Modal */}
-      <ModalAddErrorProduct open={isAddModalOpen} setOpen={setIsAddModalOpen} />
+      <ModalAddErrorProduct
+        open={isAddModalOpen}
+        setOpen={setIsAddModalOpen}
+        refetchProducts={refetchProducts}
+      />
     </div>
   );
 };

@@ -49,7 +49,7 @@ export default function RightPanel({
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-blue-700/20 rounded-3xl transform rotate-3" />
 
         {/* Main illustration container */}
-        <div className="relative bg-gradient-to-br from-blue-600 to-blue-800 rounded-3xl p-12 text-white overflow-hidden">
+        <div className="relative bg-gradient-to-br from-blue-600 to-blue-800 rounded-3xl p-6 text-white overflow-hidden">
           {/* Decorative elements */}
           <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16" />
           <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full translate-y-12 -translate-x-12" />

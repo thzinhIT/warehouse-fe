@@ -37,9 +37,11 @@ interface ErrorItem {
 export function ModalAddErrorProduct({
   open,
   setOpen,
+  refetchProducts,
 }: {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  refetchProducts: () => void;
 }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [errorItems, setErrorItems] = useState<ErrorItem[]>([]);
@@ -218,6 +220,7 @@ export function ModalAddErrorProduct({
       await transferMutation.mutateAsync(transferData);
 
       toast.success("Chuyển các sản phẩm lỗi thành công!");
+      refetchProducts();
 
       // Reset form and close modal
       setFilteredItems([]);

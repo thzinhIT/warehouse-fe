@@ -37,33 +37,21 @@ const getColumnsExportHistory = ({
     header: "STT",
     cell: ({ row }) => <div className="capitalize">{row?.index + 1}</div>,
   },
-  {
-    accessorKey: "id",
-    header: "ID",
-    cell: ({ row }) => (
-      <div className="lowercase">{row.getValue("id") ?? "--"}</div>
-    ),
-  },
+
   {
     accessorKey: "exportCode",
     header: "Mã đơn xuất",
-    cell: ({ row }) => (
-      <div className="lowercase">{row.getValue("exportCode") ?? "--"}</div>
-    ),
+    cell: ({ row }) => <div>{row.getValue("exportCode") ?? "--"}</div>,
   },
   {
     accessorKey: "skuCode",
     header: () => <div>Mã SKU</div>,
-    cell: ({ row }) => (
-      <div className="lowercase">{row.getValue("skuCode") ?? "--"}</div>
-    ),
+    cell: ({ row }) => <div>{row.getValue("skuCode") ?? "--"}</div>,
   },
   {
     accessorKey: "skuName",
     header: () => <div>Tên sản phẩm</div>,
-    cell: ({ row }) => (
-      <div className="lowercase">{row.getValue("skuName") ?? "--"}</div>
-    ),
+    cell: ({ row }) => <div>{row.getValue("skuName") ?? "--"}</div>,
   },
   {
     accessorKey: "quantity",

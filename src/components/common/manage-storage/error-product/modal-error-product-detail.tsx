@@ -35,6 +35,7 @@ export function ModalErrorProductDetail({
     return (
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="w-1/2">
+          <DialogTitle className="hidden"></DialogTitle>
           <LoadingPage />
         </DialogContent>
       </Dialog>

@@ -35,6 +35,7 @@ export function ModalProductDetail({
     return (
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="w-1/2">
+          <DialogTitle className="hidden"></DialogTitle>
           <LoadingPage />
         </DialogContent>
       </Dialog>
@@ -69,7 +70,7 @@ export function ModalProductDetail({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       {data && (
-        <DialogContent className="w-1/2 max-w-4xl">
+        <DialogContent className="w-1/2 max-w-4xl  max-h-[90vh] overflow-auto">
           <DialogHeader>
             <DialogTitle className="text-center font-bold text-xl">
               Chi tiết sản phẩm
@@ -155,7 +156,7 @@ export function ModalProductDetail({
           </div>
 
           {/* Restore the boxes section */}
-          <div className="space-y-4">
+          <div className="space-y-4 ">
             <h1 className="font-semibold">Danh sách Box chứa sản phẩm</h1>
             <div>
               <Table>
